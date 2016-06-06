@@ -1,0 +1,117 @@
+/*Hattori Hanzo font
+@font-face {
+  font-family: 'District';
+  src: url("/fonts/district/district_thin_pro/DistProTh.otf") format("opentype");
+}*/
+/*Montserrat font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+/*Theme*/
+/*Header Buttons*/
+/*Chart colors*/
+/*Starting with old CSS styles here*/
+/***********************SCROLLING BARS**************************************/
+body {
+  background-color: black;
+  color: #f8e8cf;
+  font-family: "Montserrat"; }
+
+div#titlediv {
+  font-size: 20px;
+  margin-left: 10px;
+  margin-top: 0px;
+  display: inline; }
+
+div#titlediv p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  /*Overrides obese webkit margins*/ }
+
+div#buttonsdiv {
+  margin-top: 0px;
+  margin-bottom: 10px;
+  margin-left: 10px; }
+
+div#buttonsdiv button {
+  border-radius: 18px;
+  margin-bottom: 10px;
+  font-family: "Montserrat";
+  font-size: 14px;
+  color: #f8e8cf;
+  background-color: #855607;
+  border: none;
+  height: 28px;
+  width: 189px;
+  /*transition-property: background-color;*/
+  transition-duration: 0.25s;
+  transition-timing-function: linear; }
+
+/*Button hover*/
+div#buttonsdiv button:hover {
+  background-color: #d1880a; }
+
+/*Bars Viz*/
+div#barsdiv {
+  width: 90%; }
+
+rect.bars {
+  fill: #841606;
+  transition-duration: 0.1s;
+  transition-timing-function: linear; }
+
+rect.bars:hover {
+  fill: #B11E07; }
+
+text.loclabels,
+text.valuelabels {
+  alignment-baseline: before-edge;
+  font-family: "Montserrat";
+  font-size: 12px;
+  fill: #f8e8cf;
+  opacity: 0.9;
+  pointer-events: none; }
+
+/*Bars Viz Axis, g element lets us target anything 
+within the xaxis class*/
+.xaxis path,
+.xaxis line {
+  fill: none;
+  stroke: #f8e8cf;
+  shape-rendering: crispEdges; }
+
+.xaxis text {
+  fill: #f8e8cf;
+  font-family: "Montserrat";
+  font-size: 12px; }
+
+/*Svg tooltip*/
+#tooltip {
+  text-anchor: middle;
+  font-family: sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  fill: blue; }
+
+/*Div Tooltip
+
+div#tooltip {
+	position: absolute;
+	width: 200px;
+	height: auto;
+	padding: 10px;
+	opacity: 0.8;
+	background-color:$tooltip-background;
+	-webkit-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+	-moz-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+	box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+	pointer-events: none;
+}
+
+div#tooltip.hidden {
+	display: none;
+}
+
+p#toolbody {
+	font-size: 12px;
+	margin: 0px;
+	font-family: $default-font;
+}*/

@@ -1,0 +1,297 @@
+<!--
+/***********************************************
+NOTES
+************************************************/
+
+/***IN GENERAL***/
+
+//Notes on Chained Methods: 
+
+ -Typically pass the selection to reference the element they just acted on
+ -Order Matters
+
+
+//Semicolon: Ends the 'chain of code' so to speak, at least so long
+as we're focusing on chained methods
+
+
+//Label Positioning: text will sit on top of elements you expect it to be contained within, by default. For example a horizontal bar chart would by default have its labels sitting on the top margin or 'left-side' of the bar. You would have to position it downward for it to fall within the area of the bar.
+
+//Anyonymous functions: Typically they exist purely to 'retun' a value. Things like datasets can't be operated on until they are delivered in a form that .js can understand, such as the result of a function. This is what makes things like data available for functions/methods to act upon
+
+//The "g" svg element: An invisible "group" element They're used to:
+-Contain or "group" other elements
+-You can apply transformations to them, which affect how visual elements are rendered
+
+//Bostok's margin convention: The "g" element appended to the canvas holds all of the canvas' elements. that's why applying margins to it via translate moves everything equally. This Bostock guy is smart.
+
+//this element. this specifies the "current" element. Typically used to do something to the current element, when a selection is required
+
+/**************MISC***********************************/
+
+//.call() Takes the current selection and makes it available as an input to a function. That is, hand it off to a function
+
+
+/**************IMPORTING AND BINDING DATA*************/
+
+//.csv("path",function(error,data)): 
+
+function(error,data): Any anonymous function, aka a placeholder function
+that in this case only exists to return a result, so we can do programming on it.
+'Takes data and makes it actionable, so to speak.'
+
+-This function only 'executes', aka data only appears after source
+data has loaded.
+-All functions that rely on your data are called within function(data)
+anonymous fucntion.
+-Error is built in condition for if data didn't load properly
+
+//.select()
+
+Typically fed a CSS selector, it will search
+the page and select the first DOM element that your selector matches
+
+//.selectAll("selector")
+
+Selects all given selector, or creates an 
+empty selection for it if it doesn't exist yet in the chain.
+
+//.data()
+
+Parses the output of your anonymous function declared in .csv() into
+a useable dataset.
+
+Now that it's parsed, the data can be looped through by methods farther
+down the chain
+
+this is because the SELECTION that the .data() method returns is all the newly parsed data
+
+S. Murray refers to this selection the UPDATE SELECTION 
+
+When called, creates the anonymous function function(d). After .data() is
+called, you can use d as an input to any function later in the chain that acts on 
+your original imported dataset.
+
+Similarly to function(error,data), it exists purely to return your parsed data as the 'result'
+of a function, as many methods down the chain can take functions as arguments but 
+not simply datasets.
+
+d corresponds to the element the program is currently working on, often
+changes rapidly as code loops through data
+
+this .data() function is what effectively "binds" your data to the elements. that's why you often do selectAll("element") before .data() in the chain. This is so that .data() knows what to bind the data to.
+
+//.enter() 
+
+Enters your newly parsed data into the present selection, in many 
+examples an empty selection.
+
+//.append()
+
+Appends given element (ie. CSS selector, svg element)
+to the selection you specified in .select()
+
+AND makes that newly appended element the "selected element"
+
+/**************GENERAL MARKUP**************/
+
+//.text(): Inserts your specified string within the tags of your
+selected element
+
+//.style("css attribute","value")
+
+Set CSS property
+
+Assigns in-element styling when applied an HTML element
+
+//.attr("html attribute","value"):
+
+Set HTML property
+
+//.classed("class name",/*true or false*/)
+
+true assigns the given class
+flase removes it
+
+//"alignment-baseline" property
+
+http://bit.ly/218PnJq
+
+
+/**************SCALING**********************/
+
+//LINEAR SCALES
+
+//.scale() specifies that you're defining a scale, followed typically by a scale type method, such as .linear()
+
+//.domain([min,max]) the minimum an maximum values of your input data
+
+//.range([min,max]) the minimum and maximum values of your output range
+
+//.max(dataset,dataset reference) identifies max value in reference
+
+//.min(dataset,dataset reference) identifies minimum value in reference
+
+//.nice() applied as a link in the chain after .range(), rounds your domain down to the nearest round value
+
+//.rangeRound() Use instead of .range(), rounds output values ot hte nearest whole number. Avoids fuzzy edges on the web
+
+//.clamp() Call .clamp(true) to ensure that no values are returned outside of the specified range
+
+//ORDINAL SCALES
+
+//Ordinal domains - because we're dealing with categories here as opposed to continuous data, input domain is an array, as opposed to a max and min value as in the linear case
+
+//d3.range() creates an array from 0 to the number you feed it. e.g. d3.range(dataset.length) give you and array from 0 to the number of records in your dataset
+gives you 
+
+//rangeBands([min,max],p) takes the range and divides it up into even sections or "bands", depending on the length of the domain
+
+feed it a value p that specifies the percent of the width (or height) of each band that you will shave off for padding 
+
+//rangeRoundBands() just like rangeBands() but rounds your output bands to the nearest whole pixel
+
+rangeRoundBands() can shift your entire set of elements (bars, labels, etc) along the axis your scale is being used on. I don't understand why this happens
+
+/**************AXES*************************/
+
+//.d3.svg.axis() Sets up a generic axis function
+
+//.scale(/*Scale variable you want the axis to reflect) Tells the axis function which scale it should refer to
+
+//.orient() Tells labels where to go relative to the axes e.g. "left", "right", "bottom"
+
+//"g" element used to group all our axis elements (lines, number, etc build into the d3.axis() method)
+
+//Ticks: d3 guesses how many you want unless defined with the .ticks() method in the axis definition chain. D3 will override your choice if you've made a non-user-friendly one
+
+//Number formatting: Can be done by defining formatting variables https://github.com/mbostock/d3/wiki/Formatting#wiki-d3_format
+
+Also on p. 134 of the book. Best to test out you formatting functions in the javascript console.
+
+
+/**************ARRAYS***********************/
+
+//.push(value)
+
+Appends given value to the end of the array it's chained to
+
+//.shift() 
+
+Remove the first value in the array
+
+/*******EVENT LISTENERS*****************/
+
+
+//.on("event type",anonymous function) specifies an event listener, taking "type" for example "click" or "mouseover" 
+
+Anonymous function specifies when the even type occurs
+
+/********TRANSITIONS******************/
+
+//.transition() Animates your transition. put in in the chain after you select the elements you want to transition, but before you assign any attributes
+
+//.delay() miliseconds of delay, often used as .delay(function(d,i){..})
+
+//.duration(integer) Specify you many miliseconds you want the transition to last
+
+//Note - total duration: 
+if delay and duration are set as
+
+.delay(function(d,i) {
+	return i * ms
+})
+
+Total duration = 
+
+length of dataset * ms + duration ms
+
+//More on total duration
+
+if you set your delay to be i/dataset.length * x, your delay will adjust to the number of rows in yoru data. Max delay (delay of the last element) will be x, and total duration will be x + duration 
+
+//.ease() by default is this is "cubic-in-out", accelerate and slow down near end of transition, others:
+
+https://github.com/d3/d3/wiki/Transitions#d3_ease
+
+//.each("start/end",function()) have something happen either at the start or end of a transition. specify each("start",) after your transition chain elements but before attributes etc, specify each("end",) typically as the last item in the chain
+
+Takes
+-"start/end" specify either "start" or 
+"end" for when you want you thing to happen
+-anonymous function - use this to speicfy what happens
+
+//IMPORTANT NOTE: Only one transition can operate on any element at any given time. Newer transitions interrupt and overrid older transitions
+
+The takeaway for D3 is that you probably want to include a transition with .each("start",), but don't, because it won't work, as long as a different transiiton is already operating on the element.
+
+each("end",) however does support tranisitons, so go nuts
+
+//Chaining Transitions
+
+In a transition chain, instead of using each("end",) to do another transitoin after the initial transiton, you can simply add a second .transition() element to the chain. See p 161 of the Scott Murray book.
+
+//.remove() 
+
+Once transtion is complelte, removes the selected element from the DOM
+
+
+/*********CLIPPING PATHS****************/
+
+//How they work
+
+1. Define the clipping path (clipping mask) as any svg element but typically this is a rect. e.g. A clipPath svg element containing a rect (or any other shape element)
+
+2. Clipping path in 1. is a child of your svg canvas, but contains only it's element you chose (again typically rect)
+
+3. That clipping path from 1. is referenced as an attribute in the chain of any element that you want to be clipped
+
+//REMEMBER clipPath is the name of the svg element, clip-path is the name for the clipping path attribute
+
+
+/**********KEYS*************************/
+
+
+//Object constancy
+
+Of note, the value of object constancy:
+http://bost.ocks.org/mike/constancy/
+
+Constancy is valuable for giving each element a constant index value or consant ID
+
+//Index order
+
+the default ID - ing of elements, the first element of the dom gets and ID of 0, etc. Howver if the order of the elements changes, their ID will change as well
+
+//Key functions
+
+Assign definite IDs to individual records in your data. My impression is that you don't have to assign these as when you're importing data from csv or json
+
+/*********INTERACTIVITY****************/
+//Event compatibility tables (reference of event listeners): http://www.quirksmode.org/dom/events
+
+//Excluding elements from events:
+
+-Just add the pointer-events: none; property to the given CSS selector
+
+//Tooltips
+
+-If using a div to generate a tooltip, best to include it in the same div container that contains the svg, so that you only have to worry about relative positioning
+
+/*********SORTING***********************/
+
+//.sort(comparator function)
+
+//comparator function, function(a,b). Operates on each pair of elements until sort is complete
+
+//Here's how to sort .csv data:  
+
+
+/**********RESPONSIVE CHARTS************************/
+
+See this link: http://bit.ly/1U4Ys4I
+
+
+-->
+
+

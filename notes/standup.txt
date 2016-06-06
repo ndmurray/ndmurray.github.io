@@ -1,0 +1,16 @@
+Notes on the standup of this initial site
+
+
+****D3 Environment setup: http://tagtree.tv/d3-episode1-environment
+What isn't in the video
+1. installing all those gulp packages (including glup) requires node.js and npm (npm is included in node.js install)
+2. SASS requires download and install of ruby, and then of SASS
+3. 
+
+****Child theme from wrap bootstrap:
+
+notice that index.html references main.css intead of theme.css, main.css is the child theme stylesheet
+
+Use this link to make gulp work: https://docs.npmjs.com/getting-started/fixing-npm-permissions
+
+The short answer is that your project folder has to be (I GUESS) within the directory where you've specified your global path (optoin 2 in the video in above link)

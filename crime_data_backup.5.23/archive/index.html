@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Scrolling Bars</title>
+		<link type="text/css" rel="stylesheet" href="style.css"/>
+		<script type="text/javascript" src="d3/d3.js"></script>
+
+
+	</head>
+	<body>
+		<div id="titlediv">
+			<h2>Incidents of Rape, per 100k Individuals, 2013</h2>
+		</div>
+		<script type="text/javascript">
+		
+
+		d3.csv("crime.csv",function(error,data){
+			
+			if(error) {
+				console.log(error)
+			} else {
+				console.log(data)
+			};
+
+			//General use
+			var crimeData = data;
+			var margin = {top: 40, right: 40, bottom: 40, left: 40};
+			var w = 1100 - margin.left - margin.right;
+			var h = 8000 - margin.left - margin.right;
+			var barpadding = 2;
+			//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
+
+			//Define the canvas
+			var svg = d3.select("body").append("svg")
+				.attr({
+					width: w + margin.left + margin.right, 
+					height: h + margin.top + margin.bottom,
+					id: "canvas"
+
+					});
+
+			//Scales
+			var xScale = d3.scale.linear()
+				.domain([0, d3.max(crimeData,function(d) {
+					return +d.rape100k;
+				})])
+				.range([0, w]);
+
+
+			//Define Axes
+			var xAxis = d3.svg.axis()
+				.scale(xScale)
+				.orient("bottom");
+
+
+			//Bars	
+			var bars = svg.selectAll("rect")
+				.data(crimeData)
+				.enter() //Entering parsed data; we'll be looping through rectangles for each row
+				.append("rect")
+				.attr({
+					y: function(d,i) {
+							return i * (h/crimeData.length);
+						}, //Space them evenly across svg height - 40, here we're leaving 40px for the title 
+					x: function(d) {
+							//return (w - (xScale(+d.rape100k));
+							return 0;
+					},
+					width: function(d) {
+							return xScale(+d.rape100k);
+					},
+					height: function(d,i) {
+							return h/(crimeData.length) - barpadding;
+					}, //fill svg width with bars, then shave off padding
+					fill: "#49796B"
+					
+
+				});
+
+			//Bar labels
+			var barLabels = svg.selectAll("text")
+				.data(crimeData)
+				.enter()
+				.append("text")
+				.text(function(d) {
+					return d.Loc.substring(0,d.Loc.length - 7);
+					//chopping the M.S.A. bit off of our labels
+				})
+				.attr({
+					x: function(d) {
+						return 4; //left padding on labels
+					},
+					y: function(d,i) {
+						return i * (h/crimeData.length) + 2;
+						//Match positioning for title in bars + top padding
+					},
+					"opacity": "0.9",
+					"alignment-baseline": "before-edge",
+					class: "barlabels"
+
+
+				});
+
+			//Calling Axes - At the bottom so they overlap things
+
+
+
+		});
+
+
+
+		</script>
+	</body>
+</html>
+
+
+<!--
+/***********************************************
+NOTES
+************************************************/
+
+/***IN GENERAL***/
+
+//Notes on Chained Methods: 
+
+ -Typically pass the selection to reference the element they just acted on
+ -Order Matters
+
+
+//Semicolon: Ends the 'chain of code' so to speak, at least so long
+as we're focusing on chained methods
+
+
+//Label Positioning: text will sit on top of elements you expect it to be contained within, by default. For example a horizontal bar chart would by default have its labels sitting on the top margin or 'left-side' of the bar. You would have to position it downward for it to fall within the area of the bar.
+
+//Anyonymous functions: Typically they exist purely to 'retun' a value. Things like datasets can't be operated on until they are delivered in a form that .js can understand, such as the result of a function. This is what makes things like data available for functions/methods to act upon
+
+//The "g" svg element: An invisible "group" element They're used to:
+-Contain or "group" other elements
+-You can apply transformations to them, which affect how visual elements are rendered
+
+/**************MISC***********************************/
+
+//.call() Takes the current selection and makes it available as an input to a function
+
+
+/**************IMPORTING AND BINDING DATA*************/
+
+//.csv("path",function(error,data)): 
+
+function(error,data): Any anonymous function, aka a placeholder function
+that in this case only exists to return a result, so we can do programming on it.
+'Takes data and makes it actionable, so to speak.'
+
+-This function only 'executes', aka data only appears after source
+data has loaded.
+-All functions that rely on your data are called within function(data)
+anonymous fucntion.
+-Error is built in condition for if data didn't load properly
+
+//.select()
+
+Typically fed a CSS selector, it will search
+the page and select the first DOM element that your selector matches
+
+//.selectAll("selector")
+
+Selects all given selector, or creates an 
+empty selection for it if it doesn't exist yet in the chain.
+
+//.data()
+
+Parses the output of your anonymous function declared in .csv() into
+a useable dataset.
+
+Now that it's parsed, the data can be looped through by methods farther
+down the chain
+
+When called, creates the anonymous function function(d). After .data() is
+called, you can use d as an input to any function later in the chain that acts on 
+your original imported dataset.
+
+Similarly to function(error,data), it exists purely to return your parsed data as the 'result'
+of a function, as many methods down the chain can take functions as arguments but 
+not simply datasets.
+
+d corresponds to the element the program is currently working on, often
+changes rapidly as code loops through data
+
+//.enter() 
+
+Enters your newly parsed data into the present selection, in many 
+examples an empty selection.
+
+//.append()
+
+Appends given element (ie. CSS selector, svg element)
+to the selection you specified in .select()
+
+AND makes that newly appended element the "selected element"
+
+/**************GENERAL MARKUP**************/
+
+//.text(): Inserts your specified string within the tags of your
+selected element
+
+//.style("css attribute","value")
+
+Set CSS property
+
+Assigns in-element styling when applied an HTML element
+
+//.attr("html attribute","value"):
+
+Set HTML property
+
+//.classed("class name",/*true or false*/)
+
+true assigns the given class
+flase removes it
+
+//"alignment-baseline" property
+
+http://bit.ly/218PnJq
+
+
+/**************SCALING**********************/
+
+//.scale() specifies that you're defining a scale, followed typically by a scale type method, such as .linear()
+
+//.domain([min,max]) the minimum an maximum values of your input data
+
+//.range([min,max]) the minimum and maximum values of your output range
+
+//.max(dataset,dataset reference) identifies max value in reference
+
+//.min(dataset,dataset reference) identifies minimum value in reference
+
+//.nice() applied as a link in the chain after .range(), rounds your domain down to the nearest round value
+
+//.rangeRound() Use instead of .range(), rounds output values ot hte nearest whole number. Avoids fuzzy edges on the web
+
+//.clamp() Call .clamp(true) to ensure that no values are returned outside of the specified range
+
+/**************AXES*************************/
+
+//.d3.svg.axis() Sets up a generic axis function
+
+//.scale(/*Scale variable you want the axis to reflect) Tells the axis function which scale it should refer to
+
+//.orient() Tells labels where to go relative to the axes e.g. "left", "right", "bottom"
+
+/**************ARRAYS***********************/
+
+//.push(value)
+
+Appends given value to the end of the array it's chained to
+
+-->
