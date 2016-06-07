@@ -63,7 +63,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		})
 		.offset([-10, 0])
   		.html(function(d) {
-  		  return "<strong>Frequency:</strong> <span style='color:red'>" + rankLoc + "</span>";
+  		  return "<p>Locale:" + d.Loc + "</p>";
  		 })
 
 

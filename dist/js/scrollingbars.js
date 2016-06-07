@@ -36,7 +36,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     return d.Loc;
   };
   var barTips = d3.tip().attr({class: "d3-tip"}).offset([-10, 0]).html(function(d) {
-    return "<strong>Frequency:</strong> <span style='color:red'>" + rankLoc + "</span>";
+    return "<p>Locale:" + d.Loc.substring(0, d.Loc.length - 5) + "</p>";
   });
   var cleanLoc = function(d) {
     if (d.Loc.slice(-4) == "M.D.") {

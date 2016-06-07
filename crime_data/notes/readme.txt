@@ -3,6 +3,5 @@ CDC Chronic Disease Indicators: http://catalog.data.gov/dataset/u-s-chronic-dise
 
 FBI Violent Crime Statistics: https://www.fbi.gov/about-us/cjis/ucr/crime-in-the-u.s/2013/crime-in-the-u.s.-2013/tables/6tabledatadecpdf/table-6
 
-<html>
+Icon for favicon: https://thenounproject.com/term/ferret/195056/
 
-</html>
