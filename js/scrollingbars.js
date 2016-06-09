@@ -56,17 +56,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		return d.Loc;
 	};
 
-	//Tooltips - http://bit.ly/22HClnd
-	var barTips = d3.tip()
-		.attr({
-			class: "d3-tip"
-		})
-		.offset([-10, 0])
-  		.html(function(d) {
-  		  return "<p>Locale:" + d.Loc + "</p>";
- 		 })
-
-
 	//Display variables
 	var cleanLoc = function(d) {
 			if (d.Loc.slice(-4) == "M.D.") {
@@ -80,7 +69,17 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 	var rankLoc = function(d,i) {
 		return i;
-	}
+	};
+
+//Tooltips - http://bit.ly/22HClnd
+	var barTips = d3.tip()
+		.attr({
+			class: "d3-tip"
+		})
+		.offset([-10, 0])
+  		.html(function(d,i) {
+  		  return "<p>" + cleanLoc(d) + "</p>";
+ 		 });
 
 //Set up the canvas
 	var svg = d3.select("#barsdiv").append("svg")

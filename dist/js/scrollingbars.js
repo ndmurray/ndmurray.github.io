@@ -35,9 +35,6 @@ d3.csv("datadev/crime.csv", function(error, data) {
   var locale = function(d, i) {
     return d.Loc;
   };
-  var barTips = d3.tip().attr({class: "d3-tip"}).offset([-10, 0]).html(function(d) {
-    return "<p>Locale:" + d.Loc.substring(0, d.Loc.length - 5) + "</p>";
-  });
   var cleanLoc = function(d) {
     if (d.Loc.slice(-4) == "M.D.") {
       return d.Loc.substring(0, d.Loc.length - 5);
@@ -50,6 +47,9 @@ d3.csv("datadev/crime.csv", function(error, data) {
   var rankLoc = function(d, i) {
     return i;
   };
+  var barTips = d3.tip().attr({class: "d3-tip"}).offset([-10, 0]).html(function(d, i) {
+    return "<p>" + cleanLoc(d) + "</p>";
+  });
   var svg = d3.select("#barsdiv").append("svg").attr({
     width: w + margin.left + margin.right,
     height: h + margin.top + margin.bottom,
