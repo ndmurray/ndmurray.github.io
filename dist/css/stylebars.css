@@ -8,7 +8,6 @@
 /*Theme*/
 /*Header Buttons*/
 /*Chart colors*/
-/*Starting with old CSS styles here*/
 /***********************SCROLLING BARS**************************************/
 body {
   background-color: black;
@@ -51,7 +50,13 @@ div#buttonsdiv button:hover {
 
 /*Bars Viz*/
 div#barsdiv {
-  width: 90%; }
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  /* aspect ratio */
+  vertical-align: top;
+  overflow: hidden; }
 
 rect.bars {
   fill: #841606;
@@ -62,7 +67,7 @@ rect.bars:hover {
   fill: #B11E07; }
 
 text.loclabels {
-  display: none; }
+  /*display: none;*/ }
 
 text.loclabels,
 text.valuelabels {

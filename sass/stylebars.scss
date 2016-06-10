@@ -24,9 +24,6 @@ $tooltip-color: black;
 $tooltip-background: #858585;
 
 
-
-/*Starting with old CSS styles here*/
-
 /***********************SCROLLING BARS**************************************/
 
 body {
@@ -80,7 +77,12 @@ div#buttonsdiv button:hover {
 /*Bars Viz*/
 
 div#barsdiv {
-	width: 90%;
+	display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
 }
 
 rect.bars {
@@ -94,7 +96,7 @@ rect.bars:hover {
 }
 
 text.loclabels {
-	display: none;
+	/*display: none;*/
 }
 
 text.loclabels,

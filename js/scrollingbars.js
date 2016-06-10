@@ -82,11 +82,15 @@ d3.csv("datadev/crime.csv",function(error,data) {
   		  return "<p id='tiphead'>" + cleanLoc(d) + "</p><p id='tipbody'>Population: " + d3.format(',')(+d.Pop) + "</p>";
  		 });
 
+
+
 //Set up the canvas
 	var svg = d3.select("#barsdiv").append("svg")
 		.attr({
 			width: w + margin.left + margin.right, 
 			height: h + margin.top + margin.bottom,
+			viewbox: "0 0 " + w + margin.left + margin.right + " " + h + margin.top + margin.bottom,
+			preserveAspectRatio: "xMidYMid meet",
 			id: "canvas"
 
 			})
@@ -96,6 +100,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 		})
 		.call(barTips);  //must be called on canvas -  http://bit.ly/22HClnd
+
 
 //Define linear x scales
 
@@ -148,9 +153,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.orient("top")
 		.ticks(5);
 	
-
-
-
 
 //Chart Elements
 
@@ -547,23 +549,32 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			});
 	};
 
-	//Resize with window, see http://bit.ly/1U4Ys4I
-	d3.select("svg").on('resize', resize);
 
-	function resize() {
-		//Update width to new width of containing div
-		w = parseInt(d3.select('#barsdiv').style('width'), 10);
-		w = w - margin.left - margin.right;
+//Resize - http://bit.ly/28qspCv
 
-		//Update x scales to fit new window size
-		xScaleR.range([0,w]),
+	d3.select(window).on("resize",function() {
+		
+		//Define new base dimensions
+		var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
+			h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
+
+		//xScale	
 		xScaleM.range([0,w]);
 
-		//Here we'll need to include the rest of hte elements we'll want to resize
+		//Canvas
+		d3.select('svg')
+			.attr({
+				width: w,
+				height: h
+			});
 
-		//Resize canvas
+		//Bars
+		svg.selectAll("rect.bars")
+			.attr({
+				width: function(d) { return xScaleM(+d.murder100k); }
+			});
 
-
-	}
+		
+	});
 
 });
