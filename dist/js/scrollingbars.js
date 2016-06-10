@@ -47,8 +47,8 @@ d3.csv("datadev/crime.csv", function(error, data) {
   var rankLoc = function(d, i) {
     return i;
   };
-  var barTips = d3.tip().attr({class: "d3-tip"}).offset([-10, 0]).html(function(d, i) {
-    return "<p>" + cleanLoc(d) + "</p>";
+  var barTips = d3.tip().attr({class: "d3-tip"}).offset([0, 0]).direction('e').html(function(d) {
+    return "<p id='tiphead'>" + cleanLoc(d) + "</p><p id='tipbody'>Population: " + d3.format(',')(+d.Pop) + "</p>";
   });
   var svg = d3.select("#barsdiv").append("svg").attr({
     width: w + margin.left + margin.right,

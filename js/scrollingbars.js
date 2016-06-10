@@ -76,9 +76,10 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.attr({
 			class: "d3-tip"
 		})
-		.offset([-10, 0])
-  		.html(function(d,i) {
-  		  return "<p>" + cleanLoc(d) + "</p>";
+		.offset([0, 0])
+		.direction('e')
+  		.html(function(d) {
+  		  return "<p id='tiphead'>" + cleanLoc(d) + "</p><p id='tipbody'>Population: " + d3.format(',')(+d.Pop) + "</p>";
  		 });
 
 //Set up the canvas
@@ -234,44 +235,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			transform: "translate(0," + axisShiftUp + ")" //20px upward to avoid hugging bars
 		})
 		.call(xAxisM); //making the g element (current selection) available to the xAxis function	
-
-	
-//Start saved div tooltip
-
-	// svg.selectAll("rect.bars")
-	// 	.on("mouseover",function(d) {
-	// 		var xPosition = parseFloat(d3.select(this).attr("x")) / 2 + w / 2;
-	// 		var yPosition = parseFloat(d3.select(this).attr("y")) + yScale.rangeBand() / 2;
-
-		// 	//Position and populate on hover
-		// 	d3.select("div#tooltip")
-		// 		.style({
-		// 			"left": xPosition + "px",
-		// 			"top": yPosition + "px"
-		// 		})
-		// 		.select("#toolheader")
-		// 		.append("text")
-		// 		.text(cleanLoc.locale)
-		// 		.attr({
-		// 			class: "tooltext-h"
-		// 		});
-
-		// 	//Show tooltip div by removing "hidden" class
-		// 	d3.select("div#tooltip")
-		// 		.classed("hidden",false);
-
-		// })
-		// .on("mouseout",function() {
-		// 	d3.select("div#tooltip")
-		// 		.classed("hidden",true)
-		// 		.selectAll("text.tooltext-h");
-
-//End saved div tooltop
-
-				// .remove();
-
- 		// });
-
 
 
 //Event Listeners for buttons

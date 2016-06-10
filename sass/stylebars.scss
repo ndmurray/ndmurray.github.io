@@ -93,6 +93,10 @@ rect.bars:hover {
 	fill:$bar-color-hover;
 }
 
+text.loclabels {
+	display: none;
+}
+
 text.loclabels,
 text.valuelabels {
 	alignment-baseline: before-edge;
@@ -132,27 +136,69 @@ within the xaxis class*/
 }
 
 
-/*Div Tooltip
+/********Tooltip Styling. Edited from the original 
+http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css****/
 
-div#tooltip {
-	position: absolute;
-	width: 200px;
-	height: auto;
-	padding: 10px;
-	opacity: 0.8;
-	background-color:$tooltip-background;
-	-webkit-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
-	-moz-box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
-	box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
-	pointer-events: none;
+
+.d3-tip {
+  line-height: 1;
+  font-weight: normal;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: $default-color;
+  border-radius: 0px;
+  pointer-events: none;
 }
 
-div#tooltip.hidden {
-	display: none;
+p#tipbody {
+	color: rgb(209,136,10);
 }
 
-p#toolbody {
-	font-size: 12px;
-	margin: 0px;
-	font-family: $default-font;
-}*/
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  pointer-events: none;
+}
+
+/*Info on tip directions: http://jsfiddle.net/deanmalmgren/eMPdu/ */
+
+/* Northward tooltips */
+.d3-tip.n:after {
+  content: "\25BC";
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+  text-align: center;
+}
+
+/* Eastward tooltips */
+.d3-tip.e:after {
+  content: "\25C0";
+  margin: -4px 0 0 0;
+  top: 50%;
+  left: -8px;
+}
+
+/* Southward tooltips */
+.d3-tip.s:after {
+  content: "\25B2";
+  margin: 0 0 1px 0;
+  top: -8px;
+  left: 0;
+  text-align: center;
+}
+
+/* Westward tooltips */
+.d3-tip.w:after {
+  content: "\25B6";
+  margin: -4px 0 0 -1px;
+  top: 50%;
+  left: 100%;
+}
