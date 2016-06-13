@@ -115,6 +115,9 @@ d3.csv("datadev/crime.csv", function(error, data) {
   d3.select("button#murder").on("click", function() {
     updateM();
   });
+  d3.select(window).on("resize", function() {
+    resize();
+  });
   var updateM = function() {
     crimeData.sort(function(a, b) {
       return d3.descending(+a.murder100k, +b.murder100k);
@@ -226,7 +229,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
     d3.select(".xaxis").transition().duration(axisDuration).call(xAxis);
   };
-  d3.select(window).on("resize", function() {
+  var resize = function() {
     var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
         h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
     xScale.range([0, w]);
@@ -237,5 +240,5 @@ d3.csv("datadev/crime.csv", function(error, data) {
     svg.selectAll("rect.bars").attr({width: function(d) {
         return xScale(+d.murder100k);
       }});
-  });
+  };
 });

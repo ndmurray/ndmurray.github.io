@@ -228,11 +228,15 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		});
 
 	d3.select("button#murder")
-		.on("click",function () {
+		.on("click",function() {
 			updateM();
 		});
 
+//Resize window on click (defined below)
 
+	d3.select(window).on("resize",function() {
+		resize();
+	});
 
 //Update data functions - http://bit.ly/1VRjAwC
 
@@ -526,7 +530,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 //Resize - http://bit.ly/28qspCv
 
-	d3.select(window).on("resize",function() {
+	var resize = function() {
 		
 		//Define new base dimensions
 		var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
@@ -549,6 +553,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			});
 
 		
-	});
+	};
 
 });
