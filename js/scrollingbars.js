@@ -13,8 +13,8 @@
 	    barShiftUp = -126,
 	    axisShiftUp = -18;
 	    barpadding = 2, //deprecated
-		labelPaddingLeft = 4;
-	var	labelPaddingTop = barShiftUp + 138; 
+		labelPaddingLeft = 4,
+	    labelPaddingTop = barShiftUp + 138; 
 
 	//Transitions
 	var maxDelay = 10000,
@@ -104,29 +104,14 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 //Define linear x scales
 
-	//Rape scale
-	var xScaleR = d3.scale.linear()
-		.domain([0, d3.max(crimeData,function(d) {
-			return +d.rape100k;
-		})])
-		.range([0, w])
-		.nice();
-
-	//Murder scale
-	var xScaleM = d3.scale.linear()
+	//X scale
+	var xScale = d3.scale.linear()
 		.domain([0, d3.max(crimeData,function(d) {
 			return +d.murder100k;
 		})])
 		.range([0, w])
 		.nice();
 
-	//Violent crime scale
-	var xScaleV	= d3.scale.linear()
-		.domain([0,d3.max(crimeData,function(d) {
-			return +d.violentcrime100k;
-		})])
-		.range([0,w])
-		.nice();
 
 	//Ordinal y scale
 	var yScale = d3.scale.ordinal()
@@ -135,26 +120,13 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 //Axes
 
-	//Linear x axis - rape
-	var xAxisR = d3.svg.axis()
-		.scale(xScaleR)
+	//Linear x axis
+	var xAxis = d3.svg.axis()
+		.scale(xScale)
 		.orient("top")
 		.ticks(5);
 
-	//Linear x axis - murder
-	var xAxisM = d3.svg.axis()
-		.scale(xScaleM)
-		.orient("top")
-		.ticks(5);
-
-	//Linear x axis - violent crime
-	var xAxisV = d3.svg.axis()
-		.scale(xScaleV)
-		.orient("top")
-		.ticks(5);
-	
-
-//Chart Elements
+//Default chart elements
 
 	//Bars	
 	var bars = svg.selectAll("rect")
@@ -171,7 +143,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 					return 0; 
 			},
 			width: function(d) {
-					return xScaleM(+d.murder100k);
+					return xScale(+d.murder100k);
 			},
 			height: function(d,i) {
 					return yScale.rangeBand(); //specify the range bands defined in yScale's definition as the height
@@ -219,7 +191,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		})
 		.attr({
 			x: function(d) { 
-				return xScaleM(+d.murder100k) + labelPaddingLeft;
+				return xScale(+d.murder100k) + labelPaddingLeft;
 
 			},
 			y: function(d,i) {
@@ -236,319 +208,321 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			class:"xaxis",
 			transform: "translate(0," + axisShiftUp + ")" //20px upward to avoid hugging bars
 		})
-		.call(xAxisM); //making the g element (current selection) available to the xAxis function	
+		.call(xAxis); //making the g element (current selection) available to the xAxis function	
 
 
-//Event Listeners for buttons
-
-	//Sort on Click
-	d3.select("button#murder")
+//Button listeners for data updates
+	d3.select("button#violentcrime")
 		.on("click",function() {
-			sortBarsM();
+			updateV();
 		});
 
 	d3.select("button#rape")
 		.on("click",function() {
-			sortBarsR();
+			updateR();
 		});
 
-	d3.select("button#violentcrime")
+	d3.select("button#rape")
 		.on("click",function() {
-			sortBarsV();
+			updateR();
 		});
 
-	//Murder button
 	d3.select("button#murder")
-		.on("click",function() {
-			//sort data:http://bit.ly/1UoYccB 	
-			crimeData.sort(function(a,b) {
-				return d3.descending(+a.murder100k, +b.murder100k);
+		.on("click",function () {
+			updateM();
+		});
+
+
+
+//Update data functions - http://bit.ly/1VRjAwC
+
+	//Murder update
+	var updateM = function() {
+
+		//sort data:http://bit.ly/1UoYccB 	
+		crimeData
+			.sort(function(a,b) {
+			return d3.descending(+a.murder100k, +b.murder100k);
 			});
+		
+		//Scale
+		var xScale = d3.scale.linear()
+			.domain([0, d3.max(crimeData,function(d) {
+				return +d.murder100k;
+			})])
+			.range([0, w])
+			.nice();
 
-			//bars
-			svg.selectAll("rect.bars")
-				.data(crimeData,key)
-				.transition()
-				 .delay(function(d,i) {
-				 	return i/crimeData.length * maxDelay;
-				 })
-				.duration(barDuration)
-				.ease("cubic-in-out")
-				.attr({
+		//Select the section we want to apply changes to (why?)
+		d3.select('svg')
+			.transition()
+			.duration(barDuration);
+
+		//Bars
+		d3.selectAll('rect.bars')
+			.data(crimeData,key)
+			.transition()
+			.delay(function(d,i) {
+				return i/crimeData.length * maxDelay; //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
+			})
+			.duration(barDuration)
+			.ease("cubic-in-out")
+			.attr({
 					width: function(d) {
-						return xScaleM(+d.murder100k);
-					},
-					y: function(d,i)	{
-						return yScale(i);
-					}, //necessary to re-scale for sort 
-					fill:"red"
-				});
-				
-			
-				
-			//title
-			d3.select("text.title-text")
-				.transition()
-				.duration(barDuration)
-				.each("start",function() {
-					d3.select(this)
-						.attr({
-							"fill-opacity": 0
-						});
-				})
-				.text("Incidents of Murder, per 100k Individuals, 2013")
-				.each("end",function()	{
-					d3.select(this)
-						.attr({
-							"fill-opacity": 1
-						});
-				});
-				
-				
-
-			//Location labels
-			d3.selectAll("text.loclabels")
-				.data(crimeData,key)
-				.transition()
-				// .delay(function(d,i) {
-				//  	return i/crimeData.length * maxDelay;
-				//  })
-				.duration(barDuration)
-				.ease("cubic-in-out")
-				.text(cleanLoc)
-				.attr({
-					y: function(d,i) {
-						return yScale(i) + labelPaddingTop;
-					}
-				});
-
-			//Value labels
-			d3.selectAll("text.valuelabels")
-				.data(crimeData,key)
-				.transition()
-				.delay(function(d,i) {
-				 	return i/crimeData.length * maxDelay;
-				 })
-				.duration(barDuration)
-				.text(function(d) {
-					return d3.format(",")(+d.murder100k);
-				})
-				.attr({
-					x: function(d) {
-						return xScaleM(+d.murder100k) + labelPaddingLeft;
-					},
-					y: function(d,i) {
-					 	return yScale(i) + labelPaddingTop;
-					}
-				});
-
-			//x axis
-			d3.select(".xaxis")
-				.transition()
-				.duration(axisDuration)
-				.call(xAxisM);
-
-
-		});
-
-	
-	//Rape button
-	d3.select("button#rape")
-		.on("click",function() {
-			//sort data:http://bit.ly/1UoYccB 	
-			crimeData
-				.sort(function(a,b) {
-				return d3.descending(+a.rape100k, +b.rape100k);
-				});
-
-			//bars
-			svg.selectAll("rect.bars")
-				.data(crimeData,key)
-				.transition()
-				.delay(function(d,i) {
-					return i/crimeData.length * maxDelay; //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
-				})
-				.duration(barDuration)
-				.ease("cubic-in-out")
-				.attr({
-					width: function(d) {
-						return xScaleR(+d.rape100k);
-					},
-					y: function(d,i) {
-						return yScale(i);
-					},//necessary to re-scale for sort 
-					fill:"rgb(73, 121, 107)"
-					//class: "rape-bars"
-
-				});
-			
-				
-			//title
-			d3.select("h2#title")
-				.transition()
-				.duration(barDuration)
-				.text("Incidents of Rape, per 100k Individuals, 2013");
-
-			//location labels
-			d3.selectAll("text.loclabels")
-				.data(crimeData,key)
-				.transition()
-				// .delay(function(d,i) {
-				//  	return i/crimeData.length * maxDelay;
-				//  })
-				.duration(barDuration)
-				.ease("cubic-in-out")
-				.text(cleanLoc)
-				.attr({
-				 	y: function(d,i) {
-				 		return yScale(i) + labelPaddingTop;
-				 	}
-				 });
-
-			//value labels
-			d3.selectAll("text.valuelabels")
-				.data(crimeData,key)
-				.transition()
-				.delay(function(d,i) {
-				 	return i/crimeData.length * maxDelay;
-				 })
-				.duration(barDuration)
-				.text(function(d) {
-					return d3.format(",")(+d.rape100k);
-				})
-				.attr({
-					x: function(d) {
-						return xScaleR(+d.rape100k) + labelPaddingLeft;
-					},
-					 y: function(d,i) {
-					 	return yScale(i) + labelPaddingTop;
-					 }
-
-				});
-
-			//x axis
-			d3.select(".xaxis")
-				.transition()
-				.duration(axisDuration)
-				.call(xAxisR);
-
-				
-		});
-
-	//Violent crime button
-	d3.select("button#violentcrime")
-		.on("click",function() {
-			//sort data:http://bit.ly/1UoYccB 	
-			crimeData
-				.sort(function(a,b) {
-				return d3.descending(+a.violentcrime100k, +b.violentcrime100k);
-				});
-
-			//bars
-			svg.selectAll("rect.bars")
-				.data(crimeData,key)
-				.transition()
-				.delay(function(d,i) {
-					return i/crimeData.length * maxDelay; //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
-				})
-				.duration(barDuration)
-				.ease("cubic-in-out")
-				.attr({
-					width: function(d) {
-						return xScaleV(+d.violentcrime100k);
+						return xScale(+d.murder100k);
 					},
 					y: function(d,i) {
 						return yScale(i);
 					}//necessary to re-scale for sort 
 				});
-			//title
-			d3.select("h2#title")
-				.transition()
-				.duration(barDuration)
-				.text("Incidents of Violent Crime, per 100k Individuals, 2013");
 
-			//location labels
-			d3.selectAll("text.loclabels")
-				.data(crimeData,key)
-				.transition()
-				// .delay(function(d,i) {
-				//  	return i/crimeData.length * maxDelay;
-				//  })
-				.duration(barDuration)
-				.ease("cubic-in-out")
-				.text(cleanLoc)
-				.attr({
-				 	y: function(d,i) {
-				 		return yScale(i) + labelPaddingTop;
-				 	}
-				});
+		//title
+		d3.select("h2#title")
+			.transition()
+			.duration(barDuration)
+			.text("Incidents of Murder, per 100k Individuals, 2013");
 
-			//value labels
-			d3.selectAll("text.valuelabels")
-				.data(crimeData,key)
-				.transition()
-				.delay(function(d,i) {
-				 	return i/crimeData.length * maxDelay;
-				 })
-				.duration(barDuration)
-				.text(function(d) {
-					return d3.format(",")(+d.violentcrime100k);
-				})
-				.attr({
-					x: function(d) {
-						return xScaleV(+d.violentcrime100k) + labelPaddingLeft;
-					},
-					y: function(d,i) {
-						return yScale(i) + labelPaddingTop;
-					}
-				});
+		//location labels
+		d3.selectAll("text.loclabels")
+			.data(crimeData,key)
+			.transition()
+			// .delay(function(d,i) {
+			//  	return i/crimeData.length * maxDelay;
+			//  })
+			.duration(barDuration)
+			.ease("cubic-in-out")
+			.text(cleanLoc)
+			.attr({
+			 	y: function(d,i) {
+			 		return yScale(i) + labelPaddingTop;
+			 	}
+			});
 
-			//x axis
+		//value labels
+		d3.selectAll("text.valuelabels")
+			.data(crimeData,key)
+			.transition()
+			.delay(function(d,i) {
+			 	return i/crimeData.length * maxDelay;
+			 })
+			.duration(barDuration)
+			.text(function(d) {
+				return d3.format(",")(+d.murder100k);
+			})
+			.attr({
+				x: function(d) {
+					return xScale(+d.murder100k) + labelPaddingLeft;
+				},
+				y: function(d,i) {
+					return yScale(i) + labelPaddingTop;
+				}
+			});
+
+		//Redefine linear x axis
+		var xAxis = d3.svg.axis()
+			.scale(xScale)
+			.orient("top")
+			.ticks(5);
+
+		//call x axis
 			d3.select(".xaxis")
 				.transition()
 				.duration(axisDuration)
-				.call(xAxisV);
-		});	
-	
+				.call(xAxis);
 
-	//Sorting functions
-
-	var sortBarsM = function() {
-		svg.selectAll("rect.bars")
-			.sort(function(a,b) {
-				return d3.descending(+a.murder100k,+b.murder100k);
-			})
-			.transition()
-			.duration(barDuration)
-			.attr("y", function(d,i) {
-				return yScale(i);
-			});
 	};
 
-	var sortBarsR = function() {
-		svg.selectAll("rect.bars")
+	//Rape update
+	var updateR = function() {
+
+		//sort data:http://bit.ly/1UoYccB 	
+		crimeData
 			.sort(function(a,b) {
-				return d3.descending(+a.rape100k,+b.violentcrime100k);
+			return d3.descending(+a.rape100k, +b.rape100k);
+			});
+		
+		//Scale
+		var xScale = d3.scale.linear()
+			.domain([0, d3.max(crimeData,function(d) {
+				return +d.rape100k;
+			})])
+			.range([0, w])
+			.nice();
+
+		//Select the section we want to apply changes to (why?)
+		d3.select('svg')
+			.transition()
+			.duration(barDuration);
+
+		//Bars
+		d3.selectAll('rect.bars')
+			.data(crimeData,key)
+			.transition()
+			.delay(function(d,i) {
+				return i/crimeData.length * maxDelay; //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
 			})
+			.duration(barDuration)
+			.ease("cubic-in-out")
+			.attr({
+					width: function(d) {
+						return xScale(+d.rape100k);
+					},
+					y: function(d,i) {
+						return yScale(i);
+					}//necessary to re-scale for sort 
+				});
+
+		//title
+		d3.select("h2#title")
 			.transition()
 			.duration(barDuration)
-			.attr("y", function(d,i) {
-				return yScale(i);
+			.text("Incidents of Rape, per 100k Individuals, 2013");
+
+		//location labels
+		d3.selectAll("text.loclabels")
+			.data(crimeData,key)
+			.transition()
+			// .delay(function(d,i) {
+			//  	return i/crimeData.length * maxDelay;
+			//  })
+			.duration(barDuration)
+			.ease("cubic-in-out")
+			.text(cleanLoc)
+			.attr({
+			 	y: function(d,i) {
+			 		return yScale(i) + labelPaddingTop;
+			 	}
 			});
+
+		//value labels
+		d3.selectAll("text.valuelabels")
+			.data(crimeData,key)
+			.transition()
+			.delay(function(d,i) {
+			 	return i/crimeData.length * maxDelay;
+			 })
+			.duration(barDuration)
+			.text(function(d) {
+				return d3.format(",")(+d.rape100k);
+			})
+			.attr({
+				x: function(d) {
+					return xScale(+d.rape100k) + labelPaddingLeft;
+				},
+				y: function(d,i) {
+					return yScale(i) + labelPaddingTop;
+				}
+			});
+
+		//Redefine linear x axis
+		var xAxis = d3.svg.axis()
+			.scale(xScale)
+			.orient("top")
+			.ticks(5);
+
+		//call x axis
+			d3.select(".xaxis")
+				.transition()
+				.duration(axisDuration)
+				.call(xAxis);
+
 	};
 
-	var sortBarsV = function() {
-		svg.selectAll("rect.bars")
+	//Violent crime update
+	var updateV = function() {
+
+		//sort data:http://bit.ly/1UoYccB 	
+		crimeData
 			.sort(function(a,b) {
-				return d3.descending(+a.violentcrime100k,+b.violentcrime100k);
+			return d3.descending(+a.violentcrime100k, +b.violentcrime100k);
+			});
+		
+		//Scale
+		var xScale = d3.scale.linear()
+			.domain([0, d3.max(crimeData,function(d) {
+				return +d.violentcrime100k;
+			})])
+			.range([0, w])
+			.nice();
+
+		//Select the section we want to apply changes to (why?)
+		d3.select('svg')
+			.transition()
+			.duration(barDuration);
+
+		//Bars
+		d3.selectAll('rect.bars')
+			.data(crimeData,key)
+			.transition()
+			.delay(function(d,i) {
+				return i/crimeData.length * maxDelay; //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
 			})
+			.duration(barDuration)
+			.ease("cubic-in-out")
+			.attr({
+					width: function(d) {
+						return xScale(+d.violentcrime100k);
+					},
+					y: function(d,i) {
+						return yScale(i);
+					}//necessary to re-scale for sort 
+				});
+
+		//title
+		d3.select("h2#title")
 			.transition()
 			.duration(barDuration)
-			.attr("y", function(d,i) {
-				return yScale(i);
-			});
-	};
+			.text("Incidents of Violent Crime, per 100k Individuals, 2013");
 
+		//location labels
+		d3.selectAll("text.loclabels")
+			.data(crimeData,key)
+			.transition()
+			// .delay(function(d,i) {
+			//  	return i/crimeData.length * maxDelay;
+			//  })
+			.duration(barDuration)
+			.ease("cubic-in-out")
+			.text(cleanLoc)
+			.attr({
+			 	y: function(d,i) {
+			 		return yScale(i) + labelPaddingTop;
+			 	}
+			});
+
+		//value labels
+		d3.selectAll("text.valuelabels")
+			.data(crimeData,key)
+			.transition()
+			.delay(function(d,i) {
+			 	return i/crimeData.length * maxDelay;
+			 })
+			.duration(barDuration)
+			.text(function(d) {
+				return d3.format(",")(+d.violentcrime100k);
+			})
+			.attr({
+				x: function(d) {
+					return xScale(+d.violentcrime100k) + labelPaddingLeft;
+				},
+				y: function(d,i) {
+					return yScale(i) + labelPaddingTop;
+				}
+			});
+
+		//Redefine linear x axis
+		var xAxis = d3.svg.axis()
+			.scale(xScale)
+			.orient("top")
+			.ticks(5);	
+
+		//call x axis
+			d3.select(".xaxis")
+				.transition()
+				.duration(axisDuration)
+				.call(xAxis);
+
+	};
 
 //Resize - http://bit.ly/28qspCv
 
@@ -559,7 +533,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
 
 		//xScale	
-		xScaleM.range([0,w]);
+		xScale.range([0,w]);
 
 		//Canvas
 		d3.select('svg')
@@ -571,7 +545,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		//Bars
 		svg.selectAll("rect.bars")
 			.attr({
-				width: function(d) { return xScaleM(+d.murder100k); }
+				width: function(d) { return xScale(+d.murder100k); }
 			});
 
 		

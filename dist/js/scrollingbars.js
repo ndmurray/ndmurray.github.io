@@ -11,8 +11,7 @@ var margin = {
 var textShiftUp = -134,
     barShiftUp = -126,
     axisShiftUp = -18;
-barpadding = 2, labelPaddingLeft = 4;
-var labelPaddingTop = barShiftUp + 138;
+barpadding = 2, labelPaddingLeft = 4, labelPaddingTop = barShiftUp + 138;
 var maxDelay = 10000,
     barDuration = 800,
     axisDuration = 800,
@@ -57,19 +56,11 @@ d3.csv("datadev/crime.csv", function(error, data) {
     preserveAspectRatio: "xMidYMid meet",
     id: "canvas"
   }).append("g").attr({transform: "translate(" + margin.left + "," + margin.top + ")"}).call(barTips);
-  var xScaleR = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
-    return +d.rape100k;
-  })]).range([0, w]).nice();
-  var xScaleM = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
+  var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
     return +d.murder100k;
   })]).range([0, w]).nice();
-  var xScaleV = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
-    return +d.violentcrime100k;
-  })]).range([0, w]).nice();
   var yScale = d3.scale.ordinal().domain(d3.range(crimeData.length)).rangeRoundBands([0, h], 0.05);
-  var xAxisR = d3.svg.axis().scale(xScaleR).orient("top").ticks(5);
-  var xAxisM = d3.svg.axis().scale(xScaleM).orient("top").ticks(5);
-  var xAxisV = d3.svg.axis().scale(xScaleV).orient("top").ticks(5);
+  var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
   var bars = svg.selectAll("rect").data(crimeData, key).enter().append("rect").attr({
     y: function(d, i) {
       return yScale(i);
@@ -78,7 +69,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
       return 0;
     },
     width: function(d) {
-      return xScaleM(+d.murder100k);
+      return xScale(+d.murder100k);
     },
     height: function(d, i) {
       return yScale.rangeBand();
@@ -100,7 +91,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     return d3.format(",")(+d.murder100k);
   }).attr({
     x: function(d) {
-      return xScaleM(+d.murder100k) + labelPaddingLeft;
+      return xScale(+d.murder100k) + labelPaddingLeft;
     },
     y: function(d, i) {
       return yScale(i) + labelPaddingTop;
@@ -111,36 +102,38 @@ d3.csv("datadev/crime.csv", function(error, data) {
   svg.append("g").attr({
     class: "xaxis",
     transform: "translate(0," + axisShiftUp + ")"
-  }).call(xAxisM);
-  d3.select("button#murder").on("click", function() {
-    sortBarsM();
+  }).call(xAxis);
+  d3.select("button#violentcrime").on("click", function() {
+    updateV();
   });
   d3.select("button#rape").on("click", function() {
-    sortBarsR();
+    updateR();
   });
-  d3.select("button#violentcrime").on("click", function() {
-    sortBarsV();
+  d3.select("button#rape").on("click", function() {
+    updateR();
   });
   d3.select("button#murder").on("click", function() {
+    updateM();
+  });
+  var updateM = function() {
     crimeData.sort(function(a, b) {
       return d3.descending(+a.murder100k, +b.murder100k);
     });
-    svg.selectAll("rect.bars").data(crimeData, key).transition().delay(function(d, i) {
+    var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
+      return +d.murder100k;
+    })]).range([0, w]).nice();
+    d3.select('svg').transition().duration(barDuration);
+    d3.selectAll('rect.bars').data(crimeData, key).transition().delay(function(d, i) {
       return i / crimeData.length * maxDelay;
     }).duration(barDuration).ease("cubic-in-out").attr({
       width: function(d) {
-        return xScaleM(+d.murder100k);
+        return xScale(+d.murder100k);
       },
       y: function(d, i) {
         return yScale(i);
-      },
-      fill: "red"
+      }
     });
-    d3.select("text.title-text").transition().duration(barDuration).each("start", function() {
-      d3.select(this).attr({"fill-opacity": 0});
-    }).text("Incidents of Murder, per 100k Individuals, 2013").each("end", function() {
-      d3.select(this).attr({"fill-opacity": 1});
-    });
+    d3.select("h2#title").transition().duration(barDuration).text("Incidents of Murder, per 100k Individuals, 2013");
     d3.selectAll("text.loclabels").data(crimeData, key).transition().duration(barDuration).ease("cubic-in-out").text(cleanLoc).attr({y: function(d, i) {
         return yScale(i) + labelPaddingTop;
       }});
@@ -150,28 +143,32 @@ d3.csv("datadev/crime.csv", function(error, data) {
       return d3.format(",")(+d.murder100k);
     }).attr({
       x: function(d) {
-        return xScaleM(+d.murder100k) + labelPaddingLeft;
+        return xScale(+d.murder100k) + labelPaddingLeft;
       },
       y: function(d, i) {
         return yScale(i) + labelPaddingTop;
       }
     });
-    d3.select(".xaxis").transition().duration(axisDuration).call(xAxisM);
-  });
-  d3.select("button#rape").on("click", function() {
+    var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
+    d3.select(".xaxis").transition().duration(axisDuration).call(xAxis);
+  };
+  var updateR = function() {
     crimeData.sort(function(a, b) {
       return d3.descending(+a.rape100k, +b.rape100k);
     });
-    svg.selectAll("rect.bars").data(crimeData, key).transition().delay(function(d, i) {
+    var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
+      return +d.rape100k;
+    })]).range([0, w]).nice();
+    d3.select('svg').transition().duration(barDuration);
+    d3.selectAll('rect.bars').data(crimeData, key).transition().delay(function(d, i) {
       return i / crimeData.length * maxDelay;
     }).duration(barDuration).ease("cubic-in-out").attr({
       width: function(d) {
-        return xScaleR(+d.rape100k);
+        return xScale(+d.rape100k);
       },
       y: function(d, i) {
         return yScale(i);
-      },
-      fill: "rgb(73, 121, 107)"
+      }
     });
     d3.select("h2#title").transition().duration(barDuration).text("Incidents of Rape, per 100k Individuals, 2013");
     d3.selectAll("text.loclabels").data(crimeData, key).transition().duration(barDuration).ease("cubic-in-out").text(cleanLoc).attr({y: function(d, i) {
@@ -183,23 +180,28 @@ d3.csv("datadev/crime.csv", function(error, data) {
       return d3.format(",")(+d.rape100k);
     }).attr({
       x: function(d) {
-        return xScaleR(+d.rape100k) + labelPaddingLeft;
+        return xScale(+d.rape100k) + labelPaddingLeft;
       },
       y: function(d, i) {
         return yScale(i) + labelPaddingTop;
       }
     });
-    d3.select(".xaxis").transition().duration(axisDuration).call(xAxisR);
-  });
-  d3.select("button#violentcrime").on("click", function() {
+    var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
+    d3.select(".xaxis").transition().duration(axisDuration).call(xAxis);
+  };
+  var updateV = function() {
     crimeData.sort(function(a, b) {
       return d3.descending(+a.violentcrime100k, +b.violentcrime100k);
     });
-    svg.selectAll("rect.bars").data(crimeData, key).transition().delay(function(d, i) {
+    var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
+      return +d.violentcrime100k;
+    })]).range([0, w]).nice();
+    d3.select('svg').transition().duration(barDuration);
+    d3.selectAll('rect.bars').data(crimeData, key).transition().delay(function(d, i) {
       return i / crimeData.length * maxDelay;
     }).duration(barDuration).ease("cubic-in-out").attr({
       width: function(d) {
-        return xScaleV(+d.violentcrime100k);
+        return xScale(+d.violentcrime100k);
       },
       y: function(d, i) {
         return yScale(i);
@@ -215,45 +217,25 @@ d3.csv("datadev/crime.csv", function(error, data) {
       return d3.format(",")(+d.violentcrime100k);
     }).attr({
       x: function(d) {
-        return xScaleV(+d.violentcrime100k) + labelPaddingLeft;
+        return xScale(+d.violentcrime100k) + labelPaddingLeft;
       },
       y: function(d, i) {
         return yScale(i) + labelPaddingTop;
       }
     });
-    d3.select(".xaxis").transition().duration(axisDuration).call(xAxisV);
-  });
-  var sortBarsM = function() {
-    svg.selectAll("rect.bars").sort(function(a, b) {
-      return d3.descending(+a.murder100k, +b.murder100k);
-    }).transition().duration(barDuration).attr("y", function(d, i) {
-      return yScale(i);
-    });
-  };
-  var sortBarsR = function() {
-    svg.selectAll("rect.bars").sort(function(a, b) {
-      return d3.descending(+a.rape100k, +b.violentcrime100k);
-    }).transition().duration(barDuration).attr("y", function(d, i) {
-      return yScale(i);
-    });
-  };
-  var sortBarsV = function() {
-    svg.selectAll("rect.bars").sort(function(a, b) {
-      return d3.descending(+a.violentcrime100k, +b.violentcrime100k);
-    }).transition().duration(barDuration).attr("y", function(d, i) {
-      return yScale(i);
-    });
+    var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
+    d3.select(".xaxis").transition().duration(axisDuration).call(xAxis);
   };
   d3.select(window).on("resize", function() {
     var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
         h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
-    xScaleM.range([0, w]);
+    xScale.range([0, w]);
     d3.select('svg').attr({
       width: w,
       height: h
     });
     svg.selectAll("rect.bars").attr({width: function(d) {
-        return xScaleM(+d.murder100k);
+        return xScale(+d.murder100k);
       }});
   });
 });
