@@ -113,6 +113,9 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.nice();
 
 
+	//Bar width variable	
+	var scaledWidth = function(d) { return xScale(+d.murder100k); };
+
 	//Ordinal y scale
 	var yScale = d3.scale.ordinal()
 		.domain(d3.range(crimeData.length))
@@ -142,9 +145,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 					//return margin.left;
 					return 0; 
 			},
-			width: function(d) {
-					return xScale(+d.murder100k);
-			},
+			width: scaledWidth,
 			height: function(d,i) {
 					return yScale.rangeBand(); //specify the range bands defined in yScale's definition as the height
 					//Deprecated - return h/(crimeData.length) - barpadding;
@@ -222,11 +223,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			updateR();
 		});
 
-	d3.select("button#rape")
-		.on("click",function() {
-			updateR();
-		});
-
 	d3.select("button#murder")
 		.on("click",function() {
 			updateM();
@@ -257,10 +253,8 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.range([0, w])
 			.nice();
 
-		//Select the section we want to apply changes to (why?)
-		d3.select('svg')
-			.transition()
-			.duration(barDuration);
+		//Scaled width
+		var scaledWidth = function(d) { return xScale(+d.murder100k); };
 
 		//Bars
 		d3.selectAll('rect.bars')
@@ -272,9 +266,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.duration(barDuration)
 			.ease("cubic-in-out")
 			.attr({
-					width: function(d) {
-						return xScale(+d.murder100k);
-					},
+					width: scaledWidth,
 					y: function(d,i) {
 						return yScale(i);
 					}//necessary to re-scale for sort 
@@ -353,10 +345,8 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.range([0, w])
 			.nice();
 
-		//Select the section we want to apply changes to (why?)
-		d3.select('svg')
-			.transition()
-			.duration(barDuration);
+		//Scaled width
+		var scaledWidth = function(d) { return xScale(+d.rape100k); };
 
 		//Bars
 		d3.selectAll('rect.bars')
@@ -368,9 +358,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.duration(barDuration)
 			.ease("cubic-in-out")
 			.attr({
-					width: function(d) {
-						return xScale(+d.rape100k);
-					},
+					width: scaledWidth,
 					y: function(d,i) {
 						return yScale(i);
 					}//necessary to re-scale for sort 
@@ -439,7 +427,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		crimeData
 			.sort(function(a,b) {
 			return d3.descending(+a.violentcrime100k, +b.violentcrime100k);
-			});
+			}); 
 		
 		//Scale
 		var xScale = d3.scale.linear()
@@ -449,10 +437,10 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.range([0, w])
 			.nice();
 
-		//Select the section we want to apply changes to (why?)
-		d3.select('svg')
-			.transition()
-			.duration(barDuration);
+		//Scaled width
+		var scaledWidth = function(d) { return xScale(+d.violentcrime100k); };	
+
+
 
 		//Bars
 		d3.selectAll('rect.bars')
@@ -464,9 +452,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.duration(barDuration)
 			.ease("cubic-in-out")
 			.attr({
-					width: function(d) {
-						return xScale(+d.violentcrime100k);
-					},
+					width: scaledWidth,
 					y: function(d,i) {
 						return yScale(i);
 					}//necessary to re-scale for sort 
@@ -520,11 +506,13 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.orient("top")
 			.ticks(5);	
 
-		//call x axis
+		//Call x axis
 			d3.select(".xaxis")
 				.transition()
 				.duration(axisDuration)
 				.call(xAxis);
+
+		
 
 	};
 
@@ -549,7 +537,8 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		//Bars
 		svg.selectAll("rect.bars")
 			.attr({
-				width: function(d) { return xScale(+d.murder100k); }
+				width: scaledWidth
+			//	width: function(d) {return scaledWidth();} Doesn't work
 			});
 
 		
