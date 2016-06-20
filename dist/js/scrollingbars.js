@@ -53,7 +53,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     width: w + margin.left + margin.right,
     height: h + margin.top + margin.bottom,
     viewBox: "0 0 " + (w + margin.left + margin.right) + " " + (h + margin.top + margin.bottom),
-    preserveAspectRatio: "xMinYMin meet",
+    preserveAspectRatio: "xMinYMin slice",
     id: "canvas"
   }).append("g").attr({transform: "translate(" + margin.left + "," + margin.top + ")"}).call(barTips);
   var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {

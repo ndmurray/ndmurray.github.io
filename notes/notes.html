@@ -296,15 +296,71 @@ See this link: http://bit.ly/1U4Ys4I
 //But read this too, make sure viewBox and preserve aspect ratio values are right
 http://bit.ly/1mFVRfu
 
-//preserveAspectRatio
-https://mzl.la/1Uag3Vr
+//*****Interactive explanation of the important svg properties below
+https://sarasoueidan.com/blog/svg-coordinate-systems**************************************************************************/
 
-//viewBox
+*********************viewBox**************
+
 https://mzl.la/1UVOONP
 
-//Key terms
-viewport - the visible area of the users' screen, presumably the browser window on non-mobile devices
+//the viewport: - the visible area of the webpage. Synonymous with the svg canvas. If svg is set to use width and height attributes of current window or current device, then scales the full area of window
+
+//viewBox: box within svg that delineates  the rectangle that gets mapped to the bounds of the viewport. e.g. viewbox with dimensions of half the viewport will double it in size. with the preserveAspectRatio property
+
+viewBox: the specified area of your viz canvas. by specifying 
+
+x-min: x position (from left)
+y-min: y position (from top)
+width: width
+height: height
+
+CSS can affect viewBox. For example regardless of specified value of viewBox, CSS specifying width: 100% for the svg will make viewBox position and dimensions fit those of the svg.
+
+After specifying viewbox, steps to get to what you see:
+1. Browser CROPS viewport to fit specified viewbox position and dimensions
+2.that croped viewbox area now SCALES to fill the viewport based on what you've specified for the preserveAspectRatio property
+*If aspect ratio is the same between viewBox and viewport, viewbox scales to fit viewport
+
+*If not, viewbox is centered in the middle of the viewport by default, edit this default setting with preserveAspectRatio property
+
+********preserveAspectRatio**************
+
+Allows you to specify how to position viewbox in viewport, if you don't want it centered by default
+
+preserveAspectRatio = defer? <align> <meetOrSlice>?
+
+//defer? - only applies to images, ignored for all other elements
+
+//align
+none - scales viewbox to fit viewport without preserving aspect ratio. Will distort your viewBox if viewbox dimensions do not have the same aspect ratio as the viewport
+
+All other possible values force uniform scaling (doesn't distort your viewbox) while preserving the aspect ratio of your viewBox (see the redundant wording?)
+
+//meetOrSlice
+
+defaults to meet
+
+meet - Scale the viewBox as much as possible while maintaining the aspect ratio of the viebox, and keep the entire viewBox visible within the viewport
+
+'meet' because boundaries of the viewBox meet the boundaries of the viewport without going beyond
+
+slice - Scale teh viewBox so that it covers the entire viewport area while preserving it's aspect ratio, letting it extend past viewport boundaries if need be
+
+
+
+
+
+
+
+
+
+
+//Also see preserveAspectRatio
+https://mzl.la/1Uag3Vr
+
+
 
 -->
+
 
 
