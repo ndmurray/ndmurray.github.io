@@ -77,24 +77,26 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			class: "d3-tip"
 		})
 		.offset([0, 0])
-		.direction('e')
+		.direction('n')
   		.html(function(d) {
   		  return "<p id='tiphead'>" + cleanLoc(d) + "</p><p id='tipbody'>Population: " + d3.format(',')(+d.Pop) + "</p>";
  		 });
 
 
-
 //Set up the canvas
-	var svg = d3.select("#barsdiv").append("svg")
+	var svg = d3.select("#barsdiv")
+		.classed("container",true)
+		.append("svg")
+		.classed("svg-responsive",true)
 		.attr({
 			width: w + margin.left + margin.right, 
 			height: h + margin.top + margin.bottom,
-			viewbox: "0 0 " + w + margin.left + margin.right + " " + h + margin.top + margin.bottom,
-			preserveAspectRatio: "xMidYMid meet",
+			viewBox: "0 0 " + (w + margin.left + margin.right) + " " + (h + margin.top + margin.bottom),
+			preserveAspectRatio: "xMinYMin meet",
 			id: "canvas"
 
 			})
-		.append("g") //This g element and it attributes also following bostok's margin convention. It holds all the canvas' elements.
+		.append("g") //This g element and it attributes also following bstok's margin convention. It holds all the canvas' elements.
 		.attr({
 			transform: "translate(" + margin.left + "," + margin.top + ")"
 
@@ -212,7 +214,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.call(xAxis); //making the g element (current selection) available to the xAxis function	
 
 
-//Button listeners for data updates
+//Button handlers for data updates
 	d3.select("button#violentcrime")
 		.on("click",function() {
 			updateV();
@@ -254,7 +256,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.nice();
 
 		//Scaled width
-		var scaledWidth = function(d) { return xScale(+d.murder100k); };
+		scaledWidth = function(d) { return xScale(+d.murder100k); };
 
 		//Bars
 		d3.selectAll('rect.bars')
@@ -346,15 +348,14 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.nice();
 
 		//Scaled width
-		var scaledWidth = function(d) { return xScale(+d.rape100k); };
+		scaledWidth = function(d) { return xScale(+d.rape100k); };
 
 		//Bars
 		d3.selectAll('rect.bars')
 			.data(crimeData,key)
 			.transition()
 			.delay(function(d,i) {
-				return i/crimeData.length * maxDelay; //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
-			})
+				return i/crimeData.length * maxDelay}) //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
 			.duration(barDuration)
 			.ease("cubic-in-out")
 			.attr({
@@ -438,9 +439,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.nice();
 
 		//Scaled width
-		var scaledWidth = function(d) { return xScale(+d.violentcrime100k); };	
-
-
+		scaledWidth = function(d) { return xScale(+d.violentcrime100k); };	
 
 		//Bars
 		d3.selectAll('rect.bars')
@@ -511,9 +510,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 				.transition()
 				.duration(axisDuration)
 				.call(xAxis);
-
-		
-
 	};
 
 //Resize - http://bit.ly/28qspCv
@@ -530,8 +526,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		//Canvas
 		d3.select('svg')
 			.attr({
-				width: w,
-				height: h
+				width: w
 			});
 
 		//Bars

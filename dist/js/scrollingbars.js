@@ -46,14 +46,14 @@ d3.csv("datadev/crime.csv", function(error, data) {
   var rankLoc = function(d, i) {
     return i;
   };
-  var barTips = d3.tip().attr({class: "d3-tip"}).offset([0, 0]).direction('e').html(function(d) {
+  var barTips = d3.tip().attr({class: "d3-tip"}).offset([0, 0]).direction('n').html(function(d) {
     return "<p id='tiphead'>" + cleanLoc(d) + "</p><p id='tipbody'>Population: " + d3.format(',')(+d.Pop) + "</p>";
   });
-  var svg = d3.select("#barsdiv").append("svg").attr({
+  var svg = d3.select("#barsdiv").classed("container", true).append("svg").classed("svg-responsive", true).attr({
     width: w + margin.left + margin.right,
     height: h + margin.top + margin.bottom,
-    viewbox: "0 0 " + w + margin.left + margin.right + " " + h + margin.top + margin.bottom,
-    preserveAspectRatio: "xMidYMid meet",
+    viewBox: "0 0 " + (w + margin.left + margin.right) + " " + (h + margin.top + margin.bottom),
+    preserveAspectRatio: "xMinYMin meet",
     id: "canvas"
   }).append("g").attr({transform: "translate(" + margin.left + "," + margin.top + ")"}).call(barTips);
   var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
@@ -123,7 +123,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
       return +d.murder100k;
     })]).range([0, w]).nice();
-    var scaledWidth = function(d) {
+    scaledWidth = function(d) {
       return xScale(+d.murder100k);
     };
     d3.selectAll('rect.bars').data(crimeData, key).transition().delay(function(d, i) {
@@ -160,7 +160,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
       return +d.rape100k;
     })]).range([0, w]).nice();
-    var scaledWidth = function(d) {
+    scaledWidth = function(d) {
       return xScale(+d.rape100k);
     };
     d3.selectAll('rect.bars').data(crimeData, key).transition().delay(function(d, i) {
@@ -197,7 +197,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
       return +d.violentcrime100k;
     })]).range([0, w]).nice();
-    var scaledWidth = function(d) {
+    scaledWidth = function(d) {
       return xScale(+d.violentcrime100k);
     };
     d3.selectAll('rect.bars').data(crimeData, key).transition().delay(function(d, i) {
@@ -231,10 +231,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
         h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
     xScale.range([0, w]);
-    d3.select('svg').attr({
-      width: w,
-      height: h
-    });
+    d3.select('svg').attr({width: w});
     svg.selectAll("rect.bars").attr({width: scaledWidth});
   };
 });

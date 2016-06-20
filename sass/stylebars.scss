@@ -24,7 +24,7 @@ $tooltip-color: black;
 $tooltip-background: #858585;
 
 
-/***********************SCROLLING BARS**************************************/
+/***********************HTML Page**************************************/
 
 body {
 	background-color: $default-background;
@@ -74,7 +74,25 @@ div#buttonsdiv button:hover {
 	
 }
 
-/*Bars Viz*/
+/******Responsive SVG******************************************************/
+
+
+/*.container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}*/
+
+/**************************************************************Bars Viz********/
 
 div#barsdiv {
 	display: inline-block;
@@ -89,6 +107,7 @@ rect.bars {
 	fill: $bar-color;
 	transition-duration: 0.1s;
 	transition-timing-function: linear;
+
 }
 
 rect.bars:hover {
@@ -138,8 +157,8 @@ within the xaxis class*/
 }
 
 
-/********Tooltip Styling. Edited from the original 
-http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css****/
+/******************************************Tooltip Styling. Edited from the original 
+http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css*************************************/
 
 
 .d3-tip {

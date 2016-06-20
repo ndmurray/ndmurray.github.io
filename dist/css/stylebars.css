@@ -8,7 +8,7 @@
 /*Theme*/
 /*Header Buttons*/
 /*Chart colors*/
-/***********************SCROLLING BARS**************************************/
+/***********************HTML Page**************************************/
 body {
   background-color: black;
   color: #f8e8cf;
@@ -48,7 +48,22 @@ div#buttonsdiv button {
 div#buttonsdiv button:hover {
   background-color: #d1880a; }
 
-/*Bars Viz*/
+/******Responsive SVG******************************************************/
+/*.container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}*/
+/**************************************************************Bars Viz********/
 div#barsdiv {
   display: inline-block;
   position: relative;
@@ -99,8 +114,8 @@ within the xaxis class*/
   font-weight: bold;
   fill: blue; }
 
-/********Tooltip Styling. Edited from the original 
-http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css****/
+/******************************************Tooltip Styling. Edited from the original 
+http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css*************************************/
 .d3-tip {
   line-height: 1;
   font-weight: normal;
