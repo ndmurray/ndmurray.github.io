@@ -52,8 +52,8 @@ d3.csv("datadev/crime.csv", function(error, data) {
   var svg = d3.select("#barsdiv").classed("container", true).append("svg").classed("svg-responsive", true).attr({
     width: w + margin.left + margin.right,
     height: h + margin.top + margin.bottom,
-    viewBox: "0 0 " + (w + margin.left + margin.right) + " " + (h + margin.top + margin.bottom),
-    preserveAspectRatio: "xMinYMin slice",
+    viewBox: "0 0 " + 380 + " " + 8000,
+    preserveAspectRatio: "xMinYMin meet",
     id: "canvas"
   }).append("g").attr({transform: "translate(" + margin.left + "," + margin.top + ")"}).call(barTips);
   var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
@@ -229,9 +229,12 @@ d3.csv("datadev/crime.csv", function(error, data) {
   };
   var resize = function() {
     var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
-        h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
+        h = 8000;
     xScale.range([0, w]);
     d3.select('svg').attr({width: w});
     svg.selectAll("rect.bars").attr({width: scaledWidth});
+    d3.selectAll("text.valuelabels").data(crimeData, key).text(function(d) {
+      return d3.format(",")(scaledWidth());
+    }).attr({});
   };
 });

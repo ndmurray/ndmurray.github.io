@@ -91,8 +91,10 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.attr({
 			width: w + margin.left + margin.right, 
 			height: h + margin.top + margin.bottom,
-			viewBox: "0 0 " + (w + margin.left + margin.right) + " " + (h + margin.top + margin.bottom),
-			preserveAspectRatio: "xMinYMin slice",
+			//ATTENTION viewBox and preserveAspect ratios set to make chart resize with window, but only shrink down to a certain point (any further shrinking and bars will be too small to read as long as we're preserving their aspect ratio)
+			//The resize functoin defined in this file is also necessary to re-assign svg (viewport) dimensions on resize
+			viewBox: "0 0 " + 380/*(w + margin.left + margin.right)*/ + " " + 8000/* (h + margin.top + margin.bottom)*/,
+			preserveAspectRatio: "xMinYMin meet",
 			id: "canvas"
 
 			})
@@ -518,7 +520,8 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		
 		//Define new base dimensions
 		var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
-			h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
+			h = 8000;
+			//h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
 
 		//xScale	
 		xScale.range([0,w]);
@@ -526,14 +529,31 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		//Canvas
 		d3.select('svg')
 			.attr({
-				width: w
+				width: w//,
+				// viewBox: "0 0 " + (w + margin.left + margin.right) + " " + (h + margin.top + margin.bottom),
+				// preserveAspectRatio: "xMinYMin slice"
 			});
 
 		//Bars
 		svg.selectAll("rect.bars")
 			.attr({
 				width: scaledWidth
-			//	width: function(d) {return scaledWidth();} Doesn't work
+			});
+
+		//Value labels
+
+		d3.selectAll("text.valuelabels")
+			.data(crimeData,key)
+			.text(function(d) {
+				return d3.format(",")(scaledWidth());
+			})
+			.attr({
+				// x: function(d) {
+				// 	return scaledWidth() + labelPaddingLeft();
+				// },
+				//y: function(d,i) {
+				//	return yScale(i) + labelPaddingTop;
+				//}
 			});
 
 		
