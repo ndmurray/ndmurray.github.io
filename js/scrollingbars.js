@@ -91,7 +91,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.attr({
 			width: w + margin.left + margin.right, 
 			height: h + margin.top + margin.bottom,
-			//ATTENTION viewBox and preserveAspect ratios set to make chart resize with window, but only shrink down to a certain point (any further shrinking and bars will be too small to read as long as we're preserving their aspect ratio)
+			//viewBox and preserveAspect ratios set to make chart resize with window, but only shrink down to a certain point (any further shrinking and bars will be too small to read as long as we're preserving their aspect ratio)
 			//The resize functoin defined in this file is also necessary to re-assign svg (viewport) dimensions on resize
 			viewBox: "0 0 " + 380/*(w + margin.left + margin.right)*/ + " " + 8000/* (h + margin.top + margin.bottom)*/,
 			preserveAspectRatio: "xMinYMin meet",
@@ -116,9 +116,14 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.range([0, w])
 		.nice();
 
+//Variables for elements that resize (not just rescale with viewBox and preserveAspectRatio on the svg)
 
-	//Bar width variable	
-	scaledWidth = function(d) { return xScale(+d.murder100k); };
+	//Bar width, text label position
+	var scaledWidth = function(d) { return xScale(+d.murder100k); };
+	var scaledX = scaledWidth;
+	//var scaledX = function(d) { return scaledWidth; };
+	//Text label position 
+
 
 	//Ordinal y scale
 	var yScale = d3.scale.ordinal()
@@ -169,8 +174,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.append("text")
 		.text(cleanLoc)
 		.attr({
-			x: function(d) {
-				//return margin.left + 4; 
+			x: function(d) { 
 				return labelPaddingLeft; //left padding of 4  on labels
 			},
 			y: function(d,i) {
@@ -195,10 +199,8 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 		})
 		.attr({
-			x: function(d) { 
-				return xScale(+d.murder100k) + labelPaddingLeft;
-
-			},
+			//x: function(d) { return scaledWidth + 40 },
+			x: scaledX,
 			y: function(d,i) {
 				return yScale(i) + labelPaddingTop;
 			},
@@ -357,7 +359,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.data(crimeData,key)
 			.transition()
 			.delay(function(d,i) {
-				return i/crimeData.length * maxDelay}) //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
+				return i/crimeData.length * maxDelay; }) //set max duration of overall delay, will make our delay scale to a change in number of chart rows, if necessary. 
 			.duration(barDuration)
 			.ease("cubic-in-out")
 			.attr({
@@ -552,7 +554,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		//Value labels
 		d3.selectAll("text.valuelabels")
 			.data(crimeData,key)
-			.attr("x",function(d) { return scaledWidth + labelPaddingLeft(); });
+			.attr("x", scaledWidth)
 	};
 
 });
