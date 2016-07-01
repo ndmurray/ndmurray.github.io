@@ -59,7 +59,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
   var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
     return +d.murder100k;
   })]).range([0, w]).nice();
-  var scaledWidth = function(d) {
+  scaledWidth = function(d) {
     return xScale(+d.murder100k);
   };
   var yScale = d3.scale.ordinal().domain(d3.range(crimeData.length)).rangeRoundBands([0, h], 0.05);
@@ -226,15 +226,28 @@ d3.csv("datadev/crime.csv", function(error, data) {
     });
     var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
     d3.select(".xaxis").transition().duration(axisDuration).call(xAxis);
+    var resize = function() {
+      var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
+          h = 8000 - margin.top - margin.bototm;
+      xScale.range([0, w]);
+      d3.select('svg').attr("width", w);
+      svg.selectAll("rect.bars").attr("width", scaledWidth);
+      d3.selectAll("text.valuelabels").data(crimeData, key).attr("x", function(d) {
+        return scaledWidth + labelPaddingLeft();
+      });
+    };
+    d3.select(window).on("resize", function() {
+      resize();
+    });
   };
   var resize = function() {
     var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
-        h = 8000;
+        h = 8000 - margin.top - margin.bototm;
     xScale.range([0, w]);
-    d3.select('svg').attr({width: w});
-    svg.selectAll("rect.bars").attr({width: scaledWidth});
-    d3.selectAll("text.valuelabels").data(crimeData, key).text(function(d) {
-      return d3.format(",")(scaledWidth());
-    }).attr({});
+    d3.select('svg').attr("width", w);
+    svg.selectAll("rect.bars").attr("width", scaledWidth);
+    d3.selectAll("text.valuelabels").data(crimeData, key).attr("x", function(d) {
+      return scaledWidth + labelPaddingLeft();
+    });
   };
 });

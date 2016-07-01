@@ -118,7 +118,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 
 	//Bar width variable	
-	var scaledWidth = function(d) { return xScale(+d.murder100k); };
+	scaledWidth = function(d) { return xScale(+d.murder100k); };
 
 	//Ordinal y scale
 	var yScale = d3.scale.ordinal()
@@ -512,6 +512,28 @@ d3.csv("datadev/crime.csv",function(error,data) {
 				.transition()
 				.duration(axisDuration)
 				.call(xAxis);
+
+		//Resize
+		var resize = function() {
+		
+		//Define new base dimensions
+		var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
+			h = 8000 - margin.top - margin.bototm;
+		//xScale	
+		xScale.range([0,w]);
+		//Canvas
+		d3.select('svg').attr("width",w);
+		//Bars
+		svg.selectAll("rect.bars").attr("width",scaledWidth);
+		//Value labels
+		d3.selectAll("text.valuelabels")
+			.data(crimeData,key)
+			.attr("x",function(d) { return scaledWidth + labelPaddingLeft(); });
+		};
+
+			d3.select(window).on("resize",function() {
+				resize();
+			});
 	};
 
 //Resize - http://bit.ly/28qspCv
@@ -520,43 +542,17 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		
 		//Define new base dimensions
 		var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
-			h = 8000;
-			//h = parseInt(d3.select('#barsdiv').style("height")) - margin.top - margin.bottom;
-
+			h = 8000 - margin.top - margin.bototm;
 		//xScale	
 		xScale.range([0,w]);
-
 		//Canvas
-		d3.select('svg')
-			.attr({
-				width: w//,
-				// viewBox: "0 0 " + (w + margin.left + margin.right) + " " + (h + margin.top + margin.bottom),
-				// preserveAspectRatio: "xMinYMin slice"
-			});
-
+		d3.select('svg').attr("width",w);
 		//Bars
-		svg.selectAll("rect.bars")
-			.attr({
-				width: scaledWidth
-			});
-
+		svg.selectAll("rect.bars").attr("width",scaledWidth);
 		//Value labels
-
 		d3.selectAll("text.valuelabels")
 			.data(crimeData,key)
-			.text(function(d) {
-				return d3.format(",")(scaledWidth());
-			})
-			.attr({
-				// x: function(d) {
-				// 	return scaledWidth() + labelPaddingLeft();
-				// },
-				//y: function(d,i) {
-				//	return yScale(i) + labelPaddingTop;
-				//}
-			});
-
-		
+			.attr("x",function(d) { return scaledWidth + labelPaddingLeft(); });
 	};
 
 });
