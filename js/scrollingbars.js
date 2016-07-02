@@ -1,10 +1,13 @@
 //General use variables
 	
 	//Margin and padding
-	var	margin = {top: 40, right: 40, bottom: 40, left: 10},
+	var	margin = {top: 40, right: 10, bottom: 40, left: 10},
 		w = parseInt(d3.select('#barsdiv').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = 8000 - margin.top - margin.bottom;
+
+	//Padding between output range and edge of canvas
+	var canvasPadding = {top: 0, right: 100, bottom: 0, left:0};
 		
 		//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
 
@@ -67,9 +70,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			}
 		};
 
-	var rankLoc = function(d,i) {
-		return i;
-	};
 
 //Tooltips - http://bit.ly/22HClnd
 	var barTips = d3.tip()
@@ -113,15 +113,15 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		.domain([0, d3.max(crimeData,function(d) {
 			return +d.murder100k;
 		})])
-		.range([0, w])
+		.range([0, w - canvasPadding.right])
 		.nice();
 
 //Variables for elements that resize (not just rescale with viewBox and preserveAspectRatio on the svg)
 
 	//Bar width, text label position
 	var scaledWidth = function(d) { return xScale(+d.murder100k); };
-	var scaledX = scaledWidth;
-	//var scaledX = function(d) { return scaledWidth; };
+	//var scaledX = scaledWidth() + 4; //+ 4 + "px";
+	var scaledX = function(d) { return scaledWidth(d) + labelPaddingLeft; };
 	//Text label position 
 
 
@@ -234,11 +234,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			updateM();
 		});
 
-//Resize window on click (defined below)
-
-	d3.select(window).on("resize",function() {
-		resize();
-	});
 
 //Update data functions - http://bit.ly/1VRjAwC
 
@@ -256,7 +251,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.domain([0, d3.max(crimeData,function(d) {
 				return +d.murder100k;
 			})])
-			.range([0, w])
+			.range([0, w - canvasPadding.right])
 			.nice();
 
 		//Scaled width
@@ -312,9 +307,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 				return d3.format(",")(+d.murder100k);
 			})
 			.attr({
-				x: function(d) {
-					return xScale(+d.murder100k) + labelPaddingLeft;
-				},
+				x: scaledX,
 				y: function(d,i) {
 					return yScale(i) + labelPaddingTop;
 				}
@@ -332,6 +325,27 @@ d3.csv("datadev/crime.csv",function(error,data) {
 				.duration(axisDuration)
 				.call(xAxis);
 
+		//Resize
+			var resize = function() {
+				//Define new base dimensions
+				var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
+					h = 8000 - margin.top - margin.bototm;
+				//xScale	
+				xScale.range([0,w - canvasPadding.right]);
+				//Canvas
+				d3.select('svg').attr("width",w);
+				//Bars
+				svg.selectAll("rect.bars").attr("width",scaledWidth);
+				//Value labels
+				d3.selectAll("text.valuelabels").data(crimeData,key).attr("x", scaledX);
+				//Axes
+				d3.select(".xaxis").call(xAxis);
+			};
+
+			d3.select(window).on("resize",function() {
+				resize();
+			});
+
 	};
 
 	//Rape update
@@ -348,7 +362,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.domain([0, d3.max(crimeData,function(d) {
 				return +d.rape100k;
 			})])
-			.range([0, w])
+			.range([0, w - canvasPadding.right])
 			.nice();
 
 		//Scaled width
@@ -403,9 +417,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 				return d3.format(",")(+d.rape100k);
 			})
 			.attr({
-				x: function(d) {
-					return xScale(+d.rape100k) + labelPaddingLeft;
-				},
+				x: scaledX,
 				y: function(d,i) {
 					return yScale(i) + labelPaddingTop;
 				}
@@ -423,6 +435,27 @@ d3.csv("datadev/crime.csv",function(error,data) {
 				.duration(axisDuration)
 				.call(xAxis);
 
+		//Resize
+			var resize = function() {
+				//Define new base dimensions
+				var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
+					h = 8000 - margin.top - margin.bototm;
+				//xScale	
+				xScale.range([0,w - canvasPadding.right]);
+				//Canvas
+				d3.select('svg').attr("width",w);
+				//Bars
+				svg.selectAll("rect.bars").attr("width",scaledWidth);
+				//Value labels
+				d3.selectAll("text.valuelabels").data(crimeData,key).attr("x", scaledX);
+				//Axes
+				d3.select(".xaxis").call(xAxis);
+			};
+
+			d3.select(window).on("resize",function() {
+				resize();
+			});
+
 	};
 
 	//Violent crime update
@@ -439,7 +472,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 			.domain([0, d3.max(crimeData,function(d) {
 				return +d.violentcrime100k;
 			})])
-			.range([0, w])
+			.range([0, w - canvasPadding.right])
 			.nice();
 
 		//Scaled width
@@ -495,9 +528,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 				return d3.format(",")(+d.violentcrime100k);
 			})
 			.attr({
-				x: function(d) {
-					return xScale(+d.violentcrime100k) + labelPaddingLeft;
-				},
+				x: scaledX,
 				y: function(d,i) {
 					return yScale(i) + labelPaddingTop;
 				}
@@ -516,23 +547,26 @@ d3.csv("datadev/crime.csv",function(error,data) {
 				.call(xAxis);
 
 		//Resize
-		var resize = function() {
-		
-		//Define new base dimensions
-		var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
-			h = 8000 - margin.top - margin.bototm;
-		//xScale	
-		xScale.range([0,w]);
-		//Canvas
-		d3.select('svg').attr("width",w);
-		//Bars
-		svg.selectAll("rect.bars").attr("width",scaledWidth);
-		//Value labels
-		d3.selectAll("text.valuelabels")
-			.data(crimeData,key)
-			.attr("x",function(d) { return scaledWidth + labelPaddingLeft(); });
-		};
+			var resize = function() {
+				//Define new base dimensions
+				var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
+					h = 8000 - margin.top - margin.bototm;
+				//xScale	
+				xScale.range([0,w - canvasPadding.right]);
+				//Canvas
+				d3.select('svg').attr("width",w);
+				//Bars
+				svg.selectAll("rect.bars").attr("width",scaledWidth);
+				//Value labels
+				d3.selectAll("text.valuelabels").data(crimeData,key).attr("x", scaledX);
+				//Axes
+				d3.select(".xaxis").call(xAxis);
+			};
 
+			//Resize on update EXPERIMENT
+			//resize();//.transition().duration(barDuration);
+
+			//Resize on window adjust
 			d3.select(window).on("resize",function() {
 				resize();
 			});
@@ -546,15 +580,20 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
 			h = 8000 - margin.top - margin.bototm;
 		//xScale	
-		xScale.range([0,w]);
+		xScale.range([0,w - canvasPadding.right]);
 		//Canvas
 		d3.select('svg').attr("width",w);
 		//Bars
 		svg.selectAll("rect.bars").attr("width",scaledWidth);
 		//Value labels
-		d3.selectAll("text.valuelabels")
-			.data(crimeData,key)
-			.attr("x", scaledWidth)
+		d3.selectAll("text.valuelabels").data(crimeData,key).attr("x", scaledX);
+		//Axes
+		d3.select(".xaxis").call(xAxis);
 	};
+
+	//Resize window on click
+	d3.select(window).on("resize",function() {
+		resize();
+	});
 
 });

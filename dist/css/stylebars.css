@@ -67,7 +67,7 @@ div#buttonsdiv button:hover {
 div#barsdiv {
   display: inline-block;
   position: relative;
-  width: 100%;
+  width: 92%;
   padding-bottom: 100%;
   /* aspect ratio */
   vertical-align: top;

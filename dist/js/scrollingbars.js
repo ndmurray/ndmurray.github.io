@@ -1,13 +1,19 @@
 "use strict";
 var margin = {
   top: 40,
-  right: 40,
+  right: 10,
   bottom: 40,
   left: 10
 },
     w = parseInt(d3.select('#barsdiv').style('width'), 10),
     w = w - margin.left - margin.right,
     h = 8000 - margin.top - margin.bottom;
+var canvasPadding = {
+  top: 0,
+  right: 100,
+  bottom: 0,
+  left: 0
+};
 var textShiftUp = -134,
     barShiftUp = -126,
     axisShiftUp = -18;
@@ -43,9 +49,6 @@ d3.csv("datadev/crime.csv", function(error, data) {
       return d.Loc.substring(0, d.Loc.length - 7);
     }
   };
-  var rankLoc = function(d, i) {
-    return i;
-  };
   var barTips = d3.tip().attr({class: "d3-tip"}).offset([0, 0]).direction('n').html(function(d) {
     return "<p id='tiphead'>" + cleanLoc(d) + "</p><p id='tipbody'>Population: " + d3.format(',')(+d.Pop) + "</p>";
   });
@@ -58,11 +61,13 @@ d3.csv("datadev/crime.csv", function(error, data) {
   }).append("g").attr({transform: "translate(" + margin.left + "," + margin.top + ")"}).call(barTips);
   var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
     return +d.murder100k;
-  })]).range([0, w]).nice();
+  })]).range([0, w - canvasPadding.right]).nice();
   var scaledWidth = function(d) {
     return xScale(+d.murder100k);
   };
-  var scaledX = scaledWidth;
+  var scaledX = function(d) {
+    return scaledWidth(d) + labelPaddingLeft;
+  };
   var yScale = d3.scale.ordinal().domain(d3.range(crimeData.length)).rangeRoundBands([0, h], 0.05);
   var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
   var bars = svg.selectAll("rect").data(crimeData, key).enter().append("rect").attr({
@@ -112,16 +117,13 @@ d3.csv("datadev/crime.csv", function(error, data) {
   d3.select("button#murder").on("click", function() {
     updateM();
   });
-  d3.select(window).on("resize", function() {
-    resize();
-  });
   var updateM = function() {
     crimeData.sort(function(a, b) {
       return d3.descending(+a.murder100k, +b.murder100k);
     });
     var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
       return +d.murder100k;
-    })]).range([0, w]).nice();
+    })]).range([0, w - canvasPadding.right]).nice();
     scaledWidth = function(d) {
       return xScale(+d.murder100k);
     };
@@ -142,15 +144,25 @@ d3.csv("datadev/crime.csv", function(error, data) {
     }).duration(barDuration).text(function(d) {
       return d3.format(",")(+d.murder100k);
     }).attr({
-      x: function(d) {
-        return xScale(+d.murder100k) + labelPaddingLeft;
-      },
+      x: scaledX,
       y: function(d, i) {
         return yScale(i) + labelPaddingTop;
       }
     });
     var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
     d3.select(".xaxis").transition().duration(axisDuration).call(xAxis);
+    var resize = function() {
+      var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
+          h = 8000 - margin.top - margin.bototm;
+      xScale.range([0, w - canvasPadding.right]);
+      d3.select('svg').attr("width", w);
+      svg.selectAll("rect.bars").attr("width", scaledWidth);
+      d3.selectAll("text.valuelabels").data(crimeData, key).attr("x", scaledX);
+      d3.select(".xaxis").call(xAxis);
+    };
+    d3.select(window).on("resize", function() {
+      resize();
+    });
   };
   var updateR = function() {
     crimeData.sort(function(a, b) {
@@ -158,7 +170,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     });
     var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
       return +d.rape100k;
-    })]).range([0, w]).nice();
+    })]).range([0, w - canvasPadding.right]).nice();
     scaledWidth = function(d) {
       return xScale(+d.rape100k);
     };
@@ -179,15 +191,25 @@ d3.csv("datadev/crime.csv", function(error, data) {
     }).duration(barDuration).text(function(d) {
       return d3.format(",")(+d.rape100k);
     }).attr({
-      x: function(d) {
-        return xScale(+d.rape100k) + labelPaddingLeft;
-      },
+      x: scaledX,
       y: function(d, i) {
         return yScale(i) + labelPaddingTop;
       }
     });
     var xAxis = d3.svg.axis().scale(xScale).orient("top").ticks(5);
     d3.select(".xaxis").transition().duration(axisDuration).call(xAxis);
+    var resize = function() {
+      var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
+          h = 8000 - margin.top - margin.bototm;
+      xScale.range([0, w - canvasPadding.right]);
+      d3.select('svg').attr("width", w);
+      svg.selectAll("rect.bars").attr("width", scaledWidth);
+      d3.selectAll("text.valuelabels").data(crimeData, key).attr("x", scaledX);
+      d3.select(".xaxis").call(xAxis);
+    };
+    d3.select(window).on("resize", function() {
+      resize();
+    });
   };
   var updateV = function() {
     crimeData.sort(function(a, b) {
@@ -195,7 +217,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     });
     var xScale = d3.scale.linear().domain([0, d3.max(crimeData, function(d) {
       return +d.violentcrime100k;
-    })]).range([0, w]).nice();
+    })]).range([0, w - canvasPadding.right]).nice();
     scaledWidth = function(d) {
       return xScale(+d.violentcrime100k);
     };
@@ -216,9 +238,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
     }).duration(barDuration).text(function(d) {
       return d3.format(",")(+d.violentcrime100k);
     }).attr({
-      x: function(d) {
-        return xScale(+d.violentcrime100k) + labelPaddingLeft;
-      },
+      x: scaledX,
       y: function(d, i) {
         return yScale(i) + labelPaddingTop;
       }
@@ -228,12 +248,11 @@ d3.csv("datadev/crime.csv", function(error, data) {
     var resize = function() {
       var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
           h = 8000 - margin.top - margin.bototm;
-      xScale.range([0, w]);
+      xScale.range([0, w - canvasPadding.right]);
       d3.select('svg').attr("width", w);
       svg.selectAll("rect.bars").attr("width", scaledWidth);
-      d3.selectAll("text.valuelabels").data(crimeData, key).attr("x", function(d) {
-        return scaledWidth + labelPaddingLeft();
-      });
+      d3.selectAll("text.valuelabels").data(crimeData, key).attr("x", scaledX);
+      d3.select(".xaxis").call(xAxis);
     };
     d3.select(window).on("resize", function() {
       resize();
@@ -242,9 +261,13 @@ d3.csv("datadev/crime.csv", function(error, data) {
   var resize = function() {
     var w = parseInt(d3.select('#barsdiv').style("width")) - margin.left - margin.right,
         h = 8000 - margin.top - margin.bototm;
-    xScale.range([0, w]);
+    xScale.range([0, w - canvasPadding.right]);
     d3.select('svg').attr("width", w);
     svg.selectAll("rect.bars").attr("width", scaledWidth);
-    d3.selectAll("text.valuelabels").data(crimeData, key).attr("x", scaledWidth);
+    d3.selectAll("text.valuelabels").data(crimeData, key).attr("x", scaledX);
+    d3.select(".xaxis").call(xAxis);
   };
+  d3.select(window).on("resize", function() {
+    resize();
+  });
 });
