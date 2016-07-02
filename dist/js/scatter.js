@@ -28,4 +28,23 @@ d3.csv("datadev/world.csv", function(error, data) {
   } else {
     console.log(data);
   }
+  var worldData = data;
+  var key = function(d, i) {
+    return i;
+  };
+  var svg = d3.select("#scatter-div").append("svg").attr({
+    width: w + margin.left + margin.right,
+    height: h + margin.top + margin.bottom,
+    viewBox: "0 0 " + 380 + " " + 8000,
+    preserveAspectRatio: "xMinYMin meet",
+    id: "canvas"
+  }).append("g").attr({transform: "translate(" + margin.left + "," + margin.top + ")"});
+  var xScale = d3.scale.linear().domain([0, d3.max(worldData, function(d) {
+    return +d.life_exp;
+  })]).range([0, w - canvasPadding.right]).nice();
+  var yScale = d3.scale.linear().domain([0, d3.max(worldData, function(d) {
+    return +d.gdphead;
+  })]).range([0, h - canvasPadding.bottom]);
+  var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5);
+  var yAxis = d3.svg.axis().scale(yScale).orient("top").ticks(5);
 });

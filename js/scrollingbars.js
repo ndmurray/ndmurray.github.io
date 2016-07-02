@@ -85,9 +85,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 //Set up the canvas
 	var svg = d3.select("#barsdiv")
-		.classed("container",true)
 		.append("svg")
-		.classed("svg-responsive",true)
 		.attr({
 			width: w + margin.left + margin.right, 
 			height: h + margin.top + margin.bottom,

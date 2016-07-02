@@ -1,0 +1,25 @@
+/*Montserrat font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*Theme*/
+$default-font: 'Montserrat';
+$default-color: rgb(248,232,207); 
+$default-background: black;
+
+/*Header Buttons*/
+$button-color1: #855607;
+$button-color1-hover: rgb(209,136,10); 
+
+/*Chart colors*/
+$circ-color: rgb(132,22,6)/*#D63510*/; 
+$circ-color-hover: #B11E07;
+
+$tooltip-color: black;
+$tooltip-background: #858585;
+
+/*Header styling*/
+
+h2#title {
+	color: black;
+}
+

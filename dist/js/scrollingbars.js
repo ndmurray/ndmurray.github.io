@@ -52,7 +52,7 @@ d3.csv("datadev/crime.csv", function(error, data) {
   var barTips = d3.tip().attr({class: "d3-tip"}).offset([0, 0]).direction('n').html(function(d) {
     return "<p id='tiphead'>" + cleanLoc(d) + "</p><p id='tipbody'>Population: " + d3.format(',')(+d.Pop) + "</p>";
   });
-  var svg = d3.select("#barsdiv").classed("container", true).append("svg").classed("svg-responsive", true).attr({
+  var svg = d3.select("#barsdiv").append("svg").attr({
     width: w + margin.left + margin.right,
     height: h + margin.top + margin.bottom,
     viewBox: "0 0 " + 380 + " " + 8000,
