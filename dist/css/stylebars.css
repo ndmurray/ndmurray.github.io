@@ -93,13 +93,6 @@ within the xaxis class*/
   font-size: 12px; }
 
 /*Svg tooltip*/
-#tooltip {
-  text-anchor: middle;
-  font-family: sans-serif;
-  font-size: 11px;
-  font-weight: bold;
-  fill: blue; }
-
 /******************************************Tooltip Styling. Edited from the original 
 http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css*************************************/
 .d3-tip {
