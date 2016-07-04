@@ -3,19 +3,18 @@
 
 /*Theme*/
 $default-font: 'Montserrat';
-$default-color: Gray; 
-$default-background: black;
+$default-color: #F7F7F7; 
+$page-background: #18071E;
 
 /*Header Buttons*/
 $button-color1: #855607;
 $button-color1-hover: rgb(209,136,10); 
 
 /*Chart colors*/
-$circ-color: rgb(132,22,6)/*#D63510*/; 
-$circ-color-hover: #B11E07;
-
-$tooltip-color: black;
-$tooltip-background: red;
+$dot-color: rgb(132,22,6)/*#D63510*/; 
+$dot-color-hover: #B11E07;
+$tooltip-color: #F7F7F7;
+$tooltip-background: #720021;
 
 
 /*******************STYLES****************************************************************/
@@ -23,6 +22,7 @@ $tooltip-background: red;
 body {
 	font-family: $default-font;
 	color: $default-color;
+	background-color: $page-background;
 }
 
 
@@ -45,8 +45,13 @@ div#scatter-div {
 
 /*Dots*/
 
-circle.dots {
-	opacity: 0.75;
+g#dots-group {
+	pointer-events: all;
+	opacity: 0.85;
+}
+
+circle.dots:hover {
+	opacity: 0.15;
 }
 
 /*Axes*/
@@ -79,13 +84,25 @@ http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css***************
   padding-left: 10px;
   padding-right: 10px;
   background: $tooltip-background;
-  color: $default-color;
+  color: $tooltip-color;
   border-radius: 0px;
   pointer-events: none;
+  opacity: 0.9;
+}
+
+p#tiphead {
+	color: #e5fd69;
+	font-size: 1.5em;
+	margin-top: 10px;
 }
 
 p#tipbody {
-	color: rgb(209,136,10);
+	color: $tooltip-color;
+}
+
+p.tip-subhead {
+	color: #e5fd69;
+	margin-bottom: 10px;
 }
 
 /* Creates a small triangle extender for the tooltip */
@@ -98,6 +115,7 @@ p#tipbody {
   color: $tooltip-background;
   position: absolute;
   pointer-events: none;
+  opacity: 0.8;
 }
 
 /*Info on tip directions: http://jsfiddle.net/deanmalmgren/eMPdu/ */
@@ -117,6 +135,8 @@ p#tipbody {
   margin: -4px 0 0 0;
   top: 50%;
   left: -8px;
+  /*removing tip carrot*/
+  display: none;
 }
 
 /* Southward tooltips */

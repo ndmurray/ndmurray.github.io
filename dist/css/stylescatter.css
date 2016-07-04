@@ -6,7 +6,8 @@
 /*******************STYLES****************************************************************/
 body {
   font-family: "Montserrat";
-  color: Gray; }
+  color: #F7F7F7;
+  background-color: #18071E; }
 
 /*Header styling*/
 h2#title {
@@ -22,18 +23,22 @@ div#scatter-div {
   overflow: hidden; }
 
 /*Dots*/
-circle.dots {
-  opacity: 0.75; }
+g#dots-group {
+  pointer-events: all;
+  opacity: 0.85; }
+
+circle.dots:hover {
+  opacity: 0.15; }
 
 /*Axes*/
 .xaxis path, .xaxis line,
 .yaxis path, .yaxis line {
   fill: none;
-  stroke: Gray;
+  stroke: #F7F7F7;
   shape-rendering: crispEdges; }
 
 .xaxis text, .yaxis text {
-  fill: Gray;
+  fill: #F7F7F7;
   font-family: "Montserrat";
   font-size: 12px; }
 
@@ -45,13 +50,23 @@ http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css***************
   font-weight: normal;
   padding-left: 10px;
   padding-right: 10px;
-  background: red;
-  color: Gray;
+  background: #720021;
+  color: #F7F7F7;
   border-radius: 0px;
-  pointer-events: none; }
+  pointer-events: none;
+  opacity: 0.9; }
+
+p#tiphead {
+  color: #e5fd69;
+  font-size: 1.5em;
+  margin-top: 10px; }
 
 p#tipbody {
-  color: #d1880a; }
+  color: #F7F7F7; }
+
+p.tip-subhead {
+  color: #e5fd69;
+  margin-bottom: 10px; }
 
 /* Creates a small triangle extender for the tooltip */
 .d3-tip:after {
@@ -60,9 +75,10 @@ p#tipbody {
   font-size: 10px;
   width: 100%;
   line-height: 1;
-  color: red;
+  color: #720021;
   position: absolute;
-  pointer-events: none; }
+  pointer-events: none;
+  opacity: 0.8; }
 
 /*Info on tip directions: http://jsfiddle.net/deanmalmgren/eMPdu/ */
 /* Northward tooltips */
@@ -78,7 +94,9 @@ p#tipbody {
   content: "\25C0";
   margin: -4px 0 0 0;
   top: 50%;
-  left: -8px; }
+  left: -8px;
+  /*removing tip carrot*/
+  display: none; }
 
 /* Southward tooltips */
 .d3-tip.s:after {
