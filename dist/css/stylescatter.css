@@ -23,12 +23,8 @@ div#scatter-div {
   overflow: hidden; }
 
 /*Dots*/
-g#dots-group {
-  pointer-events: all;
+circle.active-dot:hover {
   opacity: 0.85; }
-
-circle.dots:hover {
-  opacity: 0.15; }
 
 /*Axes*/
 .xaxis path, .xaxis line,
@@ -54,7 +50,8 @@ http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css***************
   color: #F7F7F7;
   border-radius: 0px;
   pointer-events: none;
-  opacity: 0.9; }
+  opacity: 0.9;
+  box-shadow: 1px 1px 2px black; }
 
 p#tiphead {
   color: #e5fd69;

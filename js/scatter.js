@@ -135,10 +135,10 @@ d3.csv("datadev/world.csv",function(error,data) {
 			.filter(function(d) { return dataY(d); }) 
 			.filter(function(d) { return dataR(d); }) 
 			.attr({
+				class: "dots",
 				cx: function(d) { return xScale(dataX(d)); },
 				cy: function(d) { return yScale(dataY(d)); },
 				r: function(d) { return rScale(dataR(d)); },
-				class: "dots",
 				"pointer-events": "all",
 				"fill": function(d) {
 					//colors comaination of the following third party palletes
@@ -158,11 +158,25 @@ d3.csv("datadev/world.csv",function(error,data) {
 
 			//using enter and leave as opposed to over and out because mouseenter and mouesleave don't bubble up to the dots group 
 			.on('mouseenter',dotTips.show)
-			// .on('mouseenter',function() {
-			// 	d3.select(this).classed("active-dot",true)
-			// 	// dotTips.show;
-			// })
-			.on('mouseleave',dotTips.hide);
+			//for opacity on hover, for some reason two 'mouseenter' listeners doesn't work
+			.on('mouseover',function() {
+				var current = this;
+				d3.select(current)
+					.classed("active-dot",true)
+					.classed("dots",false);
+					
+				d3.selectAll("circle.dots").attr("opacity", 0.15);
+			})
+			.on('mouseleave',dotTips.hide)
+			.on('mouseout',function() {
+				var current = this
+				d3.select(current)
+					.classed("active-dot",false)
+					.classed("dots",true);
+
+				d3.selectAll("circle.dots").attr("opacity", 0.85);
+			});
+
 	
 	//Lines connecting dots to axes
 	svg.select("line.xline")

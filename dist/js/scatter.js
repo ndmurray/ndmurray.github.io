@@ -80,6 +80,7 @@ d3.csv("datadev/world.csv", function(error, data) {
   }).filter(function(d) {
     return dataR(d);
   }).attr({
+    class: "dots",
     cx: function(d) {
       return xScale(dataX(d));
     },
@@ -89,7 +90,6 @@ d3.csv("datadev/world.csv", function(error, data) {
     r: function(d) {
       return rScale(dataR(d));
     },
-    class: "dots",
     "pointer-events": "all",
     "fill": function(d) {
       if (d.region == "Europe & Central Asia") {
@@ -110,7 +110,15 @@ d3.csv("datadev/world.csv", function(error, data) {
         return "black";
       }
     }
-  }).call(dotTips).on('mouseenter', dotTips.show).on('mouseleave', dotTips.hide);
+  }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', function() {
+    var current = this;
+    d3.select(current).classed("active-dot", true).classed("dots", false);
+    d3.selectAll("circle.dots").attr("opacity", 0.15);
+  }).on('mouseleave', dotTips.hide).on('mouseout', function() {
+    var current = this;
+    d3.select(current).classed("active-dot", false).classed("dots", true);
+    d3.selectAll("circle.dots").attr("opacity", 0.85);
+  });
   svg.select("line.xline").append("line").attr("y1", d3.selectAll("circle.dots").attr("cy")).attr("y2", d3.selectAll("circle.dots").attr("cy")).attr("x1", margin.left).attr("x2", d3.selectAll("circle.dots").attr("cx")).attr("class", "xline").attr("stroke", "white").attr("stroke-width", 10);
   svg.append("g").attr({
     class: "xaxis",
