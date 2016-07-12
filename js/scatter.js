@@ -58,9 +58,10 @@ d3.csv("datadev/world.csv",function(error,data) {
 	};
 
 	//Variables for cx, cy, and r data fields
-	var dataX = function(d) { return 100 - +d.press; };
+	var dataX = function(d) { return +d.polistab; };
+	//var dataX = function(d) { return 100 - +d.press; };
 	//var dataX = function(d) { return 1 - +d.gini/100; };
-	var dataY = function(d) { return +d.corruption; };
+	var dataY = function(d) { return 100 - +d.press; };
 	//var dataY = function(d) { return 100 - +d.press; };
 	var dataR = function(d) { return +d.gdphead; };
 
@@ -120,6 +121,27 @@ d3.csv("datadev/world.csv",function(error,data) {
 	//Y axis
 	var yAxis = d3.svg.axis().scale(yScale).orient("left");
 
+//Mouseover events
+
+	var mouseOn = function() {
+		var current = this;
+		d3.select(current)
+			.classed("active-dot",true)
+			.classed("dots",false);
+			
+			
+		d3.selectAll("circle.dots").attr("opacity", 0.15);
+	};
+
+	var mouseOff = function() {
+		var current = this;
+		d3.select(current)
+			.classed("active-dot",false)
+			.classed("dots",true);
+
+		d3.selectAll("circle.dots").attr("opacity", 0.85);
+	};
+
 //Default chart elements
 
 	//Dots	
@@ -159,23 +181,9 @@ d3.csv("datadev/world.csv",function(error,data) {
 			//using enter and leave as opposed to over and out because mouseenter and mouesleave don't bubble up to the dots group 
 			.on('mouseenter',dotTips.show)
 			//for opacity on hover, for some reason two 'mouseenter' listeners doesn't work
-			.on('mouseover',function() {
-				var current = this;
-				d3.select(current)
-					.classed("active-dot",true)
-					.classed("dots",false);
-					
-				d3.selectAll("circle.dots").attr("opacity", 0.15);
-			})
+			.on('mouseover',mouseOn)
 			.on('mouseleave',dotTips.hide)
-			.on('mouseout',function() {
-				var current = this
-				d3.select(current)
-					.classed("active-dot",false)
-					.classed("dots",true);
-
-				d3.selectAll("circle.dots").attr("opacity", 0.85);
-			});
+			.on('mouseout',mouseOff);
 
 	
 	//Lines connecting dots to axes

@@ -37,10 +37,10 @@ d3.csv("datadev/world.csv", function(error, data) {
     return d.country;
   };
   var dataX = function(d) {
-    return 100 - +d.press;
+    return +d.polistab;
   };
   var dataY = function(d) {
-    return +d.corruption;
+    return 100 - +d.press;
   };
   var dataR = function(d) {
     return +d.gdphead;
@@ -73,6 +73,16 @@ d3.csv("datadev/world.csv", function(error, data) {
   })]).range([4, 40]).nice();
   var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
   var yAxis = d3.svg.axis().scale(yScale).orient("left");
+  var mouseOn = function() {
+    var current = this;
+    d3.select(current).classed("active-dot", true).classed("dots", false);
+    d3.selectAll("circle.dots").attr("opacity", 0.15);
+  };
+  var mouseOff = function() {
+    var current = this;
+    d3.select(current).classed("active-dot", false).classed("dots", true);
+    d3.selectAll("circle.dots").attr("opacity", 0.85);
+  };
   var dots = svg.append("g").attr({id: "dots-group"}).selectAll("circle").data(worldData, key).enter().append("circle").filter(function(d) {
     return dataX(d);
   }).filter(function(d) {
@@ -110,15 +120,7 @@ d3.csv("datadev/world.csv", function(error, data) {
         return "black";
       }
     }
-  }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', function() {
-    var current = this;
-    d3.select(current).classed("active-dot", true).classed("dots", false);
-    d3.selectAll("circle.dots").attr("opacity", 0.15);
-  }).on('mouseleave', dotTips.hide).on('mouseout', function() {
-    var current = this;
-    d3.select(current).classed("active-dot", false).classed("dots", true);
-    d3.selectAll("circle.dots").attr("opacity", 0.85);
-  });
+  }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
   svg.select("line.xline").append("line").attr("y1", d3.selectAll("circle.dots").attr("cy")).attr("y2", d3.selectAll("circle.dots").attr("cy")).attr("x1", margin.left).attr("x2", d3.selectAll("circle.dots").attr("cx")).attr("class", "xline").attr("stroke", "white").attr("stroke-width", 10);
   svg.append("g").attr({
     class: "xaxis",
