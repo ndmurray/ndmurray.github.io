@@ -23,7 +23,7 @@ div#scatter-div {
   overflow: hidden; }
 
 /*Dots*/
-circle.active-dot:hover {
+circle.a-dot:hover {
   opacity: 0.85; }
 
 /*Axes*/
@@ -38,7 +38,14 @@ circle.active-dot:hover {
   font-family: "Montserrat";
   font-size: 12px; }
 
-/*Tooltips*/
+/*Guidelines*/
+.guide line {
+  fill: none;
+  stroke: #F7F7F7;
+  stroke-width: 1;
+  shape-rendering: crispEdges; }
+
+/*Sidebar made from a d3-tips*/
 /******************************************Tooltip Styling. Edited from the original 
 http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css*************************************/
 .d3-tip {

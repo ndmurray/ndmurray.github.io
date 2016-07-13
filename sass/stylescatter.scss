@@ -45,7 +45,7 @@ div#scatter-div {
 
 /*Dots*/
 
-circle.active-dot:hover {
+circle.a-dot:hover {
 	opacity: 0.85;
 }
 
@@ -64,9 +64,17 @@ circle.active-dot:hover {
 	font-size: 12px;
 }
 
+/*Guidelines*/
+
+.guide line {
+  fill: none;
+  stroke: $default-color;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
 
 
-/*Tooltips*/
+/*Sidebar made from a d3-tips*/
 
 
 /******************************************Tooltip Styling. Edited from the original 

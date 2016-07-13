@@ -126,18 +126,40 @@ d3.csv("datadev/world.csv",function(error,data) {
 	var mouseOn = function() {
 		var current = this;
 		d3.select(current)
-			.classed("active-dot",true)
+			.classed("a-dot",true)
 			.classed("dots",false);
 			
 			
 		d3.selectAll("circle.dots").attr("opacity", 0.15);
+
+		
+	//	Guide lines from: http://bit.ly/29FRNP1
+		svg.append("g")
+			.classed("guide",true)
+			.append("line")
+				.attr("y1",d3.select(".a-dot").attr("cy"))
+				.attr("y2",d3.select(".a-dot").attr("cy"))
+				.attr("x1",0)
+				.attr("x2",d3.select(".a-dot").attr("cx"));
+
+		svg.append("g")
+			.classed("guide",true)
+			.append("line")
+				.attr("y1", h)
+				.attr("y2",d3.select(".a-dot").attr("cy"))
+				.attr("x1",d3.select(".a-dot").attr("cx"))
+				.attr("x2",d3.select(".a-dot").attr("cx"));
+
 	};
 
 	var mouseOff = function() {
 		var current = this;
 		d3.select(current)
-			.classed("active-dot",false)
+			.classed("a-dot",false)
 			.classed("dots",true);
+
+		d3.select(".guide")
+			.classed("guide",false);
 
 		d3.selectAll("circle.dots").attr("opacity", 0.85);
 	};
@@ -149,15 +171,16 @@ d3.csv("datadev/world.csv",function(error,data) {
 		.attr({
 			id: "dots-group"
 		})
-			.selectAll("circle")
+		.selectAll("circle")
 			.data(worldData,key)
-			.enter()
+		  	.enter()
 			.append("circle")
 			.filter(function(d) { return dataX(d); }) //filters out nulls
 			.filter(function(d) { return dataY(d); }) 
 			.filter(function(d) { return dataR(d); }) 
 			.attr({
 				class: "dots",
+				id: function(d) { return d.country; },
 				cx: function(d) { return xScale(dataX(d)); },
 				cy: function(d) { return yScale(dataY(d)); },
 				r: function(d) { return rScale(dataR(d)); },
@@ -184,21 +207,6 @@ d3.csv("datadev/world.csv",function(error,data) {
 			.on('mouseover',mouseOn)
 			.on('mouseleave',dotTips.hide)
 			.on('mouseout',mouseOff);
-
-	
-	//Lines connecting dots to axes
-	svg.select("line.xline")
-		.append("line")
-		.attr("y1",d3.selectAll("circle.dots").attr("cy"))
-		.attr("y2",d3.selectAll("circle.dots").attr("cy"))
-		.attr("x1",margin.left)
-		.attr("x2",d3.selectAll("circle.dots").attr("cx"))
-		.attr("class","xline")
-		.attr("stroke", "white")
-		.attr("stroke-width", 10);
-			
-
-
 
 //Call axes
 

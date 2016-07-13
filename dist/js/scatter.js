@@ -75,12 +75,15 @@ d3.csv("datadev/world.csv", function(error, data) {
   var yAxis = d3.svg.axis().scale(yScale).orient("left");
   var mouseOn = function() {
     var current = this;
-    d3.select(current).classed("active-dot", true).classed("dots", false);
+    d3.select(current).classed("a-dot", true).classed("dots", false);
     d3.selectAll("circle.dots").attr("opacity", 0.15);
+    svg.append("g").classed("guide", true).append("line").attr("y1", d3.select(".a-dot").attr("cy")).attr("y2", d3.select(".a-dot").attr("cy")).attr("x1", 0).attr("x2", d3.select(".a-dot").attr("cx"));
+    svg.append("g").classed("guide", true).append("line").attr("y1", h).attr("y2", d3.select(".a-dot").attr("cy")).attr("x1", d3.select(".a-dot").attr("cx")).attr("x2", d3.select(".a-dot").attr("cx"));
   };
   var mouseOff = function() {
     var current = this;
-    d3.select(current).classed("active-dot", false).classed("dots", true);
+    d3.select(current).classed("a-dot", false).classed("dots", true);
+    d3.select(".guide").classed("guide", false);
     d3.selectAll("circle.dots").attr("opacity", 0.85);
   };
   var dots = svg.append("g").attr({id: "dots-group"}).selectAll("circle").data(worldData, key).enter().append("circle").filter(function(d) {
@@ -91,6 +94,9 @@ d3.csv("datadev/world.csv", function(error, data) {
     return dataR(d);
   }).attr({
     class: "dots",
+    id: function(d) {
+      return d.country;
+    },
     cx: function(d) {
       return xScale(dataX(d));
     },
@@ -121,7 +127,6 @@ d3.csv("datadev/world.csv", function(error, data) {
       }
     }
   }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
-  svg.select("line.xline").append("line").attr("y1", d3.selectAll("circle.dots").attr("cy")).attr("y2", d3.selectAll("circle.dots").attr("cy")).attr("x1", margin.left).attr("x2", d3.selectAll("circle.dots").attr("cx")).attr("class", "xline").attr("stroke", "white").attr("stroke-width", 10);
   svg.append("g").attr({
     class: "xaxis",
     transform: "translate(" + xaxisShiftX + "," + xaxisShiftY + ")"
