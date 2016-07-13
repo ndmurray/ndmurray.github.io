@@ -40,8 +40,8 @@ circle.a-dot:hover {
 
 /*Guidelines*/
 .guide line {
-  fill: none;
-  stroke: #F7F7F7;
+  /*fill: $sdefault-color;*/
+  /*stroke: $tooltip-background;*/
   stroke-width: 1;
   shape-rendering: crispEdges; }
 

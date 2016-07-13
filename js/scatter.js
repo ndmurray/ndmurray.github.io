@@ -68,14 +68,14 @@ d3.csv("datadev/world.csv",function(error,data) {
 //Tooltips - http://bit.ly/22HClnd
 	var dotTips = d3.tip()
 		.attr({class: "d3-tip"})
-		.style({top: infoTop, left: infoLeft, width: infoWidth, height: infoHeight})
+		.style({top: infoTop, left: infoLeft,
+				width: infoWidth, height: infoHeight})
 		//size and positioning values in .style not .attr bc tooltip is a div, not svg.
 		.direction('e')
   		.html(function(d) {
   		  return "<p id='tiphead'>" + d.country  + "</p><p id='tipbody'><p class='tip-subhead'>Income Group:</p> " + (d.ig) + "</p>"
   		   + "</p><p id='tipbody'><p class='tip-subhead'>Region:</p> " + (d.region) + "</p>";
  		 });
-
 
 
 //Set up the canvas
@@ -121,26 +121,18 @@ d3.csv("datadev/world.csv",function(error,data) {
 	//Y axis
 	var yAxis = d3.svg.axis().scale(yScale).orient("left");
 
-//Mouseover events
 
-	var mouseOn = function() {
-		var current = this;
-		d3.select(current)
-			.classed("a-dot",true)
-			.classed("dots",false);
-			
-			
-		d3.selectAll("circle.dots").attr("opacity", 0.15);
+//Guide lines from: http://bit.ly/29FRNP1
+	var guideLines = function(d) { 
 
-		
-	//	Guide lines from: http://bit.ly/29FRNP1
 		svg.append("g")
 			.classed("guide",true)
 			.append("line")
 				.attr("y1",d3.select(".a-dot").attr("cy"))
 				.attr("y2",d3.select(".a-dot").attr("cy"))
 				.attr("x1",0)
-				.attr("x2",d3.select(".a-dot").attr("cx"));
+				.attr("x2",d3.select(".a-dot").attr("cx"))
+				.attr("stroke",d3.select(".a-dot").attr("fill"));
 
 		svg.append("g")
 			.classed("guide",true)
@@ -148,18 +140,35 @@ d3.csv("datadev/world.csv",function(error,data) {
 				.attr("y1", h)
 				.attr("y2",d3.select(".a-dot").attr("cy"))
 				.attr("x1",d3.select(".a-dot").attr("cx"))
-				.attr("x2",d3.select(".a-dot").attr("cx"));
+				.attr("x2",d3.select(".a-dot").attr("cx"))
+				.attr("stroke",d3.select(".a-dot").attr("fill"));
 
 	};
 
+
+//Mouseover events
+
+	var mouseOn = function() {
+		var current = this;
+		d3.select(current)
+			.classed("a-dot",true)
+			.classed("dots",false);
+
+		guideLines();
+			
+		d3.selectAll("circle.dots").attr("opacity", 0.15);
+
+	};
+	
 	var mouseOff = function() {
 		var current = this;
 		d3.select(current)
 			.classed("a-dot",false)
 			.classed("dots",true);
 
-		d3.select(".guide")
-			.classed("guide",false);
+		d3.selectAll(".guide")
+			.remove();
+			
 
 		d3.selectAll("circle.dots").attr("opacity", 0.85);
 	};
@@ -201,6 +210,7 @@ d3.csv("datadev/world.csv",function(error,data) {
 			})
 					.call(dotTips) //must be called on canvas -  http://bit.ly/22HClnd
 
+
 			//using enter and leave as opposed to over and out because mouseenter and mouesleave don't bubble up to the dots group 
 			.on('mouseenter',dotTips.show)
 			//for opacity on hover, for some reason two 'mouseenter' listeners doesn't work
@@ -225,8 +235,6 @@ d3.csv("datadev/world.csv",function(error,data) {
 			transform: "translate(" + yaxisShiftX + "," + yaxisShiftY + ")" 
 		})
 		.call(yAxis); //making the g element (current selection) available to the xAxis function	
-
-
 
 
 });
