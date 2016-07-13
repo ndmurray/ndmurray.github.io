@@ -22,7 +22,7 @@
 	var infoTop = 115,
 		infoLeft = w + margin.left,
 		infoWidth = 12 + "em",
-		infoHeight = 30 + "em";
+		infoHeight = 30 + "em"; 
 
 	//Transitions
 	// var maxDelay = 10000,
