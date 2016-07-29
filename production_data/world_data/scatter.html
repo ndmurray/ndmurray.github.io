@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<!--Make viewport same as screen dimensions on mobile-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Scrolling Bars</title>
+		<title>Scatter</title>
 		<link type="text/css" rel="stylesheet" href="/8step.io/dist/css/stylescatter.css"/>
 		<script type="text/javascript" src="/8step.io/bower_components/d3/d3.js"></script>
 
@@ -12,14 +12,33 @@
 	</head>
 	<body>
 		<!--Header-->
-		<div id="title-div">
-			<h2 id="title"></h2>
+		<div class="row">
+			<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="title-div">
+				<h2 id="title"></h2>
+			</div>
 		</div>
-		<!--Buttons-->
-		<div id="buttons-div">
+		
+		<!--Dropdowns-->
+		<div class="row"
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="dropdown-x">
+				<div class="dropdown">
+				    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu">
+				      <li><a href="#">HTML</a></li>
+				      <li><a href="#">CSS</a></li>
+				      <li><a href="#">JavaScript</a></li>
+				    </ul>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="dropdown-y">
+				
+			</div>
 		</div>
 		<!--Canvas-->
-		<div id="scatter-div">
+		<div class = "row">
+			<div id="scatter-div">
+			</div>
 		</div>
 		<!--Libaries-->
 		<script type="text/javascript" src="/8step.io/bower_components/d3/d3.min.js"></script>
