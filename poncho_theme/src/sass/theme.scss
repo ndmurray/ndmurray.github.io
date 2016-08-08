@@ -1,0 +1,37 @@
+////////////////////////////////////////////////////////////////////////////
+// Preloader loads first to ensure that nothing flickers...
+////////////////////////////////////////////////////////////////////////////
+
+#preloader {
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:#fff; /* change if the mask should have another color then white */
+    z-index:9999999; /* makes sure it stays on top */
+}
+
+#status {
+    width:200px;
+    height:200px;
+    position:absolute;
+    left:50%; /* centers the loading animation horizontally one the screen */
+    top:50%; /* centers the loading animation vertically one the screen */
+    background-image:url(../img/status.gif); /* path to your loading animation */
+    background-repeat:no-repeat;
+    background-position:center;
+    margin:-100px 0 0 -100px; /* is width and height divided by two */
+}
+
+@import "theme/variables-theme"; //Thats your main variable file to set up all the basic design stuff like contrast or accent color, global paddings, font families and more
+
+@import "theme/variables-base"; // These are the default variables to calcualte all the colors, values, paddings and more from your variables-theme file. Touch it only if you know what to do!
+
+@import "assets/bootstrap"; // Bootstrap default styles
+
+@import "assets/font-awesome"; // adds font awesome via scss
+
+@import "assets/owl.carousel"; 
+
+@import "theme/theme"; //your design - Add specific theme or layout styles here

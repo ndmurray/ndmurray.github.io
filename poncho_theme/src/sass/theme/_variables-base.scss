@@ -1,0 +1,138 @@
+///////////////////////////////////////////////////////////////////////////////
+//Basic Setup Beginn
+///////////////////////////////////////////////////////////////////////////////
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400);
+
+
+// Fonts and Typo
+$font-family-sans-serif:  	'Roboto', Helvetica Neue, Arial, sans-serif !default;
+$secondary-font-family:		$font-family-sans-serif;
+$font-size-base:          	14px;
+$line-height-base: 			1.6!default;
+$text-color:				#303030;
+
+
+//Padding between columns. Gets divided in half for the left and right. Also used for wrapper vertical paddings
+$grid-gutter-width:         80px !default;
+$body-bg:					#171717;
+
+//Color setup for wrappers
+$default-color:		#fff;
+$default-text:		$text-color;
+
+$contrast-color:  	#404040;
+$contrast-text:		lighten($contrast-color, 70%);
+
+$accent-color: 		#33B26E;
+$accent-text:		lighten($accent-color, 50%);
+
+$light-color:   	lighten($contrast-color, 60%);
+$light-text:		darken($light-color, 60%);
+
+$lighter-color:		lighten($contrast-color, 70%);
+$lighter-text:		darken($lighter-color, 70%);
+
+$lightest-color:	lighten($contrast-color, 73%);
+$lightest-text:		darken($lightest-color, 70%);
+
+$dark-color:		darken($contrast-color, 3%);
+$dark-text:			lighten($text-color, 50%);
+
+$darker-color:		darken($contrast-color, 12%);
+$darker-text:		lighten($text-color, 60%);
+
+$darkest-color:		#000;
+$darkest-text:		#fff;
+
+
+
+// Bootstrap color overwrites
+$brand-primary:         $accent-color;
+$btn-primary-border:	$accent-color;
+$brand-warning:         #f96332;
+
+//== Components
+//
+//## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+
+$padding-base-vertical:     ($grid-gutter-width/6);
+$padding-base-horizontal:   ($padding-base-vertical*2);
+
+$padding-large-vertical:    ($padding-base-vertical*2);
+$padding-large-horizontal:  ($padding-base-vertical*4);
+
+$padding-small-vertical:    ($padding-base-vertical*1);
+$padding-small-horizontal:  ($padding-base-vertical*3);
+
+$padding-xs-vertical:       1px !default;
+
+//Buttons 
+$btn-border-radius-base:         2px;
+$btn-border-radius-large:        2px;
+$btn-border-radius-small:        2px;
+
+$font-size-h1:            floor(($font-size-base * 7)) !default; // ~36px
+$font-size-h2:            floor(($font-size-base * 4.5)) !default; // ~30px
+$font-size-h3:            ceil(($font-size-base * 3.25)) !default; // ~24px
+$font-size-h4:            ceil(($font-size-base * 2.25)) !default; // ~18px
+$font-size-h5:            ceil(($font-size-base * 1.5)) !default;
+$font-size-h6:            ceil(($font-size-base * 1.25)) !default; // ~12px
+
+
+// Basics of a navbar
+
+$nav-link-padding:                 10px 25px !default;
+
+$navbar-height:                    ($grid-gutter-width * 1.2);
+$navbar-margin-bottom:             0px;
+$navbar-border-radius:             0px;
+$navbar-collapse-max-height:       340px !default;
+
+
+$navbar-default-color:             #000 !default;
+$navbar-default-bg:                #fff !default;
+
+// Navbar links
+$navbar-default-link-color:                #777 !default;
+$navbar-default-link-hover-color:          #333 !default;
+$navbar-default-link-hover-bg:             transparent !default;
+$navbar-default-link-active-color:         #555 !default;
+$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%) !default;
+$navbar-default-link-disabled-color:       #ccc !default;
+$navbar-default-link-disabled-bg:          transparent !default;
+
+// Navbar brand label
+$navbar-default-brand-color:               #000;
+$navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 10%) !default;
+$navbar-default-brand-hover-bg:            transparent !default;
+
+// Navbar toggle
+$navbar-default-toggle-hover-bg:           #ddd !default;
+$navbar-default-toggle-icon-bar-bg:        #888 !default;
+$navbar-default-toggle-border-color:       #ddd !default;
+
+//=== Inverted navbar
+// Reset inverted navbar basics
+$navbar-inverse-color:                      $contrast-text;
+$navbar-inverse-bg:                         $contrast-color;
+$navbar-inverse-border:                     0px solid transparent;
+
+// Inverted navbar links
+$navbar-inverse-link-color:                 $contrast-text;
+$navbar-inverse-link-hover-color:           #fff !default;
+$navbar-inverse-link-hover-bg:              transparent !default;
+$navbar-inverse-link-active-color:          $navbar-inverse-link-hover-color !default;
+$navbar-inverse-link-active-bg:             darken($navbar-inverse-bg, 10%) !default;
+$navbar-inverse-link-disabled-color:        #444 !default;
+$navbar-inverse-link-disabled-bg:           transparent !default;
+
+// Inverted navbar brand label
+$navbar-inverse-brand-color:                $contrast-text;
+$navbar-inverse-brand-hover-color:          #fff !default;
+$navbar-inverse-brand-hover-bg:             transparent !default;
+
+// Inverted navbar toggle
+$navbar-inverse-toggle-hover-bg:            #333 !default;
+$navbar-inverse-toggle-icon-bar-bg:         #fff !default;
+$navbar-inverse-toggle-border-color:        #333 !default;

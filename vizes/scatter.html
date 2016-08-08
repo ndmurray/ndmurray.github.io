@@ -1,0 +1,76 @@
+<DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<!--Make viewport same as screen dimensions on mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Scatter</title>
+		<!--Bootstrap css-->
+			<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+			<!-- Optional theme -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+		<!--Native styles-->
+		<link type="text/css" rel="stylesheet" href="/8step.io/dist/css/stylescatter.css"/>
+
+			
+	</head>
+	<body>
+		<!--Header-->
+		<div class="row">
+			<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" id="title-div">
+				<h2 id="chart-title"></h2>
+			</div>
+		</div>
+		
+		<!--Dropdowns http://bit.ly/1PXMh7I-->
+		<div class="row" id="dropdown-container">
+			<div class="dropdown" id="dropdown-x">
+			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">X-Axis
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+			      <li><a href="#">HTML</a></li>
+			      <li><a href="#">CSS</a></li>
+			      <li><a href="#">JavaScript</a></li>
+			    </ul>
+			</div>
+			<div class="dropdown" id="dropdown-y">
+			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Y-Axis
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+			      <li><a href="#">Gini index</a></li>
+			      <li><a href="#">Press freedom</a></li>
+			      <li><a href="#">Male to female ratio</a></li>
+			      <li><a href="#">Life expectancy</a></li>
+			      <li><a href="#">Female to male enrollment ratio</a></li>
+			    </ul>
+			</div>
+			<div class="dropdown" id="dropdown-r">
+			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dot Size
+			    <span class="caret"></span></button>
+			    <ul class="dropdown-menu">
+			      <li><a href="#">HTML</a></li>
+			      <li><a href="#">CSS</a></li>
+			      <li><a href="#">JavaScript</a></li>
+			    </ul>
+			</div>
+		</div>
+	
+		<!--Canvas-->
+		<div class = "row">
+			<div id="scatter-div">
+			</div>
+		</div>
+		<!--Libaries-->
+		<script type="text/javascript" src="/8step.io/bower_components/d3/d3.min.js"></script>
+		<script type="text/javascript" src="/8step.io/bower_components/jQuery/dist/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<!--Add ons (modified d3-tip)-->
+		<script type="text/javascript" src="/8step.io/bower_components/d3-tip-modified/index.js"></script>
+		<!--Native apps-->
+		<script type="text/javascript" src="/8step.io/js/scatter.js"></script>
+	</body>
+</html>
+

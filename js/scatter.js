@@ -1,7 +1,7 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 40, right: 140, bottom: 40, left: 40},
+	var	margin = {top: 40, right: 140, bottom: 40, left: 60},
 		w = parseInt(d3.select('#scatter-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#scatter-div').style('height'),10),
@@ -34,12 +34,12 @@
 
 
 //Text for title 
-	var titleText = d3.select("h2#title").append("text.title-text")
+	var titleText = d3.select("h2#chart-title").append("text.title-text")
 		.text("Scatter!");
 
 
 //Begin data function
-d3.csv("datadev/world.csv",function(error,data) {
+d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);
@@ -125,6 +125,7 @@ d3.csv("datadev/world.csv",function(error,data) {
 //Guide lines from: http://bit.ly/29FRNP1
 	var guideLines = function(d) { 
 
+		//horizontal
 		svg.append("g")
 			.classed("guide",true)
 			.append("line")
@@ -134,6 +135,7 @@ d3.csv("datadev/world.csv",function(error,data) {
 				.attr("x2",d3.select(".a-dot").attr("cx"))
 				.attr("stroke",d3.select(".a-dot").attr("fill"));
 
+		//vertical
 		svg.append("g")
 			.classed("guide",true)
 			.append("line")
@@ -151,11 +153,12 @@ d3.csv("datadev/world.csv",function(error,data) {
 	var mouseOn = function() {
 		var current = this;
 		d3.select(current)
+			.attr("opacity",1.0)
 			.classed("a-dot",true)
 			.classed("dots",false);
 
 		guideLines();
-			
+	
 		d3.selectAll("circle.dots").attr("opacity", 0.15);
 
 	};
@@ -206,11 +209,10 @@ d3.csv("datadev/world.csv",function(error,data) {
 					else if (d.region == "East Asia & Pacific") { return "#8CD19D"; } //sea foam
 					else if (d.region == "Latin America & Caribbean") { return "#FF0D00"; } //red
 					else { return "black"; }
-				}
+				},
+				"opacity": 0.85
 			})
-					.call(dotTips) //must be called on canvas -  http://bit.ly/22HClnd
-
-
+			.call(dotTips) // http://bit.ly/22HClnd
 			//using enter and leave as opposed to over and out because mouseenter and mouesleave don't bubble up to the dots group 
 			.on('mouseenter',dotTips.show)
 			//for opacity on hover, for some reason two 'mouseenter' listeners doesn't work

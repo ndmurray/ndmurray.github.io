@@ -28,8 +28,9 @@ body {
 
 /*Header styling*/
 
-h2#title {
+h2#chart-title {
 	font-size: 32px;
+  margin-left: 20px;
 }
 
 /*Canvas container*/
@@ -43,10 +44,68 @@ div#scatter-div {
     overflow: hidden;
 }
 
-/*Dots*/
+/*Dropdowns*/
+div#dropdown-container {
+  margin-left: 20px;
+}
 
-circle.a-dot:hover {
-	opacity: 0.85;
+div.dropdown {
+  display: inline-block;
+  width: 112px;
+  background-image: linear-gradient(to bottom,$tooltip-background 0,$tooltip-background 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
+
+}
+
+button.btn-primary {
+  border: none;
+  border-color: $tooltip-background;
+  border-radius: 0px;
+  background-color: $tooltip-background;
+  background-image: none;
+  /*background-image: linear-gradient(to bottom,$tooltip-background 0,$tooltip-background 100%);*/
+  text-align: left;
+  width: 116px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
+
+}
+
+.btn-primary:focus,
+.btn-primary:hover {
+  border-color: $tooltip-background;
+  background-color: $tooltip-background;
+
+}
+
+/*on button click*/
+.btn-primary.active, .btn-primary:active {
+    background-color: $tooltip-background;
+    border-color: $tooltip-background;
+    background-position: 0 -15px;
+}
+
+
+.open>.dropdown-toggle.btn-primary,
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
+   
+    background-color: $tooltip-background;
+    border-color: $tooltip-background;
+}
+
+
+/*override silly blue outline on click*/
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+    outline: 0;
+}
+
+/*the menu*/
+
+ul.dropdown-menu {
+  top: 150%;
+  border-radius: 0px;
+  min-width: 148px;
+  
+
 }
 
 /*Axes*/

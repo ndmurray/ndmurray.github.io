@@ -3,7 +3,7 @@ var margin = {
   top: 40,
   right: 140,
   bottom: 40,
-  left: 40
+  left: 60
 },
     w = parseInt(d3.select('#scatter-div').style('width'), 10),
     w = w - margin.left - margin.right,
@@ -25,8 +25,8 @@ var infoTop = 115,
     infoLeft = w + margin.left,
     infoWidth = 12 + "em",
     infoHeight = 30 + "em";
-var titleText = d3.select("h2#title").append("text.title-text").text("Scatter!");
-d3.csv("datadev/world.csv", function(error, data) {
+var titleText = d3.select("h2#chart-title").append("text.title-text").text("Scatter!");
+d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error, data) {
   if (error) {
     console.log(error);
   } else {
@@ -79,7 +79,7 @@ d3.csv("datadev/world.csv", function(error, data) {
   };
   var mouseOn = function() {
     var current = this;
-    d3.select(current).classed("a-dot", true).classed("dots", false);
+    d3.select(current).attr("opacity", 1.0).classed("a-dot", true).classed("dots", false);
     guideLines();
     d3.selectAll("circle.dots").attr("opacity", 0.15);
   };
@@ -128,7 +128,8 @@ d3.csv("datadev/world.csv", function(error, data) {
       } else {
         return "black";
       }
-    }
+    },
+    "opacity": 0.85
   }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
   svg.append("g").attr({
     class: "xaxis",

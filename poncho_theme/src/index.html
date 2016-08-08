@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Poncho Demos - Bootstrap Landingpage Template</title>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+      <!-- The CSS
+    ================================================== -->
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+  </head>
+
+  <body id="skrollr-body" data-spy="scroll" data-target=".navbar" class="layout-boxed-no" > <!-- "layout-boxed" class for boxed layout "layout-boxed-no" class for full size wrapper -->
+    
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="status">&nbsp;</div>
+    </div>
+
+
+<!--******************************************************
+******************** The Cards wrapper
+****************************************************** -->
+  <div id="blog"></div>
+    <div class="wrapper wrapper-lg wrapper-lightest" id="team">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center wrapper-xs wrapper-no-padding-top">
+              <span class="subheading">Template Demos</span>
+              <h2>Poncho Bootstrap Landingpage Template</h2>
+              <p class="lead">Welcome to the Poncho Bootstrap Landingpage Template Demo Website. Select a demo below to preview the template.</p>
+              <p>By <a href="http://www.templatedeck.com">templatedeck.com</a></p>
+            </div>
+          </div>
+          <div class="row">
+
+
+              <div class="col-md-4  wow fadeInLeft">
+                <div class="row">
+                  <div class="col-md-10 wrapper-darkest wrapper-xs wrapper-shadow no-gutter wrapper-no-padding-bottom">
+                    <a class="img-link" href="index_makers.html" target="_blank"><img src="img/poncho_maker_screen_sm.jpg" class="pull-top img-responsive" width="100%"/></a>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-md-4  wow fadeInDown">
+                <div class="row ">
+                  <div class="col-md-10 col-md-offset-1 wrapper-darkest wrapper-xs wrapper-shadow no-gutter wrapper-no-padding-bottom">
+                    <a class="img-link" href="index_developers.html" target="_blank"><img src="img/poncho_developer_screen_sm.jpg" class="pull-top img-responsive" width="100%"/></a>
+                  </div>
+                </div>
+
+                <div class="row" style="margin-top:40px;">
+                  <div class="col-md-10 col-md-offset-1 wrapper-darkest wrapper-xs wrapper-shadow no-gutter wrapper-no-padding-bottom">
+                    <a class="img-link" href="single.html" target="_blank"><img src="img/poncho_single.jpg" class="pull-top img-responsive" width="100%"/></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4  wow fadeInRight">
+                <div class="row ">
+                  <div class="col-md-10 col-md-offset-2 wrapper-darkest wrapper-xs wrapper-shadow no-gutter wrapper-no-padding-bottom">
+                    <a  class="img-link" href="index_adventurers.html" target="_blank"><img src="img/poncho_adventurer_screen_sm.jpg" class="pull-top img-responsive" width="100%"/></a>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+      </div>
+    </div>
+
+<!--******************************************************
+******************** assets and scripts
+****************************************************** -->
+
+  
+
+    <!-- All core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js" type="text/javascript"></script> <!-- A must-have - dont remove it! -->
+    <script src="js/bootstrap.min.js" type="text/javascript"></script> <!-- A must-have - dont remove it! -->
+    <script src="js/owl.carousel.min.js" type="text/javascript"></script> <!-- The slider script - remove if you don´t use it -->
+    <script src="js/smoothscroll.min.js" type="text/javascript"></script> <!-- smoothscrolling script - remove if you don´t use it -->
+    <script src="js/skrollr.min.js" type="text/javascript"></script> <!-- The scolling script for parallax effects - remove if you don´t use it -->
+    <script src="js/validator.min.js" type="text/javascript"></script> <!-- The script for particle effects - remove if you don´t use it -->
+    <script src="js/wow.min.js" type="text/javascript"></script> <!-- The script for particle effects - remove if you don´t use it -->
+
+
+
+    <!-- Init the Owl Carousel slider script - remove this code if it is not in use -->
+    <script type="text/javascript">
+    $('.owl-carousel').owlCarousel({
+        animateOut: 'fadeOut',
+        autoHeight:true,
+        items:1,
+        loop: true,
+        autoplay: true,
+        autoplaySpeed: 4000,
+        margin:0,
+        stagePadding:0,
+        smartSpeed:1000
+    });
+    </script>
+
+    <!-- Init wow.js for animations -->
+    <script>
+      wow = new WOW({
+        boxClass:     'wow',      // default
+        animateClass: 'animated', // default
+        offset:       100,          // default
+        mobile:       false,       // default
+        live:         true        // default
+        }
+        )
+      wow.init();
+    </script>
+    
+    <!-- Init the parallax script - if you don´t load it above remove it here too -->
+    <script type="text/javascript"> 
+        var s = skrollr.init();
+    </script>
+
+        <!-- Preloader -->
+    <script type="text/javascript">
+        //<![CDATA[
+            $(window).load(function() { // makes sure the whole site is loaded
+                $('#status').fadeOut(); // will first fade out the loading animation
+                $('#preloader').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
+                $('body').delay(350).css({'overflow':'visible'});
+            })
+        //]]>
+    </script>
+
+  </body>
+</html>
