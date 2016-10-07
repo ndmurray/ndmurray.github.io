@@ -27,7 +27,7 @@ var titleText = d3.select("h2#title").append("text.title-text").text("Incidents 
   class: "title-text",
   "font-size": "24px"
 });
-d3.csv("datadev/crime.csv", function(error, data) {
+d3.csv("/8step.io/production_data/crime_data/datadev/crime.csv", function(error, data) {
   if (error) {
     console.log(error);
   } else {

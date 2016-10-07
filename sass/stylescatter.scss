@@ -8,13 +8,15 @@ $page-background: #18071E;
 
 /*Header Buttons*/
 $button-color1: #855607;
-$button-color1-hover: rgb(209,136,10); 
+$button-color1-hover: rgb(209,136,10);
+$dropdown-background: #e2e2e2;
 
 /*Chart colors*/
 $dot-color: rgb(132,22,6)/*#D63510*/; 
 $dot-color-hover: #B11E07;
 $tooltip-color: #F7F7F7;
 $tooltip-background: #720021;
+
 
 
 /*******************STYLES****************************************************************/
@@ -34,7 +36,7 @@ h2#chart-title {
 }
 
 /*Canvas container*/
-
+ 
 div#scatter-div {
     display: inline-block;
     position: relative;
@@ -43,6 +45,31 @@ div#scatter-div {
     vertical-align: top;
     overflow: hidden;
 }
+
+/*Axes*/
+
+.xaxis path, .xaxis line,
+.yaxis path, .yaxis line {
+	fill: none;
+	stroke: $default-color;
+	shape-rendering: crispEdges;
+}
+
+.xaxis text, .yaxis text {
+	fill: $default-color;
+	font-family: $default-font;
+	font-size: 12px;
+}
+
+/*Guidelines*/
+
+.guide line {
+  /*fill: $sdefault-color;*/
+  /*stroke: $tooltip-background;*/
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
 
 /*Dropdowns*/
 div#dropdown-container {
@@ -92,7 +119,6 @@ button.btn-primary {
     border-color: $tooltip-background;
 }
 
-
 /*override silly blue outline on click*/
 .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
     outline: 0;
@@ -101,37 +127,11 @@ button.btn-primary {
 /*the menu*/
 
 ul.dropdown-menu {
-  top: 150%;
   border-radius: 0px;
   min-width: 148px;
-  
+  background-color: $dropdown-background;
 
 }
-
-/*Axes*/
-
-.xaxis path, .xaxis line,
-.yaxis path, .yaxis line {
-	fill: none;
-	stroke: $default-color;
-	shape-rendering: crispEdges;
-}
-
-.xaxis text, .yaxis text {
-	fill: $default-color;
-	font-family: $default-font;
-	font-size: 12px;
-}
-
-/*Guidelines*/
-
-.guide line {
-  /*fill: $sdefault-color;*/
-  /*stroke: $tooltip-background;*/
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-}
-
 
 /*Sidebar made from a d3-tips*/
 

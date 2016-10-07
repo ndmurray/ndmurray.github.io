@@ -74,6 +74,12 @@ div#buttonsdiv button:hover {
 	
 }
 
+/*override silly blue outline on click*/
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+    outline: 0;
+}
+
+
 /******Responsive SVG******************************************************/
 
 /**************************************************************Bars Viz********/

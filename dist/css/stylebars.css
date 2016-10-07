@@ -48,6 +48,10 @@ div#buttonsdiv button {
 div#buttonsdiv button:hover {
   background-color: #d1880a; }
 
+/*override silly blue outline on click*/
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+  outline: 0; }
+
 /******Responsive SVG******************************************************/
 /**************************************************************Bars Viz********/
 div#barsdiv {

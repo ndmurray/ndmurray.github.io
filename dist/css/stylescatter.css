@@ -23,6 +23,25 @@ div#scatter-div {
   vertical-align: top;
   overflow: hidden; }
 
+/*Axes*/
+.xaxis path, .xaxis line,
+.yaxis path, .yaxis line {
+  fill: none;
+  stroke: #F7F7F7;
+  shape-rendering: crispEdges; }
+
+.xaxis text, .yaxis text {
+  fill: #F7F7F7;
+  font-family: "Montserrat";
+  font-size: 12px; }
+
+/*Guidelines*/
+.guide line {
+  /*fill: $sdefault-color;*/
+  /*stroke: $tooltip-background;*/
+  stroke-width: 1;
+  shape-rendering: crispEdges; }
+
 /*Dropdowns*/
 div#dropdown-container {
   margin-left: 20px; }
@@ -66,28 +85,9 @@ button.btn-primary {
 
 /*the menu*/
 ul.dropdown-menu {
-  top: 150%;
   border-radius: 0px;
-  min-width: 148px; }
-
-/*Axes*/
-.xaxis path, .xaxis line,
-.yaxis path, .yaxis line {
-  fill: none;
-  stroke: #F7F7F7;
-  shape-rendering: crispEdges; }
-
-.xaxis text, .yaxis text {
-  fill: #F7F7F7;
-  font-family: "Montserrat";
-  font-size: 12px; }
-
-/*Guidelines*/
-.guide line {
-  /*fill: $sdefault-color;*/
-  /*stroke: $tooltip-background;*/
-  stroke-width: 1;
-  shape-rendering: crispEdges; }
+  min-width: 148px;
+  background-color: #e2e2e2; }
 
 /*Sidebar made from a d3-tips*/
 /******************************************Tooltip Styling. Edited from the original 

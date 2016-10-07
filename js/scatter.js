@@ -32,13 +32,12 @@
 	//     hoverDuration = 200;
 
 
-
-//Text for title 
+//Text for title  
 	var titleText = d3.select("h2#chart-title").append("text.title-text")
-		.text("Scatter!");
+		.text("Political Stability (X) vs Control of Corruption(Y)");
 
 
-//Begin data function
+//Begin data function 
 d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,data) {
 			
 	if(error) {
@@ -64,6 +63,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	var dataY = function(d) { return 100 - +d.press; };
 	//var dataY = function(d) { return 100 - +d.press; };
 	var dataR = function(d) { return +d.gdphead; };
+
 
 //Tooltips - http://bit.ly/22HClnd
 	var dotTips = d3.tip()
@@ -220,6 +220,13 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.on('mouseleave',dotTips.hide)
 			.on('mouseout',mouseOff);
 
+//Update data on dropdown select - http://bit.ly/2dFOIho
+	var selectX = d3.select("#dropdown-x li a").on("click", function() {
+		UpdateX();
+	});
+
+//function(d) { return +d.polistab; };
+
 //Call axes
 
 	//X axis
@@ -237,6 +244,38 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			transform: "translate(" + yaxisShiftX + "," + yaxisShiftY + ")" 
 		})
 		.call(yAxis); //making the g element (current selection) available to the xAxis function	
+
+//Update X
+
+	var UpdateX = function() {
+
+		//Update dataX variable
+		var xValue = d3.select(".x-choice").attr('value');
+		console.log(xValue);
+
+		var dataX = function(d) { return eval(xValue) }; //eval to evaluate the string pulled from the HTML element
+
+		//Update Xscale
+		var xScale = d3.scale.linear()
+			.domain([d3.min(worldData,function(d) { return dataX(d); }), d3.max(worldData,function(d) { return dataX(d); })])
+			//Using min as min values in our data in some cases are negative
+			.range([0, w])
+			.nice();
+
+		//Update Dot placement
+		d3.select("#dots-group").selectAll("circle")
+			.filter(function(d) { return dataX(d); }) //filters out nulls
+			.transition()
+			.duration(1000)
+			.attr({
+					cx: function(d) { return xScale(dataX(d)); }
+				})
+			
+
+
+			
+	};
+
 
 
 });

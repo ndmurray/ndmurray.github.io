@@ -25,7 +25,7 @@ var infoTop = 115,
     infoLeft = w + margin.left,
     infoWidth = 12 + "em",
     infoHeight = 30 + "em";
-var titleText = d3.select("h2#chart-title").append("text.title-text").text("Scatter!");
+var titleText = d3.select("h2#chart-title").append("text.title-text").text("Political Stability (X) vs Control of Corruption(Y)");
 d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error, data) {
   if (error) {
     console.log(error);
@@ -131,6 +131,9 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     },
     "opacity": 0.85
   }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
+  var selectX = d3.select("#dropdown-x li a").on("click", function() {
+    UpdateX();
+  });
   svg.append("g").attr({
     class: "xaxis",
     transform: "translate(" + xaxisShiftX + "," + xaxisShiftY + ")"
@@ -139,4 +142,21 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     class: "yaxis",
     transform: "translate(" + yaxisShiftX + "," + yaxisShiftY + ")"
   }).call(yAxis);
+  var UpdateX = function() {
+    var xValue = d3.select(".x-choice").attr('value');
+    console.log(xValue);
+    var dataX = function(d) {
+      return eval(xValue);
+    };
+    var xScale = d3.scale.linear().domain([d3.min(worldData, function(d) {
+      return dataX(d);
+    }), d3.max(worldData, function(d) {
+      return dataX(d);
+    })]).range([0, w]).nice();
+    d3.select("#dots-group").selectAll("circle").filter(function(d) {
+      return dataX(d);
+    }).transition().duration(1000).attr({cx: function(d) {
+        return xScale(dataX(d));
+      }});
+  };
 });
