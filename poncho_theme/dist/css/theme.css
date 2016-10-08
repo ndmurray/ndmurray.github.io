@@ -1,5 +1,38 @@
 @charset "UTF-8";
 @import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400);
+
+/*8Step Added styles*/
+
+/*Nav and landing page section*/
+
+img#nav-image {
+    width: 7em;
+    margin: auto;
+    position: absolute;
+    left: 0px;
+    top: 4px;
+}
+
+p#nav-brand {
+  margin-left: 5.2em;
+  text-transform: none;
+  margin-top: 0.2em;
+}
+
+h1#headline {
+  text-align: left;
+  margin-left: 0.4em;
+  margin-top: 0.6em;
+  font-size: 66px;
+}
+
+
+
+
+
+/*End 8step added styles*/
+
+
 #preloader {
   position: fixed;
   top: 0;
@@ -3848,7 +3881,8 @@ tbody.collapse.in {
       float: left;
       margin: 0; }
       .navbar-nav > li {
-        float: left; }
+        float: left;
+        font-size: 16px; }
         .navbar-nav > li > a {
           padding-top: 37px;
           padding-bottom: 37px; } }
@@ -3991,6 +4025,10 @@ tbody.collapse.in {
     background-color: #eeeeee;
     color: #555; }
   @media (max-width: 767px) {
+    /*NM adding background shading for dropdown*/
+    .navbar-inverse .navbar-collapse,
+    .navbar-inverse .navbar-form {
+    background-color: rgba(0,0,0,0.6); }
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
       color: #777; }
       .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
@@ -8408,7 +8446,7 @@ a.navbar-brand {
   text-transform: uppercase;
   letter-spacing: .1em;
   font-weight: 400;
-  font-size: 1.2em; }
+  font-size: 1.4em; }
 
 .navbar-nav > li > a {
   border-right: 1px solid rgba(255, 255, 255, 0.07);
