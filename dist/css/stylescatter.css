@@ -110,11 +110,11 @@ p#tiphead {
   font-size: 1.5em;
   margin-top: 10px; }
 
-p#tipbody {
-  color: #F7F7F7; }
+p.tip-body {
+  color: #e5fd69; }
 
 p.tip-subhead {
-  color: #e5fd69;
+  color: #F7F7F7;
   margin-bottom: 10px; }
 
 /* Creates a small triangle extender for the tooltip */

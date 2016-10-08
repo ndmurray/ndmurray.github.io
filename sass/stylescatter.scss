@@ -160,12 +160,12 @@ p#tiphead {
 	margin-top: 10px;
 }
 
-p#tipbody {
-	color: $tooltip-color;
+p.tip-body {
+	color: #e5fd69;
 }
 
 p.tip-subhead {
-	color: #e5fd69;
+	color: $tooltip-color;
 	margin-bottom: 10px;
 }
 

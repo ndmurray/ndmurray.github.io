@@ -51,7 +51,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     width: infoWidth,
     height: infoHeight
   }).direction('e').html(function(d) {
-    return "<p id='tiphead'>" + d.country + "</p><p id='tipbody'><p class='tip-subhead'>Income Group:</p> " + (d.ig) + "</p>" + "</p><p id='tipbody'><p class='tip-subhead'>Region:</p> " + (d.region) + "</p>";
+    return "<p id='tiphead'>" + d.country + "</p><p class='tip-subhead'>Income Group:</p><p class='tip-body'>" + (d.ig) + "</p>" + "<p class='tip-subhead'>Region:</p><p class='tip-body'>" + (d.region) + "</p>";
   });
   var svg = d3.select("#scatter-div").append("svg").attr({
     width: w + margin.left + margin.right,
