@@ -12,7 +12,8 @@ body {
 /*Header styling*/
 h2#chart-title {
   font-size: 32px;
-  margin-left: 20px; }
+  margin-left: 1em;
+  margin-bottom: 1em; }
 
 /*Canvas container*/
 div#scatter-div {
@@ -44,7 +45,7 @@ div#scatter-div {
 
 /*Dropdowns*/
 div#dropdown-container {
-  margin-left: 20px; }
+  margin-left: 2.4em; }
 
 div.dropdown {
   display: inline-block;

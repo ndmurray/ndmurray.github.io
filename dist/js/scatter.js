@@ -111,20 +111,16 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     },
     "pointer-events": "all",
     "fill": function(d) {
-      if (d.region == "Europe & Central Asia") {
+      if (d.ig == "High income: nonOECD") {
         return "#CEE879";
-      } else if (d.region == "Middle East & North Africa") {
+      } else if (d.ig == "Low income") {
         return "#FFA700";
-      } else if (d.region == "Sub-Saharan Africa") {
+      } else if (d.ig == "Upper middle income") {
         return "#54EBBA";
-      } else if (d.region == "North America") {
+      } else if (d.ig == "Lower middle income") {
         return "#1DC28C";
-      } else if (d.region == "South Asia") {
+      } else if (d.ig == "High income: OECD") {
         return "#FF93D2";
-      } else if (d.region == "East Asia & Pacific") {
-        return "#8CD19D";
-      } else if (d.region == "Latin America & Caribbean") {
-        return "#FF0D00";
       } else {
         return "black";
       }

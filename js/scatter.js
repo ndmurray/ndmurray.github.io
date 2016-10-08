@@ -201,13 +201,13 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 					//colors comaination of the following third party palletes
 					//http://www.colourlovers.com/palette/360922/u.make.me.happy
 					//http://www.colourlovers.com/palette/1689724/%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F					
-					if (d.region == "Europe & Central Asia") { return "#CEE879"; } //yelllow green
-					else if (d. region == "Middle East & North Africa") { return "#FFA700"; }// yellow
-					else if (d. region == "Sub-Saharan Africa") { return "#54EBBA"; } //light teal
-					else if (d.region == "North America") { return "#1DC28C"; } //blue
-					else if (d.region == "South Asia") { return "#FF93D2"; } //light pink
-					else if (d.region == "East Asia & Pacific") { return "#8CD19D"; } //sea foam
-					else if (d.region == "Latin America & Caribbean") { return "#FF0D00"; } //red
+					if (d.ig == "High income: nonOECD") { return "#CEE879"; } //yelllow green
+					else if (d.ig == "Low income") { return "#FFA700"; }// yellow
+					else if (d.ig == "Upper middle income") { return "#54EBBA"; } //light teal
+					else if (d.ig == "Lower middle income") { return "#1DC28C"; } //blue
+					else if (d.ig == "High income: OECD") { return "#FF93D2"; } //light pink
+					// else if (d.ig == "East Asia & Pacific") { return "#8CD19D"; } //sea foam
+					// else if (d.ig == "Latin America & Caribbean") { return "#FF0D00"; } //red
 					else { return "black"; }
 				},
 				"opacity": 0.85
