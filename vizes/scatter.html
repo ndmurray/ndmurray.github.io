@@ -9,6 +9,10 @@
 			<!-- Latest compiled and minified CSS -->
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+			<!--select element plugin http://bit.ly/1fXdaIa-->
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+
 			<!-- Optional theme
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
 
@@ -25,15 +29,19 @@
 			</div>
 		</div>
 		
-		<!--Dropdowns http://bit.ly/1PXMh7I-->
 		<div class="row" id="dropdown-container">
 			<div class="dropdown">
 			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">X-Axis
 			    <span class="caret"></span></button>
 			    <ul class="dropdown-menu" id="dropdown-x">
-			      <li><a href="#" id="x-choice-1" value="+d.gini">HTML</a></li>
-			      <li><a href="#">CSS</a></li>
-			      <li><a href="#">JavaScript</a></li>
+			      <li><a href="#" class="x-choice" value="+d.gini">Gini index</a></li>
+			      <li><a href="#" class="x-choice" value="+d.press">Press freedom</a></li>
+			      <li><a href="#" class="x-choice" value="+d.mfr">Male to female ratio</a></li>
+			      <li><a href="#" class="x-choice" value="+d.life_exp">Life expectancy</a></li>
+			      <li><a href="#" class="x-choice" value="+d.gre">Female enrollment ratio</a></li>
+			      <li><a href="#" class="x-choice" value="+d.corruption">Control of corruption</a></li>
+			      <li><a href="#" class="x-choice" value="+d.polistab">Political stability</a></li>
+			      <li><a href="#" class="x-choice" value="+d.gdphead">GDP per Capita</a></li>
 			    </ul>
 			</div>
 			<div class="dropdown">
@@ -71,6 +79,7 @@
 		
 		<!--Add ons (modified d3-tip)-->
 		<script type="text/javascript" src="/8step.io/bower_components/d3-tip-modified/index.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 		<!--Native apps-->
 		<script type="text/javascript" src="/8step.io/js/scatter.js"></script>
 	</body>

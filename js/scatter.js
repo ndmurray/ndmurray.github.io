@@ -151,8 +151,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 //Mouseover events
 
 	var mouseOn = function() {
-		var current = this;
-		d3.select(current)
+		d3.select(this)
 			.attr("opacity",1.0)
 			.classed("a-dot",true)
 			.classed("dots",false);
@@ -164,8 +163,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	};
 	
 	var mouseOff = function() {
-		var current = this;
-		d3.select(current)
+		d3.select(this)
 			.classed("a-dot",false)
 			.classed("dots",true);
 
@@ -220,12 +218,6 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.on('mouseleave',dotTips.hide)
 			.on('mouseout',mouseOff);
 
-//Update data on dropdown select - http://bit.ly/2dFOIho
-	var selectX = d3.select("#dropdown-x li a").on("click", function() {
-		UpdateX();
-	});
-
-//function(d) { return +d.polistab; };
 
 //Call axes
 
@@ -247,10 +239,12 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 //Update X
 
-	var UpdateX = function() {
+
+//Update data on dropdown select - http://bit.ly/2dFOIho
+	var selectX = d3.selectAll(".x-choice").on("click", function() {
 
 		//Update dataX variable
-		var xValue = d3.select(".x-choice").attr('value');
+		var xValue = d3.select(this).attr('value');
 		console.log(xValue);
 
 		var dataX = function(d) { return eval(xValue) }; //eval to evaluate the string pulled from the HTML element
@@ -274,7 +268,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 
 			
-	};
+	});
 
 
 

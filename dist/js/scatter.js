@@ -78,14 +78,12 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     svg.append("g").classed("guide", true).append("line").attr("y1", h).attr("y2", d3.select(".a-dot").attr("cy")).attr("x1", d3.select(".a-dot").attr("cx")).attr("x2", d3.select(".a-dot").attr("cx")).attr("stroke", d3.select(".a-dot").attr("fill"));
   };
   var mouseOn = function() {
-    var current = this;
-    d3.select(current).attr("opacity", 1.0).classed("a-dot", true).classed("dots", false);
+    d3.select(this).attr("opacity", 1.0).classed("a-dot", true).classed("dots", false);
     guideLines();
     d3.selectAll("circle.dots").attr("opacity", 0.15);
   };
   var mouseOff = function() {
-    var current = this;
-    d3.select(current).classed("a-dot", false).classed("dots", true);
+    d3.select(this).classed("a-dot", false).classed("dots", true);
     d3.selectAll(".guide").remove();
     d3.selectAll("circle.dots").attr("opacity", 0.85);
   };
@@ -127,9 +125,6 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     },
     "opacity": 0.85
   }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
-  var selectX = d3.select("#dropdown-x li a").on("click", function() {
-    UpdateX();
-  });
   svg.append("g").attr({
     class: "xaxis",
     transform: "translate(" + xaxisShiftX + "," + xaxisShiftY + ")"
@@ -138,8 +133,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     class: "yaxis",
     transform: "translate(" + yaxisShiftX + "," + yaxisShiftY + ")"
   }).call(yAxis);
-  var UpdateX = function() {
-    var xValue = d3.select(".x-choice").attr('value');
+  var selectX = d3.selectAll(".x-choice").on("click", function() {
+    var xValue = d3.select(this).attr('value');
     console.log(xValue);
     var dataX = function(d) {
       return eval(xValue);
@@ -154,5 +149,5 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     }).transition().duration(1000).attr({cx: function(d) {
         return xScale(dataX(d));
       }});
-  };
+  });
 });
