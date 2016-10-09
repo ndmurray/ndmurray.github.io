@@ -200,7 +200,13 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	var dataY = function(d) { return 100 - +d.press; };
 	//var dataY = function(d) { return 100 - +d.press; };
 	var dataR = function(d) { return +d.gdphead; };
+	console.log(dataX.toString());
+	// //Variable display names
+	// titleX = function(d) {
+	// 	console.log(dataX.toString());
+	// };
 
+	// titleX();
 
 //Tooltips - http://bit.ly/22HClnd
 	var dotTips = d3.tip()
@@ -210,8 +216,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		//size and positioning values in .style not .attr bc tooltip is a div, not svg.
 		.direction('e')
   		.html(function(d) {
-  		  return "<p id='tiphead'>" + d.country  + "</p><p id='tipbody'><p class='tip-subhead'>Income Group:</p> " + (d.ig) + "</p>"
-  		   + "</p><p id='tipbody'><p class='tip-subhead'>Region:</p> " + (d.region) + "</p>";
+  		  return "<p id='tiphead'>" + d.country  + "</p><p class='tip-subhead'>Income Group:</p><p class='tip-body'>" + (d.ig) + "</p>"
+  		   + "<p class='tip-subhead'>Region:</p><p class='tip-body'>" + (d.region) + "</p>";
  		 });
 
 
@@ -242,7 +248,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	//Y scale
 	var yScale = d3.scale.linear()
 		.domain([d3.max(worldData,function(d) { return dataY(d); }),d3.min(worldData,function(d) { return dataY(d); })])
-		.range([0, h]);
+		.range([0, h])
+		.nice();
 
 	//Radius scale
 	var rScale = d3.scale.linear()
@@ -288,8 +295,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 //Mouseover events
 
 	var mouseOn = function() {
-		var current = this;
-		d3.select(current)
+		d3.select(this)
 			.attr("opacity",1.0)
 			.classed("a-dot",true)
 			.classed("dots",false);
@@ -301,8 +307,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	};
 	
 	var mouseOff = function() {
-		var current = this;
-		d3.select(current)
+		d3.select(this)
 			.classed("a-dot",false)
 			.classed("dots",true);
 
@@ -338,13 +343,13 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 					//colors comaination of the following third party palletes
 					//http://www.colourlovers.com/palette/360922/u.make.me.happy
 					//http://www.colourlovers.com/palette/1689724/%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F					
-					if (d.region == "Europe & Central Asia") { return "#CEE879"; } //yelllow green
-					else if (d. region == "Middle East & North Africa") { return "#FFA700"; }// yellow
-					else if (d. region == "Sub-Saharan Africa") { return "#54EBBA"; } //light teal
-					else if (d.region == "North America") { return "#1DC28C"; } //blue
-					else if (d.region == "South Asia") { return "#FF93D2"; } //light pink
-					else if (d.region == "East Asia & Pacific") { return "#8CD19D"; } //sea foam
-					else if (d.region == "Latin America & Caribbean") { return "#FF0D00"; } //red
+					if (d.ig == "High income: nonOECD") { return "#CEE879"; } //yelllow green
+					else if (d.ig == "Low income") { return "#FFA700"; }// yellow
+					else if (d.ig == "Upper middle income") { return "#54EBBA"; } //light teal
+					else if (d.ig == "Lower middle income") { return "#1DC28C"; } //blue
+					else if (d.ig == "High income: OECD") { return "#FF93D2"; } //light pink
+					// else if (d.ig == "East Asia & Pacific") { return "#8CD19D"; } //sea foam
+					// else if (d.ig == "Latin America & Caribbean") { return "#FF0D00"; } //red
 					else { return "black"; }
 				},
 				"opacity": 0.85
@@ -357,12 +362,6 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.on('mouseleave',dotTips.hide)
 			.on('mouseout',mouseOff);
 
-//Update data on dropdown select - http://bit.ly/2dFOIho
-	var selectX = d3.select("#dropdown-x li a").on("click", function() {
-		UpdateX();
-	});
-
-//function(d) { return +d.polistab; };
 
 //Call axes
 
@@ -382,32 +381,84 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		})
 		.call(yAxis); //making the g element (current selection) available to the xAxis function	
 
-//Update X
 
-	var UpdateX = function() {
+
+//Update data on dropdown select - http://bit.ly/2dFOIho
+
+
+//Update X
+	d3.selectAll(".x-choice").on("click", function() {
 
 		//Update dataX variable
-		var xValue = function(d) { return d3.select(this).attr('value');};
+		var xValue = d3.select(this).attr('value');
+		console.log(xValue);
 
-		var dataX = function(d) { return xValue };
+		var dataX = function(d) { return eval(xValue) }; //eval to evaluate the string pulled from the HTML element
+		
 
-		//Update Xscale
+		//Update xScale
 		var xScale = d3.scale.linear()
 			.domain([d3.min(worldData,function(d) { return dataX(d); }), d3.max(worldData,function(d) { return dataX(d); })])
 			//Using min as min values in our data in some cases are negative
 			.range([0, w])
 			.nice();
 
-		//Update Dot placement
+		//Update dot placement
 		d3.select("#dots-group").selectAll("circle")
-		.attr({
-				cx: function(d) { return xScale(dataX(d)); }
-			})
+			.filter(function(d) { return dataX(d); }) //filters out nulls
+			.transition()
+			.duration(1000)
+			.attr({
+					cx: function(d) { return xScale(dataX(d)); }
+				})
 			
 
+		//Update x axis
+		var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
+		//Call x axis
+		d3.select(".xaxis")
+			.transition()
+			.duration(1000)
+			.call(xAxis);
+		
+	});
+
+//Update Y
+	d3.selectAll(".y-choice").on("click", function() {
+
+		//Update dataY variable
+		var yValue = d3.select(this).attr('value');
+		console.log(yValue);
+
+		var dataY = function(d) { return eval(yValue) }; //eval to evaluate the string pulled from the HTML element
+
+		//Update yScale
+		var yScale = d3.scale.linear()
+			.domain([d3.max(worldData,function(d) { return dataY(d); }),d3.min(worldData,function(d) { return dataY(d); })])
+			.range([h, 0]);
+
+		//Update dot placement
+		d3.select("#dots-group").selectAll("circle")
+			.filter(function(d) { return dataY(d); }) //filters out nulls
+			.transition()
+			.duration(1000)
+			.attr({
+					cy: function(d) { return yScale(dataX(d)); }
+				})
 			
-	};
+
+		//Update y axis
+		var yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+		//Call y axis
+		d3.select(".yaxis")
+			.transition()
+			.duration(1000)
+			.call(yAxis);
+		
+	});
+
 
 
 

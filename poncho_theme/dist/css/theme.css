@@ -6,17 +6,18 @@
 /*Nav and landing page section*/
 
 img#nav-image {
-    width: 7em;
+    width: 5em;
     margin: auto;
     position: absolute;
     left: 0px;
-    top: 4px;
+    top: 1.55em;
 }
 
 p#nav-brand {
   margin-left: 5.2em;
   text-transform: none;
   margin-top: 0.2em;
+  display: none;
 }
 
 h1#headline {
@@ -26,7 +27,17 @@ h1#headline {
   font-size: 66px;
 }
 
+/*Portfolio - repurposed blog section*/
 
+img.img-circle {
+  display: none;
+}
+
+
+#portfolio-row-1 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
 
 
 
@@ -8525,8 +8536,8 @@ ul.promo {
   line-height: 48px; }
 
 .wrapper-accent .fa-border-circle, .wrapper-darkest .fa-border-circle {
-  border: 1px solid #decf14;
-  color: #decf14;
+  border: 1px solid #ebf9f1;
+  color: #ebf9f1;
 
   /*changed from orginal styles below*/
   /*border: 1px solid #ebf9f1;

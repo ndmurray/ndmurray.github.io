@@ -63,7 +63,13 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	var dataY = function(d) { return 100 - +d.press; };
 	//var dataY = function(d) { return 100 - +d.press; };
 	var dataR = function(d) { return +d.gdphead; };
+	console.log(dataX.toString());
+	// //Variable display names
+	// titleX = function(d) {
+	// 	console.log(dataX.toString());
+	// };
 
+	// titleX();
 
 //Tooltips - http://bit.ly/22HClnd
 	var dotTips = d3.tip()
@@ -105,7 +111,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	//Y scale
 	var yScale = d3.scale.linear()
 		.domain([d3.max(worldData,function(d) { return dataY(d); }),d3.min(worldData,function(d) { return dataY(d); })])
-		.range([0, h]);
+		.range([0, h])
+		.nice();
 
 	//Radius scale
 	var rScale = d3.scale.linear()
@@ -237,26 +244,29 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		})
 		.call(yAxis); //making the g element (current selection) available to the xAxis function	
 
-//Update X
 
 
 //Update data on dropdown select - http://bit.ly/2dFOIho
-	var selectX = d3.selectAll(".x-choice").on("click", function() {
+
+
+//Update X
+	d3.selectAll(".x-choice").on("click", function() {
 
 		//Update dataX variable
 		var xValue = d3.select(this).attr('value');
 		console.log(xValue);
 
 		var dataX = function(d) { return eval(xValue) }; //eval to evaluate the string pulled from the HTML element
+		
 
-		//Update Xscale
+		//Update xScale
 		var xScale = d3.scale.linear()
 			.domain([d3.min(worldData,function(d) { return dataX(d); }), d3.max(worldData,function(d) { return dataX(d); })])
 			//Using min as min values in our data in some cases are negative
 			.range([0, w])
 			.nice();
 
-		//Update Dot placement
+		//Update dot placement
 		d3.select("#dots-group").selectAll("circle")
 			.filter(function(d) { return dataX(d); }) //filters out nulls
 			.transition()
@@ -266,9 +276,52 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				})
 			
 
+		//Update x axis
+		var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
-			
+		//Call x axis
+		d3.select(".xaxis")
+			.transition()
+			.duration(1000)
+			.call(xAxis);
+		
 	});
+
+//Update Y
+	d3.selectAll(".y-choice").on("click", function() {
+
+		//Update dataY variable
+		var yValue = d3.select(this).attr('value');
+		console.log(yValue);
+
+		var dataY = function(d) { return eval(yValue) }; //eval to evaluate the string pulled from the HTML element
+
+		//Update yScale
+		var yScale = d3.scale.linear()
+			.domain([d3.max(worldData,function(d) { return dataY(d); }),d3.min(worldData,function(d) { return dataY(d); })])
+			.range([h, 0]);
+
+		//Update dot placement
+		d3.select("#dots-group").selectAll("circle")
+			.filter(function(d) { return dataY(d); }) //filters out nulls
+			.transition()
+			.duration(1000)
+			.attr({
+					cy: function(d) { return yScale(dataX(d)); }
+				})
+			
+
+		//Update y axis
+		var yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+		//Call y axis
+		d3.select(".yaxis")
+			.transition()
+			.duration(1000)
+			.call(yAxis);
+		
+	});
+
 
 
 

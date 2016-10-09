@@ -45,6 +45,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
   var dataR = function(d) {
     return +d.gdphead;
   };
+  console.log(dataX.toString());
   var dotTips = d3.tip().attr({class: "d3-tip"}).style({
     top: infoTop,
     left: infoLeft,
@@ -67,7 +68,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     return dataY(d);
   }), d3.min(worldData, function(d) {
     return dataY(d);
-  })]).range([0, h]);
+  })]).range([0, h]).nice();
   var rScale = d3.scale.linear().domain([0, d3.max(worldData, function(d) {
     return dataR(d);
   })]).range([4, 40]).nice();
@@ -133,7 +134,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     class: "yaxis",
     transform: "translate(" + yaxisShiftX + "," + yaxisShiftY + ")"
   }).call(yAxis);
-  var selectX = d3.selectAll(".x-choice").on("click", function() {
+  d3.selectAll(".x-choice").on("click", function() {
     var xValue = d3.select(this).attr('value');
     console.log(xValue);
     var dataX = function(d) {
@@ -149,5 +150,26 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     }).transition().duration(1000).attr({cx: function(d) {
         return xScale(dataX(d));
       }});
+    var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+    d3.select(".xaxis").transition().duration(1000).call(xAxis);
+  });
+  d3.selectAll(".y-choice").on("click", function() {
+    var yValue = d3.select(this).attr('value');
+    console.log(yValue);
+    var dataY = function(d) {
+      return eval(yValue);
+    };
+    var yScale = d3.scale.linear().domain([d3.max(worldData, function(d) {
+      return dataY(d);
+    }), d3.min(worldData, function(d) {
+      return dataY(d);
+    })]).range([h, 0]);
+    d3.select("#dots-group").selectAll("circle").filter(function(d) {
+      return dataY(d);
+    }).transition().duration(1000).attr({cy: function(d) {
+        return yScale(dataX(d));
+      }});
+    var yAxis = d3.svg.axis().scale(yScale).orient("left");
+    d3.select(".yaxis").transition().duration(1000).call(yAxis);
   });
 });
