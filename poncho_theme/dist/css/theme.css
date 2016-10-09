@@ -35,9 +35,10 @@ img.img-circle {
 
 
 #portfolio-row-1 {
-  margin-left: 0px;
+  margin-left: 4em;
   margin-right: 0px;
 }
+
 
 
 
@@ -1125,7 +1126,7 @@ body {
   font-size: 14px;
   line-height: 1.6;
   color: #303030;
-  background-color: #171717; }
+  /*background-color: #171717;*/ }
 
 input,
 button,
@@ -1899,7 +1900,8 @@ pre {
   .col-md-11 {
     width: 91.66667%; }
   .col-md-12 {
-    width: 100%; }
+    /*width: 100%; */
+    width: 98%;}
   .col-md-pull-0 {
     right: auto; }
   .col-md-pull-1 {
@@ -8137,7 +8139,7 @@ body {
   padding: 0px;
   font-weight: 400;
   font-family: "Roboto", Helvetica Neue, Arial, sans-serif;
-  background-color: #171717;
+  /*background-color: #171717;*/
   color: #303030;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizelegibility;
@@ -8237,7 +8239,8 @@ h5, h6 {
   padding-bottom: 0px; }
 
 .wrapper {
-  background-color: #fff;
+  /*background-color: #fff;*/
+  background-color: transparent;
   position: relative; }
 
 .wrapper-default {
@@ -8261,7 +8264,8 @@ h5, h6 {
   color: #404040; }
 
 .wrapper-lightest {
-  background-color: #fafafa;
+  /*background-color: #fafafa;*/
+  background-color: transparent;
   color: #484848; }
 
 .wrapper-dark {

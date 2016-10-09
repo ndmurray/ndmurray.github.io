@@ -7,7 +7,7 @@
 body {
   font-family: "Montserrat";
   color: #F7F7F7;
-  background-color: #18071E; }
+  background-image: url(images/bug_yellow_large.jpg); }
 
 /*Header styling*/
 h2#chart-title {

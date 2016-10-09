@@ -1,0 +1,5 @@
+DesignPlanning
+
+1. set contact wrapper class from wrapper-lg to wrapper-md
+2. Position work and contact so there's padding on the portfolio items
+3. Make the contact section transparent with some opacity, or whatever you do, something about the current black background say 'contact me!' a bit to0 desperately

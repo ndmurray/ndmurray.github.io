@@ -321,10 +321,27 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 //Default chart elements
 
 	//Dots	
-	var dots = svg.append("g")
+	var dotsGroup = svg.append("g")
 		.attr({
 			id: "dots-group"
-		})
+		});
+
+	var dotsFilter = dotsGroup.append("defs").append("filter")
+			.attr({
+				id: "dots-filter",
+				x: 0,
+				y: 0,
+				width: "200%",
+				height: "200%"
+			});
+
+	var shadowOffset = dotsFilter.append("feOffset")
+			.attr({ result: "offOut", in: "SourceGraphic", dx: 20, dy: 20 });
+		
+	var shadowBlend = dotsFilter.append("feBlend")
+			.attr({ in: "SourceGraphic", in2: "offOut", mode: "normal" });
+
+	var dots = d3.select("#dots-group")
 		.selectAll("circle")
 			.data(worldData,key)
 		  	.enter()
@@ -393,8 +410,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		var xValue = d3.select(this).attr('value');
 		console.log(xValue);
 
-		var dataX = function(d) { return eval(xValue) }; //eval to evaluate the string pulled from the HTML element
-		
+		var dataX = function(d) { return eval(xValue); }; //eval to evaluate the string pulled from the HTML element
+
 
 		//Update xScale
 		var xScale = d3.scale.linear()
@@ -410,7 +427,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.duration(1000)
 			.attr({
 					cx: function(d) { return xScale(dataX(d)); }
-				})
+				});
 			
 
 		//Update x axis
@@ -431,7 +448,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		var yValue = d3.select(this).attr('value');
 		console.log(yValue);
 
-		var dataY = function(d) { return eval(yValue) }; //eval to evaluate the string pulled from the HTML element
+		var dataY = function(d) { return eval(yValue); }; //eval to evaluate the string pulled from the HTML element
 
 		//Update yScale
 		var yScale = d3.scale.linear()
@@ -445,7 +462,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.duration(1000)
 			.attr({
 					cy: function(d) { return yScale(dataX(d)); }
-				})
+				});
 			
 
 		//Update y axis

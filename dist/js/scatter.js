@@ -88,7 +88,26 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     d3.selectAll(".guide").remove();
     d3.selectAll("circle.dots").attr("opacity", 0.85);
   };
-  var dots = svg.append("g").attr({id: "dots-group"}).selectAll("circle").data(worldData, key).enter().append("circle").filter(function(d) {
+  var dotsGroup = svg.append("g").attr({id: "dots-group"});
+  var dotsFilter = dotsGroup.append("defs").append("filter").attr({
+    id: "dots-filter",
+    x: 0,
+    y: 0,
+    width: "200%",
+    height: "200%"
+  });
+  var shadowOffset = dotsFilter.append("feOffset").attr({
+    result: "offOut",
+    in: "SourceGraphic",
+    dx: 20,
+    dy: 20
+  });
+  var shadowBlend = dotsFilter.append("feBlend").attr({
+    in: "SourceGraphic",
+    in2: "offOut",
+    mode: "normal"
+  });
+  var dots = d3.select("#dots-group").selectAll("circle").data(worldData, key).enter().append("circle").filter(function(d) {
     return dataX(d);
   }).filter(function(d) {
     return dataY(d);
@@ -123,6 +142,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
       } else {
         return "black";
       }
+      filter: "url(#dots-filter)";
     },
     "opacity": 0.85
   }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
