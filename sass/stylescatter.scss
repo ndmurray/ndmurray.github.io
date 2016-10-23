@@ -57,11 +57,12 @@ div#scatter-div {
 	shape-rendering: crispEdges;
 }
 
-.xaxis text, .yaxis text {
+.xaxis text, .yaxis text, .x-label {
 	fill: $default-color;
 	font-family: $default-font;
 	font-size: 12px;
 }
+
 
 /*Guidelines*/
 

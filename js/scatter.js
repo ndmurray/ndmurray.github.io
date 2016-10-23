@@ -1,7 +1,7 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 40, right: 140, bottom: 40, left: 60},
+	var	margin = {top: 80, right: 140, bottom: 40, left: 60},
 		w = parseInt(d3.select('#scatter-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#scatter-div').style('height'),10),
@@ -13,9 +13,9 @@
 	//Default positioning of chart elements
 	var textShift = 0,
 	    dotsShift = 0,
-	    xaxisShiftX = 0,
-	    yaxisShiftX = 0,
-	    xaxisShiftY = h,
+	    xaxisShiftX = 10,
+	    yaxisShiftX = 10,
+	    xaxisShiftY = -40,
 	    yaxisShiftY = 0;
 
 	//Positioning of hover information
@@ -111,7 +111,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	//Y scale
 	var yScale = d3.scale.linear()
 		.domain([d3.max(worldData,function(d) { return dataY(d); }),d3.min(worldData,function(d) { return dataY(d); })])
-		.range([0, h])
+		.range([0, h + xaxisShiftY])
 		.nice();
 
 	//Radius scale
@@ -252,7 +252,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	svg.append("g") 
 		.attr({
 			class:"xaxis",
-			transform: "translate(" + xaxisShiftX + "," + xaxisShiftY + ")" //20px upward to avoid hugging bars
+			transform: "translate(" + xaxisShiftX + "," + (h + xaxisShiftY) + ")" //20px upward to avoid hugging bars
 		})
 		.call(xAxis); //making the g element (current selection) available to the xAxis function
 
@@ -263,8 +263,9 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 	var xLabel = svg.append("text")
 		.attr({
+			class: "x-label",
 			"text-anchor": "middle",
-			"transform": function(d) { return "translate(" + w/2 + "," + (xaxisShiftY + (h - xaxisShiftY)/2)  + ")"; }
+			transform: function(d) { return "translate(" + w/2 + "," + (h)  + ")"; }
 		})
 		.text("Value");
 

@@ -1,6 +1,6 @@
 "use strict";
 var margin = {
-  top: 40,
+  top: 80,
   right: 140,
   bottom: 40,
   left: 60
@@ -17,9 +17,9 @@ var canvasPadding = {
 };
 var textShift = 0,
     dotsShift = 0,
-    xaxisShiftX = 0,
-    yaxisShiftX = 0,
-    xaxisShiftY = h,
+    xaxisShiftX = 10,
+    yaxisShiftX = 10,
+    xaxisShiftY = -40,
     yaxisShiftY = 0;
 var infoTop = 115,
     infoLeft = w + margin.left,
@@ -68,7 +68,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     return dataY(d);
   }), d3.min(worldData, function(d) {
     return dataY(d);
-  })]).range([0, h]).nice();
+  })]).range([0, h + xaxisShiftY]).nice();
   var rScale = d3.scale.linear().domain([0, d3.max(worldData, function(d) {
     return dataR(d);
   })]).range([4, 40]).nice();
@@ -147,12 +147,13 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
   }).style({}).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
   svg.append("g").attr({
     class: "xaxis",
-    transform: "translate(" + xaxisShiftX + "," + xaxisShiftY + ")"
+    transform: "translate(" + xaxisShiftX + "," + (h + xaxisShiftY) + ")"
   }).call(xAxis);
   var xLabel = svg.append("text").attr({
+    class: "x-label",
     "text-anchor": "middle",
-    "transform": function(d) {
-      return "translate(" + w / 2 + "," + (xaxisShiftY + (h - xaxisShiftY) / 2) + ")";
+    transform: function(d) {
+      return "translate(" + w / 2 + "," + (h) + ")";
     }
   }).text("Value");
   svg.append("g").attr({

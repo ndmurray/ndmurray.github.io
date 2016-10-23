@@ -31,7 +31,7 @@ div#scatter-div {
   stroke: #F7F7F7;
   shape-rendering: crispEdges; }
 
-.xaxis text, .yaxis text {
+.xaxis text, .yaxis text, .x-label {
   fill: #F7F7F7;
   font-family: "Montserrat";
   font-size: 12px; }

@@ -152,7 +152,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 	    dotsShift = 0,
 	    xaxisShiftX = 0,
 	    yaxisShiftX = 0,
-	    xaxisShiftY = h,
+	    xaxisShiftY = h - "2em",
 	    yaxisShiftY = 0;
 
 	//Positioning of hover information
@@ -400,8 +400,9 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 	var xLabel = svg.append("text")
 		.attr({
+			class: "x-label",
 			"text-anchor": "middle",
-			"transform": function(d) { return "translate(" + w/2 + "," + (xaxisShiftY + (h - xaxisShiftY)/2)  + ")"; }
+			transform: function(d) { return "translate(" + w/2 + "," + (xaxisShiftY + (h - xaxisShiftY)/2)  + ")"; }
 		})
 		.text("Value");
 
