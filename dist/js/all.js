@@ -138,7 +138,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 40, right: 140, bottom: 40, left: 60},
+	var	margin = {top: 80, right: 140, bottom: 40, left: 60},
 		w = parseInt(d3.select('#scatter-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#scatter-div').style('height'),10),
@@ -150,9 +150,9 @@ d3.csv("datadev/crime.csv",function(error,data) {
 	//Default positioning of chart elements
 	var textShift = 0,
 	    dotsShift = 0,
-	    xaxisShiftX = 0,
-	    yaxisShiftX = 0,
-	    xaxisShiftY = h - "2em",
+	    xaxisShiftX = 60,
+	    yaxisShiftX = 60,
+	    xaxisShiftY = -60,
 	    yaxisShiftY = 0;
 
 	//Positioning of hover information
@@ -168,10 +168,6 @@ d3.csv("datadev/crime.csv",function(error,data) {
 	//     defaultFade = 50,
 	//     hoverDuration = 200;
 
-
-//Text for title  
-	var titleText = d3.select("h2#chart-title").append("text.title-text")
-		.text("Political Stability (X) vs Control of Corruption(Y)");
 
 
 //Begin data function 
@@ -194,6 +190,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	};
 
 	//Variables for cx, cy, and r data fields
+	
 	var dataX = function(d) { return +d.polistab; };
 	//var dataX = function(d) { return 100 - +d.press; };
 	//var dataX = function(d) { return 1 - +d.gini/100; };
@@ -201,12 +198,16 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	//var dataY = function(d) { return 100 - +d.press; };
 	var dataR = function(d) { return +d.gdphead; };
 	console.log(dataX.toString());
-	// //Variable display names
-	// titleX = function(d) {
-	// 	console.log(dataX.toString());
-	// };
+	//Variable display names
 
-	// titleX();
+	var titleX = "Political Stabtility";
+	var titleY = "Press Freedom";
+	var titleR = "GDP per Capita";
+
+//Chart title
+
+	var titleText = d3.select("h2#chart-title").append("text.title-text")
+		.text(titleX + " vs. " + titleY);
 
 //Tooltips - http://bit.ly/22HClnd
 	var dotTips = d3.tip()
@@ -248,7 +249,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	//Y scale
 	var yScale = d3.scale.linear()
 		.domain([d3.max(worldData,function(d) { return dataY(d); }),d3.min(worldData,function(d) { return dataY(d); })])
-		.range([0, h])
+		.range([0, h + xaxisShiftY])
 		.nice();
 
 	//Radius scale
@@ -275,7 +276,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.append("line")
 				.attr("y1",d3.select(".a-dot").attr("cy"))
 				.attr("y2",d3.select(".a-dot").attr("cy"))
-				.attr("x1",0)
+				.attr("x1",yaxisShiftX)
 				.attr("x2",d3.select(".a-dot").attr("cx"))
 				.attr("stroke",d3.select(".a-dot").attr("fill"));
 
@@ -283,7 +284,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		svg.append("g")
 			.classed("guide",true)
 			.append("line")
-				.attr("y1", h)
+				.attr("y1", h + xaxisShiftY)
 				.attr("y2",d3.select(".a-dot").attr("cy"))
 				.attr("x1",d3.select(".a-dot").attr("cx"))
 				.attr("x2",d3.select(".a-dot").attr("cx"))
@@ -389,30 +390,35 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	svg.append("g") 
 		.attr({
 			class:"xaxis",
-			transform: "translate(" + xaxisShiftX + "," + xaxisShiftY + ")" //20px upward to avoid hugging bars
+			transform: "translate(" + xaxisShiftX + "," + (h + xaxisShiftY) + ")" //20px upward to avoid hugging bars
 		})
 		.call(xAxis); //making the g element (current selection) available to the xAxis function
 
-	// //Define the position of the labels, before adding any text	
-	// svg.selectAll(".xaxis text") //select the text element children of .xaxis and get their collective 'bounding box' (BBox)
-	// 	.attr("transform", function(d) { 
-	// 		return "translate(" + this.getBBox().width + "," + this.getBBox().height + ")"; });
+	// http://bl.ocks.org/phoebebright/3061203
 
 	var xLabel = svg.append("text")
 		.attr({
 			class: "x-label",
 			"text-anchor": "middle",
-			transform: function(d) { return "translate(" + w/2 + "," + (xaxisShiftY + (h - xaxisShiftY)/2)  + ")"; }
+			transform: function(d) { return "translate(" + w/2 + "," + (h) + ")"; }
 		})
-		.text("Value");
+		.text(titleX);
 
 	//Y axis
 	svg.append("g") 
 		.attr({
 			class:"yaxis",
-			transform: "translate(" + yaxisShiftX + "," + yaxisShiftY + ")" 
+			transform: "translate(" + yaxisShiftX + "," + 0 + ")" 
 		})
-		.call(yAxis); //making the g element (current selection) available to the xAxis function	
+		.call(yAxis); //making the g element (current selection) available to the xAxis function
+
+	var yLabel = svg.append("text")
+		.attr({
+			class:"y-label",
+			"text-anchor": "middle",
+			transform: function(d) { return "translate(" + 0 + "," + (h + xaxisShiftY)/2 + ") rotate(-90)"; }
+		})
+		.text(titleY);	
 
 
 
@@ -427,6 +433,14 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		console.log(xValue);
 
 		var dataX = function(d) { return eval(xValue); }; //eval to evaluate the string pulled from the HTML element
+
+		//Define display values
+		switch (xValue) {
+			case "+d.mfr":
+				titleX = "Male to female Ratio";
+				break;
+			
+		};
 
 
 		//Update xScale
@@ -469,7 +483,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		//Update yScale
 		var yScale = d3.scale.linear()
 			.domain([d3.max(worldData,function(d) { return dataY(d); }),d3.min(worldData,function(d) { return dataY(d); })])
-			.range([h, 0]);
+			.range([0, h + xaxisShiftY])
+			.nice();
 
 		//Update dot placement
 		d3.select("#dots-group").selectAll("circle")

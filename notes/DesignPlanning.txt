@@ -1,5 +1,16 @@
 DesignPlanning
 
-1. set contact wrapper class from wrapper-lg to wrapper-md
-2. Position work and contact so there's padding on the portfolio items
-3. Make the contact section transparent with some opacity, or whatever you do, something about the current black background say 'contact me!' a bit to0 desperately
+Bootstrap website
+
+To get the parallax background image:
+	1. Set contact wrapper class from wrapper-lg to wrapper-md
+	2. Position work and contact so there's padding on the portfolio items
+	3. Make the contact section transparent with some opacity, or whatever you do, something about the current black background say 'contact me!' a bit to0 desperately
+
+Cloropleth viz idea
+
+Series of viz as an expose on solar panel price, current installation per capita vs solar radiation.
+
+1. Time series chart displaying price per watt against installed US capacity over the last several years
+2. Cloropleth map showing installed capacity, something at least more granular than the state level
+3. Map that overlays installed capacity with total solar radiation, showing the most cost effective places to deploy solar

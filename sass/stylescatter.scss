@@ -50,6 +50,8 @@ div#scatter-div {
 
 /*Axes*/
 
+//Axes lines
+
 .xaxis path, .xaxis line,
 .yaxis path, .yaxis line {
 	fill: none;
@@ -57,10 +59,20 @@ div#scatter-div {
 	shape-rendering: crispEdges;
 }
 
-.xaxis text, .yaxis text, .x-label {
+//Axes text elements 
+
+.xaxis text, .yaxis text {
 	fill: $default-color;
 	font-family: $default-font;
-	font-size: 12px;
+	font-size: 1em;
+}
+
+//Axes labels
+
+.x-label, .y-label {
+  font-size: 1.2em; 
+  fill: $default-color;
+  font-family: $default-font;
 }
 
 

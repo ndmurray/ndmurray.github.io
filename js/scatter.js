@@ -13,9 +13,9 @@
 	//Default positioning of chart elements
 	var textShift = 0,
 	    dotsShift = 0,
-	    xaxisShiftX = 10,
-	    yaxisShiftX = 10,
-	    xaxisShiftY = -40,
+	    xaxisShiftX = 60,
+	    yaxisShiftX = 60,
+	    xaxisShiftY = -60,
 	    yaxisShiftY = 0;
 
 	//Positioning of hover information
@@ -31,10 +31,6 @@
 	//     defaultFade = 50,
 	//     hoverDuration = 200;
 
-
-//Text for title  
-	var titleText = d3.select("h2#chart-title").append("text.title-text")
-		.text("Political Stability (X) vs Control of Corruption(Y)");
 
 
 //Begin data function 
@@ -57,6 +53,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	};
 
 	//Variables for cx, cy, and r data fields
+	
 	var dataX = function(d) { return +d.polistab; };
 	//var dataX = function(d) { return 100 - +d.press; };
 	//var dataX = function(d) { return 1 - +d.gini/100; };
@@ -64,12 +61,16 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	//var dataY = function(d) { return 100 - +d.press; };
 	var dataR = function(d) { return +d.gdphead; };
 	console.log(dataX.toString());
-	// //Variable display names
-	// titleX = function(d) {
-	// 	console.log(dataX.toString());
-	// };
+	//Variable display names
 
-	// titleX();
+	var titleX = "Political Stabtility";
+	var titleY = "Press Freedom";
+	var titleR = "GDP per Capita";
+
+//Chart title
+
+	var titleText = d3.select("h2#chart-title").append("text.title-text")
+		.text(titleX + " vs. " + titleY);
 
 //Tooltips - http://bit.ly/22HClnd
 	var dotTips = d3.tip()
@@ -138,7 +139,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.append("line")
 				.attr("y1",d3.select(".a-dot").attr("cy"))
 				.attr("y2",d3.select(".a-dot").attr("cy"))
-				.attr("x1",0)
+				.attr("x1",yaxisShiftX)
 				.attr("x2",d3.select(".a-dot").attr("cx"))
 				.attr("stroke",d3.select(".a-dot").attr("fill"));
 
@@ -146,7 +147,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		svg.append("g")
 			.classed("guide",true)
 			.append("line")
-				.attr("y1", h)
+				.attr("y1", h + xaxisShiftY)
 				.attr("y2",d3.select(".a-dot").attr("cy"))
 				.attr("x1",d3.select(".a-dot").attr("cx"))
 				.attr("x2",d3.select(".a-dot").attr("cx"))
@@ -256,26 +257,31 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		})
 		.call(xAxis); //making the g element (current selection) available to the xAxis function
 
-	// //Define the position of the labels, before adding any text	
-	// svg.selectAll(".xaxis text") //select the text element children of .xaxis and get their collective 'bounding box' (BBox)
-	// 	.attr("transform", function(d) { 
-	// 		return "translate(" + this.getBBox().width + "," + this.getBBox().height + ")"; });
+	// http://bl.ocks.org/phoebebright/3061203
 
 	var xLabel = svg.append("text")
 		.attr({
 			class: "x-label",
 			"text-anchor": "middle",
-			transform: function(d) { return "translate(" + w/2 + "," + (h)  + ")"; }
+			transform: function(d) { return "translate(" + w/2 + "," + (h) + ")"; }
 		})
-		.text("Value");
+		.text(titleX);
 
 	//Y axis
 	svg.append("g") 
 		.attr({
 			class:"yaxis",
-			transform: "translate(" + yaxisShiftX + "," + yaxisShiftY + ")" 
+			transform: "translate(" + yaxisShiftX + "," + 0 + ")" 
 		})
-		.call(yAxis); //making the g element (current selection) available to the xAxis function	
+		.call(yAxis); //making the g element (current selection) available to the xAxis function
+
+	var yLabel = svg.append("text")
+		.attr({
+			class:"y-label",
+			"text-anchor": "middle",
+			transform: function(d) { return "translate(" + 0 + "," + (h + xaxisShiftY)/2 + ") rotate(-90)"; }
+		})
+		.text(titleY);	
 
 
 
@@ -290,6 +296,34 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		console.log(xValue);
 
 		var dataX = function(d) { return eval(xValue); }; //eval to evaluate the string pulled from the HTML element
+
+		//Define X display values
+		switch (xValue) {
+			case "+d.gini":
+				titleX = "Gini Index";
+				break;
+			case "+d.press":
+				titleX = "Press Freedom";
+				break;
+			case "+d.mfr":
+				titleX = "Male to female Ratio";
+				break;
+			case "+d.life_exp":
+				titleX = "Life Expectancy";
+				break;
+			case "+d.gre":
+				titleX = "Female enrollment ratio";
+				break;
+			case "+d.corruption":
+				titleX = "Control of Corruption";
+				break;
+			case "+d.polistab":
+				titleX = "Political Stability";
+				break;
+			case "+d.gdphead":
+				titleX = "GDP per Capita";
+				break;
+		}
 
 
 		//Update xScale
@@ -312,11 +346,15 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		//Update x axis
 		var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
+		//Update x axis label
+		xLabel.text(titleX);
+
 		//Call x axis
 		d3.select(".xaxis")
 			.transition()
 			.duration(1000)
 			.call(xAxis);
+
 		
 	});
 
@@ -329,10 +367,39 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 		var dataY = function(d) { return eval(yValue); }; //eval to evaluate the string pulled from the HTML element
 
+		//Define X display values
+		switch (yValue) {
+			case "+d.gini":
+				titleY = "Gini Index";
+				break;
+			case "+d.press":
+				titleY = "Press Freedom";
+				break;
+			case "+d.mfr":
+				titleY = "Male to female Ratio";
+				break;
+			case "+d.life_exp":
+				titleY = "Life Expectancy";
+				break;
+			case "+d.gre":
+				titleY = "Female enrollment ratio";
+				break;
+			case "+d.corruption":
+				titleY = "Control of Corruption";
+				break;
+			case "+d.polistab":
+				titleY = "Political Stability";
+				break;
+			case "+d.gdphead":
+				titleY = "GDP per Capita";
+				break;
+		}
+
 		//Update yScale
 		var yScale = d3.scale.linear()
 			.domain([d3.max(worldData,function(d) { return dataY(d); }),d3.min(worldData,function(d) { return dataY(d); })])
-			.range([h, 0]);
+			.range([0, h + xaxisShiftY])
+			.nice();
 
 		//Update dot placement
 		d3.select("#dots-group").selectAll("circle")
@@ -340,12 +407,14 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.transition()
 			.duration(1000)
 			.attr({
-					cy: function(d) { return yScale(dataX(d)); }
+					cy: function(d) { return yScale(dataY(d)); }
 				});
-			
 
 		//Update y axis
 		var yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+		//Update y axis label
+		yLabel.text(titleY);
 
 		//Call y axis
 		d3.select(".yaxis")
