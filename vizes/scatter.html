@@ -23,56 +23,57 @@
 	</head>
 	<body>
 		<!--Header-->
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="title-div">
-				<h2 id="chart-title"></h2>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="title-div">
+					<h2 id="chart-title"></h2>
+				</div>
 			</div>
-		</div>
-		
-		<div class="row" id="dropdown-container">
-			<div class="dropdown">
-			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">X-Axis
-			    <span class="caret"></span></button>
-			    <ul class="dropdown-menu" id="dropdown-x">
-			      <li><a href="#" class="x-choice" value="+d.gini">Gini index</a></li>
-			      <li><a href="#" class="x-choice" value="+d.press">Press freedom</a></li>
-			      <li><a href="#" class="x-choice" value="+d.mfr">Male to female ratio</a></li>
-			      <li><a href="#" class="x-choice" value="+d.life_exp">Life expectancy</a></li>
-			      <li><a href="#" class="x-choice" value="+d.gre">Female enrollment ratio</a></li>
-			      <li><a href="#" class="x-choice" value="+d.corruption">Control of corruption</a></li>
-			      <li><a href="#" class="x-choice" value="+d.polistab">Political stability</a></li>
-			      <li><a href="#" class="x-choice" value="+d.gdphead">GDP per Capita</a></li>
-			    </ul>
+			
+			<div class="row" id="dropdown-container">
+				<div class="dropdown">
+				    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">X-Axis
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" id="dropdown-x">
+				      <li><a href="#" class="x-choice" value="+d.gini">Gini index</a></li>
+				      <li><a href="#" class="x-choice" value="+d.press">Press freedom</a></li>
+				      <li><a href="#" class="x-choice" value="+d.mfr">Male to female ratio</a></li>
+				      <li><a href="#" class="x-choice" value="+d.life_exp">Life expectancy</a></li>
+				      <li><a href="#" class="x-choice" value="+d.gre">Female enrollment ratio</a></li>
+				      <li><a href="#" class="x-choice" value="+d.corruption">Control of corruption</a></li>
+				      <li><a href="#" class="x-choice" value="+d.polistab">Political stability</a></li>
+				      <li><a href="#" class="x-choice" value="+d.gdphead">GDP per Capita</a></li>
+				    </ul>
+				</div>
+				<div class="dropdown">
+				    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Y-Axis
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" id="dropdown-y">
+				      <li><a href="#" class="y-choice" value="+d.gini">Gini index</a></li>
+				      <li><a href="#" class="y-choice" value="+d.press">Press freedom</a></li>
+				      <li><a href="#" class="y-choice" value="+d.mfr">Male to female ratio</a></li>
+				      <li><a href="#" class="y-choice" value="+d.life_exp">Life expectancy</a></li>
+				      <li><a href="#" class="y-choice" value="+d.gre">Female enrollment ratio</a></li>
+				      <li><a href="#" class="y-choice" value="+d.corruption">Control of corruption</a></li>
+				      <li><a href="#" class="y-choice" value="+d.polistab">Political stability</a></li>
+				      <li><a href="#" class="y-choice" value="+d.gdphead">GDP per Capita</a></li> 
+				    </ul>
+				</div>
+				<div class="dropdown">
+				    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dot Size
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu" id="dropdown-r">
+				      <li><a href="#">HTML</a></li>
+				      <li><a href="#">CSS</a></li>
+				      <li><a href="#">JavaScript</a></li>
+				    </ul>
+				</div>
 			</div>
-			<div class="dropdown">
-			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Y-Axis
-			    <span class="caret"></span></button>
-			    <ul class="dropdown-menu" id="dropdown-y">
-			      <li><a href="#" class="y-choice" value="+d.gini">Gini index</a></li>
-			      <li><a href="#" class="y-choice" value="+d.press">Press freedom</a></li>
-			      <li><a href="#" class="y-choice" value="+d.mfr">Male to female ratio</a></li>
-			      <li><a href="#" class="y-choice" value="+d.life_exp">Life expectancy</a></li>
-			      <li><a href="#" class="y-choice" value="+d.gre">Female enrollment ratio</a></li>
-			      <li><a href="#" class="y-choice" value="+d.corruption">Control of corruption</a></li>
-			      <li><a href="#" class="y-choice" value="+d.polistab">Political stability</a></li>
-			      <li><a href="#" class="y-choice" value="+d.gdphead">GDP per Capita</a></li> 
-			    </ul>
-			</div>
-			<div class="dropdown">
-			    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dot Size
-			    <span class="caret"></span></button>
-			    <ul class="dropdown-menu" id="dropdown-r">
-			      <li><a href="#">HTML</a></li>
-			      <li><a href="#">CSS</a></li>
-			      <li><a href="#">JavaScript</a></li>
-			    </ul>
-			</div>
-		</div>
-		
 
 		<!--Canvas-->
-		<div class = "row">
-			<div id="scatter-div">
+			<div class = "row">
+				<div id="scatter-div">
+				</div>
 			</div>
 		</div>
 		<!--Libaries-->
