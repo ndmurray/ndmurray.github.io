@@ -368,8 +368,11 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 					// else if (d.ig == "East Asia & Pacific") { return "#8CD19D"; } //sea foam
 					// else if (d.ig == "Latin America & Caribbean") { return "#FF0D00"; } //red
 					else { return "black"; }
-				filter: "url(#dots-filter)"},
+					},
 				"opacity": 0.85
+			})
+			.style({
+				//filter: "url(#dots-filter)"
 			})
 			.call(dotTips) // http://bit.ly/22HClnd
 			//using enter and leave as opposed to over and out because mouseenter and mouesleave don't bubble up to the dots group 
@@ -389,6 +392,18 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			transform: "translate(" + xaxisShiftX + "," + xaxisShiftY + ")" //20px upward to avoid hugging bars
 		})
 		.call(xAxis); //making the g element (current selection) available to the xAxis function
+
+	// //Define the position of the labels, before adding any text	
+	// svg.selectAll(".xaxis text") //select the text element children of .xaxis and get their collective 'bounding box' (BBox)
+	// 	.attr("transform", function(d) { 
+	// 		return "translate(" + this.getBBox().width + "," + this.getBBox().height + ")"; });
+
+	var xLabel = svg.append("text")
+		.attr({
+			"text-anchor": "middle",
+			"transform": function(d) { return "translate(" + w/2 + "," + (xaxisShiftY + (h - xaxisShiftY)/2)  + ")"; }
+		})
+		.text("Value");
 
 	//Y axis
 	svg.append("g") 

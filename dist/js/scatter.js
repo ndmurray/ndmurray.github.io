@@ -142,14 +142,19 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
       } else {
         return "black";
       }
-      filter: "url(#dots-filter)";
     },
     "opacity": 0.85
-  }).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
+  }).style({}).call(dotTips).on('mouseenter', dotTips.show).on('mouseover', mouseOn).on('mouseleave', dotTips.hide).on('mouseout', mouseOff);
   svg.append("g").attr({
     class: "xaxis",
     transform: "translate(" + xaxisShiftX + "," + xaxisShiftY + ")"
   }).call(xAxis);
+  var xLabel = svg.append("text").attr({
+    "text-anchor": "middle",
+    "transform": function(d) {
+      return "translate(" + w / 2 + "," + (xaxisShiftY + (h - xaxisShiftY) / 2) + ")";
+    }
+  }).text("Value");
   svg.append("g").attr({
     class: "yaxis",
     transform: "translate(" + yaxisShiftX + "," + yaxisShiftY + ")"
