@@ -149,7 +149,8 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		
 	//Default positioning of chart elements
 	var textShift = 0,
-	    dotsShift = 0,
+	    dotsShiftX = 0,
+	    dotsShiftY = 0, 
 	    xaxisShiftX = 60,
 	    yaxisShiftX = 60,
 	    xaxisShiftY = -60,
@@ -243,7 +244,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	var xScale = d3.scale.linear()
 		.domain([d3.min(worldData,function(d) { return dataX(d); }), d3.max(worldData,function(d) { return dataX(d); })])
 		//Using min as min values in our data in some cases are negative
-		.range([0, w])
+		.range([xaxisShiftX, w])
 		.nice();
 
 	//Y scale
@@ -358,16 +359,12 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				r: function(d) { return rScale(dataR(d)); },
 				"pointer-events": "all",
 				"fill": function(d) {
-					//colors comaination of the following third party palletes
-					//http://www.colourlovers.com/palette/360922/u.make.me.happy
-					//http://www.colourlovers.com/palette/1689724/%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F					
-					if (d.ig == "High income: nonOECD") { return "#CEE879"; } //yelllow green
-					else if (d.ig == "Low income") { return "#FFA700"; }// yellow
-					else if (d.ig == "Upper middle income") { return "#54EBBA"; } //light teal
-					else if (d.ig == "Lower middle income") { return "#1DC28C"; } //blue
-					else if (d.ig == "High income: OECD") { return "#FF93D2"; } //light pink
-					// else if (d.ig == "East Asia & Pacific") { return "#8CD19D"; } //sea foam
-					// else if (d.ig == "Latin America & Caribbean") { return "#FF0D00"; } //red
+					//colors inspired by "Japan9" palette: http://www.colourlovers.com/palette/765305/japan9
+					if (d.ig == "High income: nonOECD") { return "#FF6E27"; } //yelllow green
+					else if (d.ig == "Low income") { return "#991766"; }// yellow
+					else if (d.ig == "Upper middle income") { return "#F34739"; } //light teal
+					else if (d.ig == "Lower middle income") { return "#D90F5A"; } //blue
+					else if (d.ig == "High income: OECD") { return "#FFB627"; } //light pink
 					else { return "black"; }
 					},
 				"opacity": 0.85
@@ -390,7 +387,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	svg.append("g") 
 		.attr({
 			class:"xaxis",
-			transform: "translate(" + xaxisShiftX + "," + (h + xaxisShiftY) + ")" //20px upward to avoid hugging bars
+			transform: "translate(" + 0 + "," + (h + xaxisShiftY) + ")"
 		})
 		.call(xAxis); //making the g element (current selection) available to the xAxis function
 
@@ -400,7 +397,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		.attr({
 			class: "x-label",
 			"text-anchor": "middle",
-			transform: function(d) { return "translate(" + w/2 + "," + (h) + ")"; }
+			transform: function(d) { return "translate(" + (w/2) + xaxisShiftX + "," + (h) + ")"; }
 		})
 		.text(titleX);
 
@@ -434,20 +431,40 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 		var dataX = function(d) { return eval(xValue); }; //eval to evaluate the string pulled from the HTML element
 
-		//Define display values
+		//Define X display values
 		switch (xValue) {
+			case "+d.gini":
+				titleX = "Gini Index";
+				break;
+			case "+d.press":
+				titleX = "Press Freedom";
+				break;
 			case "+d.mfr":
 				titleX = "Male to female Ratio";
 				break;
-			
-		};
+			case "+d.life_exp":
+				titleX = "Life Expectancy";
+				break;
+			case "+d.gre":
+				titleX = "Female enrollment ratio";
+				break;
+			case "+d.corruption":
+				titleX = "Control of Corruption";
+				break;
+			case "+d.polistab":
+				titleX = "Political Stability";
+				break;
+			case "+d.gdphead":
+				titleX = "GDP per Capita";
+				break;
+		}
 
 
 		//Update xScale
 		var xScale = d3.scale.linear()
 			.domain([d3.min(worldData,function(d) { return dataX(d); }), d3.max(worldData,function(d) { return dataX(d); })])
 			//Using min as min values in our data in some cases are negative
-			.range([0, w])
+			.range([xaxisShiftX, w])
 			.nice();
 
 		//Update dot placement
@@ -463,11 +480,18 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		//Update x axis
 		var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
+		//Update x axis label
+		xLabel.text(titleX);
+
+		//Update title
+		titleText.text(titleX + " vs. " + titleY);
+
 		//Call x axis
 		d3.select(".xaxis")
 			.transition()
 			.duration(1000)
 			.call(xAxis);
+
 		
 	});
 
@@ -479,6 +503,34 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		console.log(yValue);
 
 		var dataY = function(d) { return eval(yValue); }; //eval to evaluate the string pulled from the HTML element
+
+		//Define Y display values
+		switch (yValue) {
+			case "+d.gini":
+				titleY = "Gini Index";
+				break;
+			case "+d.press":
+				titleY = "Press Freedom";
+				break;
+			case "+d.mfr":
+				titleY = "Male to female Ratio";
+				break;
+			case "+d.life_exp":
+				titleY = "Life Expectancy";
+				break;
+			case "+d.gre":
+				titleY = "Female enrollment ratio";
+				break;
+			case "+d.corruption":
+				titleY = "Control of Corruption";
+				break;
+			case "+d.polistab":
+				titleY = "Political Stability";
+				break;
+			case "+d.gdphead":
+				titleY = "GDP per Capita";
+				break;
+		}
 
 		//Update yScale
 		var yScale = d3.scale.linear()
@@ -492,12 +544,17 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.transition()
 			.duration(1000)
 			.attr({
-					cy: function(d) { return yScale(dataX(d)); }
+					cy: function(d) { return yScale(dataY(d)); }
 				});
-			
 
 		//Update y axis
 		var yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+		//Update y axis label
+		yLabel.text(titleY);
+
+		//Update title
+		titleText.text(titleX + " vs. " + titleY);
 
 		//Call y axis
 		d3.select(".yaxis")

@@ -1,8 +1,10 @@
 /*Montserrat font*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 /*Theme*/
-/*Header Buttons*/
-/*Chart colors*/
+/*Dropdown colors*/
+/*Dropdown mixins*/
+/*Dot colors*/
+/*Tooltip colors*/
 /*******************STYLES****************************************************************/
 body {
   font-family: "Montserrat";
@@ -48,53 +50,67 @@ div#scatter-div {
   stroke-width: 1;
   shape-rendering: crispEdges; }
 
-/*Dropdowns*/
-div#dropdown-container {
-  margin-left: 2.4em; }
+/*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
+a, a:hover {
+  text-decoration: none;
+  color: inherit; }
 
-div.dropdown {
-  display: inline-block;
-  width: 112px;
-  background-image: linear-gradient(to bottom, #e2e2e2 0, #e2e2e2 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075); }
+ul li {
+  list-style: none; }
 
-button.btn-primary {
-  border: none;
-  border-color: #e2e2e2;
-  border-radius: 0px;
-  background-color: #e2e2e2;
-  background-image: none;
-  /*background-image: linear-gradient(to bottom,$tooltip-background 0,$tooltip-background 100%);*/
-  text-align: left;
-  width: 116px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15); }
-
-.btn-primary:focus,
-.btn-primary:hover {
-  border-color: #C3F8C3;
-  background-color: #C3F8C3; }
-
-/*on button click*/
-.btn-primary.active, .btn-primary:active {
+.dropdown {
+  padding: 7px 10px;
+  width: 10em;
   background-color: #C3F8C3;
-  border-color: #C3F8C3;
-  background-position: 0 -15px; }
+  text-align: center; }
 
-.open > .dropdown-toggle.btn-primary,
-.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open > .dropdown-toggle.btn-primary.focus, .open > .dropdown-toggle.btn-primary:focus, .open > .dropdown-toggle.btn-primary:hover {
-  background-color: #C3F8C3;
-  border-color: #C3F8C3; }
+.dropdown #top {
+  color: black;
+  position: relative; }
 
-/*override silly blue outline on click*/
-.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
-  outline: 0; }
+.dropdown li ul li:hover {
+  color: black;
+  background-color: #acf5ac;
+  padding: 7px 10px;
+  width: 14em;
+  margin-left: -10px; }
 
-/*the menu*/
-ul.dropdown-menu {
-  border-radius: 0px;
-  min-width: 148px;
-  background-color: #e2e2e2; }
+.dropdown li ul li {
+  padding: 7px 10px;
+  width: 14em;
+  margin-left: -10px;
+  color: gray;
+  border-bottom: 1px solid black; }
 
+.dropdown li ul li:first-child {
+  margin-top: -7px; }
+
+.dropdown li .dropdown-box {
+  height: 0;
+  overflow: hidden;
+  display: none;
+  background-color: black;
+  width: 100%;
+  margin-left: -10px;
+  margin-bottom: -15px;
+  margin-top: 7px;
+  border-top: 6px solid #1A1F1E;
+  padding: 0;
+  padding: 7px 10px;
+  width: 14em; }
+
+.dropdown li:hover .dropdown-box, .dropdown li:active .dropdown-box {
+  display: block;
+  background-color: black;
+  animation: box 0.25s ease;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards; }
+
+@keyframes box {
+  from {
+    height: 0; }
+  to {
+    height: 285px; } }
 /*Sidebar made from a d3-tips*/
 /******************************************Tooltip Styling. Edited from the original 
 http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css*************************************/
