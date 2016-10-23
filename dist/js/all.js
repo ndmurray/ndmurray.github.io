@@ -368,7 +368,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 					// else if (d.ig == "East Asia & Pacific") { return "#8CD19D"; } //sea foam
 					// else if (d.ig == "Latin America & Caribbean") { return "#FF0D00"; } //red
 					else { return "black"; }
-				},
+				filter: "url(#dots-filter)"},
 				"opacity": 0.85
 			})
 			.call(dotTips) // http://bit.ly/22HClnd
