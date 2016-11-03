@@ -25,7 +25,7 @@ var textShift = 0,
 var infoTop = 115,
     infoLeft = w + margin.left,
     infoWidth = 12 + "em",
-    infoHeight = 30 + "em";
+    infoHeight = 24 + "em";
 d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error, data) {
   if (error) {
     console.log(error);
@@ -50,7 +50,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
   var titleY = "Press Freedom";
   var titleR = "GDP per Capita";
   var titleText = d3.select("h2#chart-title").append("text.title-text").text(titleX + " vs. " + titleY);
-  var dotTips = d3.tip().attr({class: "d3-tip"}).style({
+  var dotTips = d3.tip().attr("class", "d3-tip").style({
     top: infoTop,
     left: infoLeft,
     width: infoWidth,
@@ -157,7 +157,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
     class: "x-label",
     "text-anchor": "middle",
     transform: function(d) {
-      return "translate(" + (w / 2) + xaxisShiftX + "," + (h) + ")";
+      return "translate(" + (w / 2) + "," + (h) + ")";
     }
   }).text(titleX);
   svg.append("g").attr({

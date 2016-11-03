@@ -357,6 +357,22 @@ slice - Scale the viewBox so that it covers the entire viewport area while prese
 //Also see preserveAspectRatio
 https://mzl.la/1Uag3Vr
 
+/*****Transformations*******************************/
+
+Apply transformations by nesting them within the transform attribute. property changes separated with space, or with no space 
+
+.example:nth-child(1) {
+  transform: rotateY(30deg) rotateX(10deg) 
+             translateZ(2.5em);
+}
+
+Looking often in your D3 code like the following. 
+
+svg.selectAll(".xaxis text")  // select all the text elements for the xaxis
+          .attr("transform", function(d) {
+             return "translate(" + this.getBBox().height*-2 + "," + this.getBBox().height + ")rotate(-45)";
+         });
+
 
 /**************APIs***********************************************************/
 

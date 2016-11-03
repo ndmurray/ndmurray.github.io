@@ -160,11 +160,11 @@ d3.csv("datadev/crime.csv",function(error,data) {
 	var infoTop = 115,
 		infoLeft = w + margin.left,
 		infoWidth = 12 + "em",
-		infoHeight = 30 + "em"; 
+		infoHeight = 24 + "em"; 
 
 	//Transitions
 	// var maxDelay = 10000,
-	//     barDuration = 800,
+	//     barDuration 800,
 	//     axisDuration = 800,
 	//     defaultFade = 50,
 	//     hoverDuration = 200;
@@ -212,7 +212,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 //Tooltips - http://bit.ly/22HClnd
 	var dotTips = d3.tip()
-		.attr({class: "d3-tip"})
+		.attr("class", "d3-tip")
 		.style({top: infoTop, left: infoLeft,
 				width: infoWidth, height: infoHeight})
 		//size and positioning values in .style not .attr bc tooltip is a div, not svg.
@@ -359,7 +359,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				r: function(d) { return rScale(dataR(d)); },
 				"pointer-events": "all",
 				"fill": function(d) {
-					//colors inspired by "Japan9" palette: http://www.colourlovers.com/palette/765305/japan9
+					//colors inspired by "irredescent sunset" palette: http://www.colourlovers.com/palette/765305/japan9
 					if (d.ig == "High income: nonOECD") { return "#FF6E27"; } //yelllow green
 					else if (d.ig == "Low income") { return "#991766"; }// yellow
 					else if (d.ig == "Upper middle income") { return "#F34739"; } //light teal
@@ -397,7 +397,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		.attr({
 			class: "x-label",
 			"text-anchor": "middle",
-			transform: function(d) { return "translate(" + (w/2) + xaxisShiftX + "," + (h) + ")"; }
+			transform: function(d) { return "translate(" + (w/2) + "," + (h) + ")"; }
 		})
 		.text(titleX);
 
