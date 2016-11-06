@@ -39,7 +39,11 @@ img.img-circle {
   margin-right: 0px;
 }
 
-
+/*Bring portfolio down closer to contact ribbon*/
+div#team {
+    padding-top: 9%;
+    padding-bottom: 5%;
+}
 
 
 /*End 8step added styles*/
