@@ -10,6 +10,7 @@
 
 	//Parse date values function
 	var parseDate = d3.timeParse("%Y");
+	var formatTime = d3.timeFormat("%Y");
 
 	//X range
 	var xScale = d3.scaleTime().range([0,w]);
@@ -20,6 +21,8 @@
 
 //Positioning
 	var yLabelShift = margin.left/2 - 10;
+
+
 
 //Transitions
 	var tipDuration = 100;
@@ -102,17 +105,23 @@ function(d) {
 		.data(solarData)
 		.enter()
 		.append("circle")
-			.attr("class","nodes")
+			.attr("class","nodes price-nodes")
 			.attr("r","0.15em")
 			.attr("cx", function(d) { return xScale(d.year); } )
-			.attr("cy", function(d) { return yScale(d.solar_price); } )
-		.on("mouseover",function(d) {
+			.attr("cy", function(d) { return yScale(d.solar_price); } );
+	
+	//Show tooltips	
+
+	var tipLeft = function(d) { d3.select(this).attr("cx"); }
+
+
+	priceNodes.on("mouseover",function(d) {
 			priceTip.transition()
 				.duration(tipDuration)
 				.style("opacity",0.8);
-			priceTip.html(d.year + "<br/>"  + d.solar_price)
-				.style("left", d3.select(this).attr("cx") + "px")
-				.style("top", d3.select(this).attr("cy") + "px")
+			priceTip.html("<span class = date-display>" + formatTime(d.year) + "</span><br/><span class='value-display'>$" + d3.format('.3n')(d.solar_price) + "</span>")
+				.style("left", (d3.event.pageX + 10) + "px") //positioned based on mouse, not on dot
+				.style("top", (d3.event.pageY - 40) + "px")
 		})
 		.on("mouseout",function(d) {
 			priceTip.transition()

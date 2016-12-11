@@ -138,7 +138,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 10, right: 10, bottom: 20, left: 80},
+	var	margin = {top: 10, right: 20, bottom: 20, left: 80},
 		w = parseInt(d3.select('#line-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#line-div').style('height'),10),
@@ -147,6 +147,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 	//Parse date values function
 	var parseDate = d3.timeParse("%Y");
+	var formatTime = d3.timeFormat("%Y");
 
 	//X range
 	var xScale = d3.scaleTime().range([0,w]);
@@ -154,6 +155,11 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 	//Y range
 	var yScale = d3.scaleLinear().range([h, 0]);
+
+//Positioning
+	var yLabelShift = margin.left/2 - 10;
+
+
 
 //Transitions
 	var tipDuration = 100;
@@ -194,11 +200,9 @@ function(d) {
 
 //Define Axes
 	
-	var xAxis = d3.axisBottom().scale(xScale)
-		.ticks(5);
+	var xAxis = d3.axisBottom().scale(xScale);
 
-	var yAxis = d3.axisLeft().scale(yScale)
-		.ticks(5);
+	var yAxis = d3.axisLeft().scale(yScale);
 
 //Define the data line (adjust data to the desired coordinates)
 //Ultimately this will inform how our path gets drawn
@@ -218,10 +222,12 @@ function(d) {
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 //Tooltips - http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+
 	//Price tooltip
 	var priceTip = d3.select("body").append("div")	
     .attr("class", "tooltip price-tip")				
     .style("opacity", 0);
+
 
 //Default chart elements
 
@@ -236,23 +242,29 @@ function(d) {
 		.data(solarData)
 		.enter()
 		.append("circle")
-			.attr("class","nodes")
+			.attr("class","nodes price-nodes")
 			.attr("r","0.15em")
 			.attr("cx", function(d) { return xScale(d.year); } )
-			.attr("cy", function(d) { return yScale(d.solar_price); } )
-		.on("mouseover",function(d) {
+			.attr("cy", function(d) { return yScale(d.solar_price); } );
+	
+	//Show tooltips	
+
+	var tipLeft = function(d) { d3.select(this).attr("cx"); }
+
+
+	priceNodes.on("mouseover",function(d) {
 			priceTip.transition()
 				.duration(tipDuration)
-				.style("opacity",0.9);
-			priceTip.html()
-				.style("left", d3.select(this).attr("cx") + "px")
-				.style("top", d3.select(this).attr("cy") + "px");
-
-
+				.style("opacity",0.8);
+			priceTip.html("<span class = date-display>" + formatTime(d.year) + "</span><br/><span class='value-display'>$" + d3.format('.3n')(d.solar_price) + "</span>")
+				.style("left", (d3.event.pageX + 10) + "px") //positioned based on mouse, not on dot
+				.style("top", (d3.event.pageY - 40) + "px")
 		})
-
-
-
+		.on("mouseout",function(d) {
+			priceTip.transition()
+				.duration(tipDuration)
+				.style("opacity",0);
+		});
 
 //Call the axes
 
@@ -270,7 +282,7 @@ function(d) {
 		.append("text")
 		.text("Price, US$/Watt")
 			.attr("fill","gray")
-			.attr("transform","translate(" + -margin.left/2 + "," + (h/2 - margin.bottom - margin.top) + "), rotate(-90)");
+			.attr("transform","translate(" + yLabelShift + "," + (h/2 - margin.bottom - margin.top) + "), rotate(-90)");
 
 
 });

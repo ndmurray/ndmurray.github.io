@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 /*Theme*/
 body {
-  background-color: #D6E1C7; }
+  background-color: #EDEBE6; }
 
 div#line-div {
   display: inline-block;
@@ -14,23 +14,42 @@ div#line-div {
 
 .line {
   fill: none;
-  stroke: #ee4e00;
+  stroke: #D3643B;
   stroke-width: 1.5px; }
 
 .nodes {
-  fill: #ee4e00; }
+  fill: #D3643B; }
 
 .axis text {
   font-size: 1.5em;
   font-family: "Montserrat"; }
 
+.date-display {
+  color: #403B33;
+  font-size: 16px; }
+
 div.tooltip {
   position: absolute;
-  text-align: left;
+  text-align: center;
   width: 100px;
   height: 80px;
   padding: 10px;
-  font: 12px sans-serif;
-  background: #ee4e00;
+  font-size: 16px;
+  background: #D3643B;
   border: 0px;
+  pointer-events: none; }
+
+/* Creates a small triangle extender for the tooltip */
+.tooltip:after {
+  border-top: 9px solid transparent;
+  border-left: 10px solid transparent;
+  border-right: 10px solid #D3643B;
+  border-bottom: 9px solid transparent;
+  bottom: 30px;
+  content: "";
+  position: absolute;
+  left: 0%;
+  margin-left: -20px;
+  width: 0;
+  height: 0;
   pointer-events: none; }
