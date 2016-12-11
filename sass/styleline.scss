@@ -3,8 +3,47 @@
 
 /*Theme*/
 $default-font: 'Montserrat';
-$default-color: #F7F7F7; 
-$page-background: #1A1F1E; //"night sweat"
+$default-color: #F7F7F7;
+$price-color:  #ee4e00;
+$page-background: #D6E1C7;
 //#18071E;
 
+body {
+	background-color: $page-background;
+}
 
+div#line-div {
+    display: inline-block;
+    position: relative;
+    width: 92%;
+    height: 80%;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.line {
+  fill: none;
+  stroke: $price-color;
+  stroke-width: 1.5px;
+}
+
+.nodes {
+	fill: $price-color;
+}
+
+.axis text {
+	font-size: 1.5em;
+	font-family: $default-font;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: left;			
+    width: 100px;					
+    height: 80px;					
+    padding: 10px;				
+    font: 12px sans-serif;		
+    background: $price-color;	
+    border: 0px;		
+    pointer-events: none;			
+}
