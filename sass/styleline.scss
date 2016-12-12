@@ -33,40 +33,65 @@ div#line-div {
 }
 
 .axis text {
-	font-size: 1.5em;
+	font-size: 1.2em;
 	font-family: $default-font;
+}
+
+.value-display {
+	color: $default-color;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 .date-display {
 	color: $default-color;
-	font-size: 16px;
+	font-size: 14px;
 }
 
 div.tooltip {	
-    position: absolute;			
-    text-align: center;			
-    width: 100px;					
-    height: 80px;					
-    padding: 10px;				
+    position: absolute;
+    text-align: center;
+    width: 100px;
+    height: 60px;
+    padding: 10px;
     font-size: 16px;
-    background: $price-color;	
-    border: 0px;		
+    background: #D3643B;
+    border: 0px;
+    margin-left: 68px;
+    margin-top: -48px;
     pointer-events: none;			
 }
 
 /* Creates a small triangle extender for the tooltip */
 .tooltip:after {
-    border-top: 9px solid transparent;
-    border-left: 10px solid transparent;
-    border-right: 10px solid $price-color;
-    border-bottom: 9px solid transparent;
-    bottom: 30px;
+
+	//West
+
+    // border-top: 9px solid transparent;
+    // border-left: 10px solid transparent;
+    // border-right: 10px solid $price-color;
+    // border-bottom: 9px solid transparent;
+    // bottom: 12px;
+    // content: "";
+    // position: absolute;
+    // left: 0%;
+    // margin-left: -20px;
+    // width: 0;
+    // height: 0;
+    // pointer-events: none;
+
+    //South
+
+    border-top: 16px solid #D3643B;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 0px solid transparent;
+    bottom: -16px;
     content: "";
     position: absolute;
     left: 0%;
-    margin-left: -20px;
+    margin-left: 4px;
     width: 0;
     height: 0;
     pointer-events: none;
-
 }

@@ -139,6 +139,112 @@ d3.csv("datadev/crime.csv",function(error,data) {
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
 	var	margin = {top: 10, right: 20, bottom: 20, left: 80},
+		w = parseInt(d3.select('#donut-div').style('width'), 10),//Get width of containing div for responsiveness
+		w = w - margin.left - margin.right,
+		h = parseInt(d3.select('#donut-div').style('height'),10),
+		h = h - margin.top - margin.bottom,
+		radius = Math.min(w, h) / 2;
+
+
+	
+//Transitions
+	var tipDuration = 100;
+
+//Begin data function 
+d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
+			
+	if(error) {
+		console.log(error);
+	} else {
+		console.log(data);
+	}
+
+
+//Key dataset-dependent variables
+
+	//Data and key functions
+	var projectData = data;
+	// var	key = function(d,i) {
+	// 	return d.year; //Binding row ID to year
+	// };
+
+	//Edit data types
+	function type(d) {
+	  d.project_share = +d.project_share;
+	  return d;
+	}
+
+
+//Set up the canvas
+	var svg = d3.select("#donut-div")
+		.append("svg")
+		.attr("width", w + margin.left + margin.right)
+		.attr("height",h + margin.top + margin.bottom)
+		.attr("id","canvas")
+		.append("g") //This g element and it attributes also following bstok's margin convention. It holds all the canvas' elements.
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//Tooltips - http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+
+	//Price tooltip
+	var priceTip = d3.select("body").append("div")	
+    .attr("class", "tooltip donut-tip")				
+    .style("opacity", 0);
+
+
+	//Oridinal color scheme
+	var color = d3.scaleOrdinal()
+	    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+		
+
+	//Arc and pie functions
+	var arcDef = d3.svg.arc()
+	    .outerRadius(radius - 10)
+	    .innerRadius(radius - 70);
+
+	var pie = d3.layout.pie()
+	    .sort(null)
+	    .value(function(d) { return d.project_share; });
+
+	//Draw arc
+	var arc = svg.selectAll(".arc")
+      	.data(pie(projectData))
+    	.enter()
+    	.append("g")
+      	.attr("class", "arc");
+
+     //Fill arc with path?
+     arc.append("path")
+      .attr("d", arcDef)
+      .style("fill", function(d) { return color(d.division); });
+	
+
+
+	//Show tooltips	
+
+	// priceNodes.on("mouseover",function(d) {
+	// 		priceTip.transition()
+	// 			.duration(tipDuration)
+	// 			.style("opacity",0.8);
+	// 		priceTip.html("<span class='value-display'>$" + d3.format('.3n')(d.solar_price) + "</span><br /><span class = date-display>" + formatTime(d.year) + "</span>")
+	// 			.style("left", d3.select(this).attr("cx") + "px") //positioned based on mouse, not on dot
+	// 			.style("top", d3.select(this).attr("cy") + "px");
+	// 	})
+	// 	.on("mouseout",function(d) {
+	// 		priceTip.transition()
+	// 			.duration(tipDuration)
+	// 			.style("opacity",0);
+	// 	});
+
+
+
+
+});
+
+//General use variables
+	
+	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
+	var	margin = {top: 10, right: 20, bottom: 20, left: 80},
 		w = parseInt(d3.select('#line-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#line-div').style('height'),10),
@@ -249,16 +355,13 @@ function(d) {
 	
 	//Show tooltips	
 
-	var tipLeft = function(d) { d3.select(this).attr("cx"); }
-
-
 	priceNodes.on("mouseover",function(d) {
 			priceTip.transition()
 				.duration(tipDuration)
 				.style("opacity",0.8);
-			priceTip.html("<span class = date-display>" + formatTime(d.year) + "</span><br/><span class='value-display'>$" + d3.format('.3n')(d.solar_price) + "</span>")
-				.style("left", (d3.event.pageX + 10) + "px") //positioned based on mouse, not on dot
-				.style("top", (d3.event.pageY - 40) + "px")
+			priceTip.html("<span class='value-display'>$" + d3.format('.3n')(d.solar_price) + "</span><br /><span class = date-display>" + formatTime(d.year) + "</span>")
+				.style("left", d3.select(this).attr("cx") + "px") //positioned based on mouse, not on dot
+				.style("top", d3.select(this).attr("cy") + "px");
 		})
 		.on("mouseout",function(d) {
 			priceTip.transition()

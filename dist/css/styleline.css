@@ -21,35 +21,42 @@ div#line-div {
   fill: #D3643B; }
 
 .axis text {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-family: "Montserrat"; }
+
+.value-display {
+  color: #403B33;
+  font-size: 16px;
+  font-weight: bold; }
 
 .date-display {
   color: #403B33;
-  font-size: 16px; }
+  font-size: 14px; }
 
 div.tooltip {
   position: absolute;
   text-align: center;
   width: 100px;
-  height: 80px;
+  height: 60px;
   padding: 10px;
   font-size: 16px;
   background: #D3643B;
   border: 0px;
+  margin-left: 68px;
+  margin-top: -48px;
   pointer-events: none; }
 
 /* Creates a small triangle extender for the tooltip */
 .tooltip:after {
-  border-top: 9px solid transparent;
-  border-left: 10px solid transparent;
-  border-right: 10px solid #D3643B;
-  border-bottom: 9px solid transparent;
-  bottom: 30px;
+  border-top: 16px solid #D3643B;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 0px solid transparent;
+  bottom: -16px;
   content: "";
   position: absolute;
   left: 0%;
-  margin-left: -20px;
+  margin-left: 4px;
   width: 0;
   height: 0;
   pointer-events: none; }

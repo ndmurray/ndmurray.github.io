@@ -1,0 +1,81 @@
+<DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<!--Make viewport same as screen dimensions on mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>CTC Metrics</title>
+		<!--Bootstrap css-->
+			<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+			<!--select element plugin http://bit.ly/1fXdaIa-->
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+
+			<!-- Optional theme
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
+
+		<!--Native styles-->
+		<link type="text/css" rel="stylesheet" href="/8step.io/dist/css/stylemetrics.css"/>
+
+			
+	</head>
+	<body>
+		<!--Header-->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="title-div">
+					<h2 id="chart-title"></h2>
+				</div>
+			</div>
+			
+		<!--Dropdowns  - http://codepen.io/keukenrolletje/pen/ILvze*/-->
+			<div class="row" id="dropdown-row">
+				<ul class='dropdown' id="dropdown-left">
+				     <li class="top">Select X Axis
+				        <ul class="dropdown-box" id="dropdown-x">
+				           <li class="x-choice" value="+d.gini">Gini index</li>
+					      <li class="x-choice" value="+d.press">Press freedom</li>
+					      <li class="x-choice" value="+d.mfr">Male to female ratio</li>
+					      <li class="x-choice" value="+d.life_exp">Life expectancy</li>
+					      <li class="x-choice" value="+d.gre">Female enrollment ratio</li>
+					      <li class="x-choice" value="+d.corruption">Control of corruption</li>
+					      <li class="x-choice" value="+d.polistab">Political stability</li>
+					      <li class="x-choice" value="+d.gdphead">GDP per Capita</li>
+				        </ul>
+				     </li>
+				  </ul>
+				 <ul class='dropdown'>
+				     <li class="top">Select Y Axis
+				        <ul class="dropdown-box" id="dropdown-x">
+				           <li><a href="#" class="y-choice" value="+d.gini">Gini index</a></li>
+					      <li><a href="#" class="y-choice" value="+d.press">Press freedom</a></li>
+					      <li><a href="#" class="y-choice" value="+d.mfr">Male to female ratio</a></li>
+					      <li><a href="#" class="y-choice" value="+d.life_exp">Life expectancy</a></li>
+					      <li><a href="#" class="y-choice" value="+d.gre">Female enrollment ratio</a></li>
+					      <li><a href="#" class="y-choice" value="+d.corruption">Control of corruption</a></li>
+					      <li><a href="#" class="y-choice" value="+d.polistab">Political stability</a></li>
+					      <li><a href="#" class="y-choice" value="+d.gdphead">GDP per Capita</a></li>
+				        </ul>
+				     </li>
+				  </ul>
+			</div>
+		<!--Donut Canvas-->
+			<div class = "row">
+				<div id="donut-div">
+				</div>
+			</div>
+		</div>
+		<!--Libaries-->
+		<script type="text/javascript" src="/8step.io/bower_components/jQuery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="/8step.io/bower_components/d3_4.0/d3.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<!--Add ons (modified d3-tip)-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+		<!--Native apps-->
+		<script type="text/javascript" src="/8step.io/js/donut.js"></script>
+	</body>
+</html>
+

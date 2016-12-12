@@ -112,16 +112,13 @@ function(d) {
 	
 	//Show tooltips	
 
-	var tipLeft = function(d) { d3.select(this).attr("cx"); }
-
-
 	priceNodes.on("mouseover",function(d) {
 			priceTip.transition()
 				.duration(tipDuration)
 				.style("opacity",0.8);
-			priceTip.html("<span class = date-display>" + formatTime(d.year) + "</span><br/><span class='value-display'>$" + d3.format('.3n')(d.solar_price) + "</span>")
-				.style("left", (d3.event.pageX + 10) + "px") //positioned based on mouse, not on dot
-				.style("top", (d3.event.pageY - 40) + "px")
+			priceTip.html("<span class='value-display'>$" + d3.format('.3n')(d.solar_price) + "</span><br /><span class = date-display>" + formatTime(d.year) + "</span>")
+				.style("left", d3.select(this).attr("cx") + "px") //positioned based on mouse, not on dot
+				.style("top", d3.select(this).attr("cy") + "px");
 		})
 		.on("mouseout",function(d) {
 			priceTip.transition()

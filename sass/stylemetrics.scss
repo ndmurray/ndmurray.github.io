@@ -1,0 +1,225 @@
+/*Montserrat font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*Theme*/
+$default-font: 'Montserrat';
+$default-color: #F7F7F7; 
+$page-background: #1A1F1E; //"night sweat"
+//#18071E;
+
+/*Dropdown colors*/
+$base : white; //text color for dropdown header
+$flat: #035435; //backgound/highlight color
+$dark: gray; //dropdown text color
+
+//teal #1a614d
+//magenta #791636
+
+/*Dropdown mixins*/
+@mixin size{
+  padding: 7px 10px;
+  width: 14em;
+}
+
+@mixin position{
+  margin-left: -10px;
+}
+
+
+/*Dot colors*/
+$dot-color: rgb(132,22,6)/*#D63510*/; 
+$dot-color-hover: #B11E07;
+
+/*Tooltip colors*/
+$tooltip-head-color: white;
+$tooltip-color: white;
+$tooltip-background: #791636;
+
+//FFB627
+
+/*******************STYLES****************************************************************/
+
+body {
+	font-family: $default-font;
+	color: $default-color;
+  background-color: $page-background;
+  //background-image: url(images/bug_yellow_large.jpg);
+}
+
+
+/*Header styling*/
+
+h2#chart-title {
+	font-size: 32px;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+/*Canvas container*/
+ 
+div#donut-div {
+    display: inline-block;
+    position: relative;
+    width: 35%;
+    height: 80%;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+/*Donut components*/
+
+//ttheodore@anaheim.net
+
+.arc-path {
+
+  fill: none;
+  //stroke: transparent;
+  shape-rendering: geometricPrecision;
+}
+
+
+/*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
+
+
+a, a:hover {
+  text-decoration: none; 
+  color: inherit;
+}
+
+ul li{
+  list-style: none;
+}
+
+#dropdown-left {
+  margin-left: 3.33em;
+  margin-right: 0.33em;
+}
+
+.dropdown {
+  padding: 7px 10px;
+  width: 10em;
+  background-color: $flat;
+  text-align: center;
+  float: left; //Added for side by side dropdowns
+}
+
+.dropdown .top{
+  color: $base;
+}
+
+.dropdown li ul li:hover{
+  color: $base;
+  background-color: darken($flat, 5%);
+  @include size;
+  @include position;
+}
+
+.dropdown li ul li{
+  @include size;
+  @include position;
+  color: $dark;
+  border-bottom: 1px solid darken($base, 5%);
+}
+
+.dropdown li ul li:first-child{
+    margin-top: -7px;
+}
+
+.dropdown li .dropdown-box{
+  height: 0;
+  overflow: hidden;
+  display: none;
+  background-color: $base;
+  width: 100%; 
+  left: 0px;
+  top: 34px;
+  position: absolute;
+  bottom: -15px;
+  border-top: 6px solid $page-background;
+  padding: 0;
+  @include size;
+}
+
+
+// .dropdown:hover {
+//   animation: box 0.25s ease;
+// }
+
+.dropdown:hover .dropdown-box, 
+.dropdown li:active .dropdown-box {
+  display: inline-block;
+  background-color: $base;
+  position: absolute;
+  animation: box 0.25s ease;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  z-index: 999;
+}
+
+
+@keyframes box {
+  from {height: 0;}
+  to {height: 285;}
+}
+
+//Tooltips
+
+.value-display {
+  color: $default-color;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.date-display {
+  color: $default-color;
+  font-size: 14px;
+}
+
+
+div.tooltip { 
+    position: absolute;
+    text-align: center;
+    width: 12%;
+    height: 10%;
+    padding: 10px;
+    font-size: 16px;
+    background: $flat;
+    border: 0px;
+    // margin-left: 68px;
+    // margin-top: -48px;
+    pointer-events: none;     
+}
+
+/* Creates a small triangle extender for the tooltip */
+.tooltip:after {
+
+  //West
+
+    // border-top: 9px solid transparent;
+    // border-left: 10px solid transparent;
+    // border-right: 10px solid $price-color;
+    // border-bottom: 9px solid transparent;
+    // bottom: 12px;
+    // content: "";
+    // position: absolute;
+    // left: 0%;
+    // margin-left: -20px;
+    // width: 0;
+    // height: 0;
+    // pointer-events: none;
+
+    //South
+
+    border-top: 16px solid $flat;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 0px solid transparent;
+    // bottom: -16px;
+    content: "";
+    position: absolute;
+    left: 0%;
+    // margin-left: 4px;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
