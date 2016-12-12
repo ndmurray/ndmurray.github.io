@@ -1,7 +1,7 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 10, right: 20, bottom: 20, left: 80},
+	var	margin = {top: 10, right: 20, bottom: 20, left: 60},
 		w = parseInt(d3.select('#donut-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#donut-div').style('height'),10),
@@ -60,7 +60,7 @@ var donutData = function(d) { return +d.project_share; };
 	//Arc and pie functions
 	var arcDef = d3.arc()
 	    .outerRadius(radius - 10)
-	    .innerRadius(radius - 120);
+	    .innerRadius(radius - 80);
 
 	var pie = d3.pie()
 	    .sort(null)
@@ -82,7 +82,7 @@ var donutData = function(d) { return +d.project_share; };
 	//Pie labels
 	var donutLabels = arc.append("text")
       .attr("transform", function(d) { return "translate(" + arcDef.centroid(d) + ")"; })
-      .attr("dy", ".35em")
+      .attr("dy", "0.35em")
       .text(function(d) { return d.data.division_clean; });
 
 
@@ -92,9 +92,10 @@ var donutData = function(d) { return +d.project_share; };
 			donutTip.transition()
 				.duration(tipDuration)
 				.style("opacity",0.8);
-			donutTip.html("<span class='value-display'>$" + donutData(d) + "</span><br /><span class = date-display>FY2017</span>")
-				.style("left", d3.event.pageX + "px") //positioned based on mouse, not on dot
-				.style("top", d3.event.pageY + "px");
+
+			donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects: " + d.data.projects +"<br />Total Revenue: $" + d3.format(',')(+d.data.revenue) +  "</div>")
+				.style("left", "18em") 
+				.style("top", "2em");
 		})
 		.on("mouseout",function(d) {
 			donutTip.transition()
