@@ -201,9 +201,9 @@ var donutData = function(d) { return +d.project_share; };
 
 	var pie = d3.pie()
 	    .sort(null)
-	    .value(function(d) { return +d.project_share; });
+	    .value(function(d) { return donutData(d); });
 
-	//Draw arc
+	//Draw arc group that holds the arc path
 	var arc = svg.selectAll(".arc")
       	.data(pie(projectData))
     	.enter()
@@ -214,7 +214,8 @@ var donutData = function(d) { return +d.project_share; };
     var arcPath = arc.append("path")
       .attr("d", arcDef)
       .attr("class","arc-path")
-      .style("fill", function(d) { return color(d.data.division_clean); });
+      .style("fill", function(d) { return color(d.data.division_clean); })
+      .each(function(d) { this._current = d; }); // store the initial angles, for transition
 	
 	//Pie labels
 	var donutLabels = arc.append("text")
@@ -228,9 +229,9 @@ var donutData = function(d) { return +d.project_share; };
 	arcPath.on("mouseover",function(d) {
 			donutTip.transition()
 				.duration(tipDuration)
-				.style("opacity",0.8);
+				.style("opacity",1);
 
-			donutTip.html("<span class='title-display'>" + d.data.division_display + ", FY17</span><br /><span class = value-display>Total Projects: " + d.data.projects +"<br />Total Revenue: " + d3.format('.3n')(d.revenue) +  "</span>")
+			donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects: " + d.data.projects +"<br />Total Revenue: $" + d3.format(',')(+d.data.revenue) +  "</div>")
 				.style("left", "18em") 
 				.style("top", "2em");
 		})
@@ -240,8 +241,32 @@ var donutData = function(d) { return +d.project_share; };
 				.style("opacity",0);
 		});
 
+//Update donut!
+	d3.selectAll(".m-choice").on("click",function() {
+
+		//Update data variable
+		var donutValue = d3.select(this).attr('value');
+		var donutData = function(d) {return eval(donutValue); };
+		
+		//Update elements, from - http://bl.ocks.org/mbostock/1346410
+		pie.value(function(d) { return donutData(d); }); // the data driving pie
+		arc.data(pie(projectData));// compute the new angles
+		arc.transition().duration(1000).attrTween("d",arcTween);
 
 
+	});
+
+	//Tween function for smooth transition, also from Bostock
+	// Store the displayed angles in _current.
+	// Then, interpolate from _current to the new angles.
+		// During the transition, _current is updated in-place by d3.interpolate.
+	function arcTween(a) {
+	  var i = d3.interpolate(this._current, a);
+	  this._current = i(0);
+	  return function(t) {
+	    return arc(i(t));
+	  };
+	}
 
 });
 

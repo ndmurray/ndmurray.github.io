@@ -6,12 +6,11 @@
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#donut-div').style('height'),10),
 		h = h - margin.top - margin.bottom,
+		//Radius for donut
 		radius = Math.min(w, h) / 2;
 
-
-	
-//Transitions
-	var tipDuration = 200;
+		//Transitions
+		var tipDuration = 200;
 
 //Begin data function 
 d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
@@ -33,7 +32,7 @@ d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
 
 
 //Holder variable for data selection
-var donutData = function(d) { return +d.project_share; };
+var donutData = function(d) { return +d.avg_revenue; };
 	
 //Set up the canvas
 	var svg = d3.select("#donut-div")
@@ -64,9 +63,9 @@ var donutData = function(d) { return +d.project_share; };
 
 	var pie = d3.pie()
 	    .sort(null)
-	    .value(function(d) { return +d.project_share; });
+	    .value(function(d) { return donutData(d); });
 
-	//Draw arc
+	//Draw arc group that holds the arc path
 	var arc = svg.selectAll(".arc")
       	.data(pie(projectData))
     	.enter()
@@ -77,12 +76,18 @@ var donutData = function(d) { return +d.project_share; };
     var arcPath = arc.append("path")
       .attr("d", arcDef)
       .attr("class","arc-path")
-      .style("fill", function(d) { return color(d.data.division_clean); });
+      .style("fill", function(d) { return color(d.data.division_clean); })
+      .each(function(d) { this._current = d; }); // store the initial angles, for transition
 	
 	//Pie labels
 	var donutLabels = arc.append("text")
-      .attr("transform", function(d) { return "translate(" + arcDef.centroid(d) + ")"; })
-      .attr("dy", "0.35em")
+	//Placing labels outside of chart by redefining the radii of our arcDefinition, bu only within the scope of this labelling function (the radius of the arcs themselves doesn't actually change)
+	//http://bl.ocks.org/Guerino1/2295263
+      .attr("transform", function(d) { 
+      		d.outerRadius = radius + 500;
+      		d.innerRadius = radius + 495;
+      		return "translate(" + arcDef.centroid(d) + ")"; })
+      .attr("fill","white")
       .text(function(d) { return d.data.division_clean; });
 
 
@@ -91,7 +96,7 @@ var donutData = function(d) { return +d.project_share; };
 	arcPath.on("mouseover",function(d) {
 			donutTip.transition()
 				.duration(tipDuration)
-				.style("opacity",0.8);
+				.style("opacity",1);
 
 			donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects: " + d.data.projects +"<br />Total Revenue: $" + d3.format(',')(+d.data.revenue) +  "</div>")
 				.style("left", "18em") 
@@ -103,7 +108,34 @@ var donutData = function(d) { return +d.project_share; };
 				.style("opacity",0);
 		});
 
+//Update donut!
+	d3.selectAll(".m-choice").on("click",function() {
 
+		//Update data variable
+		var donutValue = d3.select(this).attr('value');
+		var donutData = function(d) {return eval(donutValue); };
+		console.log(donutValue);
+		console.log(donutData);
+		
+		//Update elements, from - http://bl.ocks.org/mbostock/1346410
+		pie.value(function(d) { return donutData(d); }); // the data driving pie
+		arcPath.data(pie(projectData));// compute the new angles
+		arcPath.transition().duration(600).attrTween("d",arcTween);
 
+		//Redraw labels
+
+	});
+
+	//Tween function for smooth transition, also from Bostock
+	// Store the displayed angles in _current.
+	// Then, interpolate from _current to the new angles.
+		// During the transition, _current is updated in-place by d3.interpolate.
+	function arcTween(a) {
+	  var i = d3.interpolate(this._current, a);
+	  this._current = i(0);
+	  return function(t) {
+	    return arcDef(i(t));
+	  };
+	}
 
 });
