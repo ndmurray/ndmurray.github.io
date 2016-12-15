@@ -143,12 +143,12 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#donut-div').style('height'),10),
 		h = h - margin.top - margin.bottom,
+		//Radius for donut
 		radius = Math.min(w, h) / 2;
+		labelRadius = w/2 + 14;
 
-
-	
-//Transitions
-	var tipDuration = 200;
+		//Transitions
+		var tipDuration = 200;
 
 //Begin data function 
 d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
@@ -170,7 +170,7 @@ d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
 
 
 //Holder variable for data selection
-var donutData = function(d) { return +d.project_share; };
+var donutData = function(d) { return +d.avg_revenue; };
 	
 //Set up the canvas
 	var svg = d3.select("#donut-div")
@@ -219,8 +219,21 @@ var donutData = function(d) { return +d.project_share; };
 	
 	//Pie labels
 	var donutLabels = arc.append("text")
-      .attr("transform", function(d) { return "translate(" + arcDef.centroid(d) + ")"; })
-      .attr("dy", "0.35em")
+	//labels on outside of pie - http://stackoverflow.com/questions/8053424/label-outside-arc-pie-chart-d3-js
+      .attr("transform", function(d) { 
+      		var c = arcDef.centroid(d),
+      			x = c[0], //centriod is array of x and y
+      			y = c[1],
+      			//pythagoras for hypotenus
+      			h = Math.sqrt(x*x + y*y);
+      		return "translate(" + (x/h * labelRadius) + "," + (y/h * labelRadius) + ")"; })
+      .attr("fill","white")
+      .attr("class", "arc-label")
+      //this puts labels at uniform distance away from donut per the stack overflow link above, although I don't quite understand how it works
+      .attr("text-anchor", function (d) {
+      			return (d.endAngle + d.startAngle)/2 > Math.PI ?
+      					"end" : "start";
+      })
       .text(function(d) { return d.data.division_clean; });
 
 
@@ -249,10 +262,29 @@ var donutData = function(d) { return +d.project_share; };
 		var donutData = function(d) {return eval(donutValue); };
 		
 		//Update elements, from - http://bl.ocks.org/mbostock/1346410
-		pie.value(function(d) { return donutData(d); }); // the data driving pie
-		arc.data(pie(projectData));// compute the new angles
-		arc.transition().duration(1000).attrTween("d",arcTween);
+		pie.value(function(d) { return donutData(d); }); // the data driving pie layou
+		arc.data(pie(projectData)); //
+		arcPath.data(pie(projectData));// compute the new angles
+		arcPath.transition().duration(600).attrTween("d",arcTween);
 
+		//Redraw labels
+
+		d3.selectAll("arc-label")
+			.transition()
+			.duration()
+			.remove();
+
+		var donutLabels = arc.append("text")
+			.transition().duration(600)
+			.attr("transform", function(d) {
+				var c = arcDef.centroid(d),
+	      			x = c[0], //centriod is array of x and y
+	      			y = c[1],
+	      			//pythagoras for hypotenus
+	      			h = Math.sqrt(x*x + y*y);
+	      		return "translate(" + (x/h * labelRadius) + "," + (y/h * labelRadius) + ")";
+	      		})
+				.text(function(d) { return d.data.division_clean; });
 
 	});
 
@@ -264,7 +296,7 @@ var donutData = function(d) { return +d.project_share; };
 	  var i = d3.interpolate(this._current, a);
 	  this._current = i(0);
 	  return function(t) {
-	    return arc(i(t));
+	    return arcDef(i(t));
 	  };
 	}
 

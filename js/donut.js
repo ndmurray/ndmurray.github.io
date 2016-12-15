@@ -1,13 +1,14 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 10, right: 20, bottom: 20, left: 60},
+	var	margin = {top: 10, right: 60, bottom: 20, left: 60},
 		w = parseInt(d3.select('#donut-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#donut-div').style('height'),10),
 		h = h - margin.top - margin.bottom,
 		//Radius for donut
 		radius = Math.min(w, h) / 2;
+		labelRadius = w/2 + 8;
 
 		//Transitions
 		var tipDuration = 200;
@@ -81,13 +82,21 @@ var donutData = function(d) { return +d.avg_revenue; };
 	
 	//Pie labels
 	var donutLabels = arc.append("text")
-	//Placing labels outside of chart by redefining the radii of our arcDefinition, bu only within the scope of this labelling function (the radius of the arcs themselves doesn't actually change)
-	//http://bl.ocks.org/Guerino1/2295263
+	//labels on outside of pie - http://stackoverflow.com/questions/8053424/label-outside-arc-pie-chart-d3-js
       .attr("transform", function(d) { 
-      		d.outerRadius = radius + 500;
-      		d.innerRadius = radius + 495;
-      		return "translate(" + arcDef.centroid(d) + ")"; })
+      		var c = arcDef.centroid(d),
+      			x = c[0], //centriod is array of x and y
+      			y = c[1],
+      			//pythagoras for hypotenuse
+      			h = Math.sqrt(x*x + y*y);
+      		return "translate(" + (x/h * labelRadius) + "," + (y/h * labelRadius) + ")"; })
       .attr("fill","white")
+      .attr("class", "arc-label")
+      //this puts labels at uniform distance away from donut per the stack overflow link above, although I don't quite understand how it works
+      .attr("text-anchor", function (d) {
+      			return (d.endAngle + d.startAngle)/2 > Math.PI ?
+      					"end" : "start";
+      })
       .text(function(d) { return d.data.division_clean; });
 
 
@@ -114,15 +123,31 @@ var donutData = function(d) { return +d.avg_revenue; };
 		//Update data variable
 		var donutValue = d3.select(this).attr('value');
 		var donutData = function(d) {return eval(donutValue); };
-		console.log(donutValue);
-		console.log(donutData);
 		
 		//Update elements, from - http://bl.ocks.org/mbostock/1346410
-		pie.value(function(d) { return donutData(d); }); // the data driving pie
+		pie.value(function(d) { return donutData(d); }); // the data driving pie layou
 		arcPath.data(pie(projectData));// compute the new angles
 		arcPath.transition().duration(600).attrTween("d",arcTween);
 
 		//Redraw labels
+
+		d3.selectAll(".arc-label")
+			.data(pie(projectData))
+			.transition().duration(600)
+			.attr("transform", function(d) {
+				var c = arcDef.centroid(d),
+	      			x = c[0], //centriod is array of x and y
+	      			y = c[1],
+	      			//pythagoras for hypotenus
+	      			h = Math.sqrt(x*x + y*y);
+	      		return "translate(" + (x/h * labelRadius) + "," + (y/h * labelRadius) + ")";
+	      		})
+				//this puts labels at uniform distance away from donut per the stack overflow link above, although I don't quite understand how it works
+      .attr("text-anchor", function (d) {
+      			return (d.endAngle + d.startAngle)/2 > Math.PI ?
+      					"end" : "start";
+      })
+      .text(function(d) { return d.data.division_clean; });
 
 	});
 

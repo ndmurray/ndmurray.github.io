@@ -1,7 +1,7 @@
 "use strict";
 var margin = {
   top: 10,
-  right: 20,
+  right: 60,
   bottom: 20,
   left: 60
 },
@@ -10,6 +10,7 @@ var margin = {
     h = parseInt(d3.select('#donut-div').style('height'), 10),
     h = h - margin.top - margin.bottom,
     radius = Math.min(w, h) / 2;
+labelRadius = w / 2 + 8;
 var tipDuration = 200;
 d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data) {
   if (error) {
@@ -35,10 +36,14 @@ d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data)
     this._current = d;
   });
   var donutLabels = arc.append("text").attr("transform", function(d) {
-    d.outerRadius = radius + 500;
-    d.innerRadius = radius + 495;
-    return "translate(" + arcDef.centroid(d) + ")";
-  }).attr("fill", "white").text(function(d) {
+    var c = arcDef.centroid(d),
+        x = c[0],
+        y = c[1],
+        h = Math.sqrt(x * x + y * y);
+    return "translate(" + (x / h * labelRadius) + "," + (y / h * labelRadius) + ")";
+  }).attr("fill", "white").attr("class", "arc-label").attr("text-anchor", function(d) {
+    return (d.endAngle + d.startAngle) / 2 > Math.PI ? "end" : "start";
+  }).text(function(d) {
     return d.data.division_clean;
   });
   arcPath.on("mouseover", function(d) {
@@ -52,13 +57,22 @@ d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data)
     var donutData = function(d) {
       return eval(donutValue);
     };
-    console.log(donutValue);
-    console.log(donutData);
     pie.value(function(d) {
       return donutData(d);
     });
     arcPath.data(pie(projectData));
     arcPath.transition().duration(600).attrTween("d", arcTween);
+    d3.selectAll(".arc-label").data(pie(projectData)).transition().duration(600).attr("transform", function(d) {
+      var c = arcDef.centroid(d),
+          x = c[0],
+          y = c[1],
+          h = Math.sqrt(x * x + y * y);
+      return "translate(" + (x / h * labelRadius) + "," + (y / h * labelRadius) + ")";
+    }).attr("text-anchor", function(d) {
+      return (d.endAngle + d.startAngle) / 2 > Math.PI ? "end" : "start";
+    }).text(function(d) {
+      return d.data.division_clean;
+    });
   });
   function arcTween(a) {
     var i = d3.interpolate(this._current, a);
