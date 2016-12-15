@@ -1,46 +1,44 @@
 "use strict";
-var margin = {
+var donutMargin = {
   top: 10,
   right: 60,
   bottom: 20,
   left: 60
 },
     w = parseInt(d3.select('#donut-div').style('width'), 10),
-    w = w - margin.left - margin.right,
+    w = w - donutMargin.left - donutMargin.right,
     h = parseInt(d3.select('#donut-div').style('height'), 10),
-    h = h - margin.top - margin.bottom,
+    h = h - donutMargin.top - donutMargin.bottom,
     radius = Math.min(w, h) / 2;
 labelRadius = w / 2 + 8;
 var tipDuration = 200;
+var donutDuration = 600;
 d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data) {
   if (error) {
     console.log(error);
   } else {
     console.log(data);
   }
-  var projectData = data;
-  var donutData = function(d) {
+  var donutData = data;
+  var arcData = function(d) {
     return +d.avg_revenue;
   };
-  var svg = d3.select("#donut-div").append("svg").attr("width", w + margin.left + margin.right).attr("height", h + margin.top + margin.bottom).attr("id", "canvas").append("g").attr("transform", "translate(" + ((w / 2) + margin.left) + "," + ((h / 2) + margin.top) + ")");
+  var svg = d3.select("#donut-div").append("svg").attr("width", w + donutMargin.left + donutMargin.right).attr("height", h + donutMargin.top + donutMargin.bottom).attr("id", "canvas").append("g").attr("transform", "translate(" + ((w / 2) + donutMargin.left) + "," + ((h / 2) + donutMargin.top) + ")");
   var donutTip = d3.select("body").append("div").attr("class", "tooltip donut-tip").style("opacity", 0);
   var color = d3.scaleOrdinal().range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
   var arcDef = d3.arc().outerRadius(radius - 10).innerRadius(radius - 80);
+  var arcDefLabel = d3.arc().outerRadius(radius + 40).innerRadius(radius);
   var pie = d3.pie().sort(null).value(function(d) {
-    return donutData(d);
+    return arcData(d);
   });
-  var arc = svg.selectAll(".arc").data(pie(projectData)).enter().append("g").attr("class", "arc");
+  var arc = svg.selectAll(".arc").data(pie(donutData)).enter().append("g").attr("class", "arc");
   var arcPath = arc.append("path").attr("d", arcDef).attr("class", "arc-path").style("fill", function(d) {
     return color(d.data.division_clean);
   }).each(function(d) {
     this._current = d;
   });
   var donutLabels = arc.append("text").attr("transform", function(d) {
-    var c = arcDef.centroid(d),
-        x = c[0],
-        y = c[1],
-        h = Math.sqrt(x * x + y * y);
-    return "translate(" + (x / h * labelRadius) + "," + (y / h * labelRadius) + ")";
+    return "translate(" + arcDefLabel.centroid(d) + ")";
   }).attr("fill", "white").attr("class", "arc-label").attr("text-anchor", function(d) {
     return (d.endAngle + d.startAngle) / 2 > Math.PI ? "end" : "start";
   }).text(function(d) {
@@ -53,21 +51,17 @@ d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data)
     donutTip.transition().duration(tipDuration).style("opacity", 0);
   });
   d3.selectAll(".m-choice").on("click", function() {
-    var donutValue = d3.select(this).attr('value');
-    var donutData = function(d) {
-      return eval(donutValue);
+    var arcValue = d3.select(this).attr('value');
+    var arcData = function(d) {
+      return eval(arcValue);
     };
     pie.value(function(d) {
-      return donutData(d);
+      return arcData(d);
     });
-    arcPath.data(pie(projectData));
-    arcPath.transition().duration(600).attrTween("d", arcTween);
-    d3.selectAll(".arc-label").data(pie(projectData)).transition().duration(600).attr("transform", function(d) {
-      var c = arcDef.centroid(d),
-          x = c[0],
-          y = c[1],
-          h = Math.sqrt(x * x + y * y);
-      return "translate(" + (x / h * labelRadius) + "," + (y / h * labelRadius) + ")";
+    arcPath.data(pie(donutData));
+    arcPath.transition().duration(donutDuration).attrTween("d", arcTween);
+    d3.selectAll(".arc-label").data(pie(donutData)).transition().duration(donutDuration).attr("transform", function(d) {
+      return "translate(" + arcDefLabel.centroid(d) + ")";
     }).attr("text-anchor", function(d) {
       return (d.endAngle + d.startAngle) / 2 > Math.PI ? "end" : "start";
     }).text(function(d) {

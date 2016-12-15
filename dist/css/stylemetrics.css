@@ -25,6 +25,14 @@ div#donut-div {
   vertical-align: top;
   overflow: hidden; }
 
+div#lines-div {
+  display: inline-block;
+  position: relative;
+  width: 60%;
+  height: 70%;
+  vertical-align: top;
+  overflow: hidden; }
+
 /*Donut components*/
 .arc-path {
   fill: none; }
