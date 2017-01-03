@@ -75,33 +75,48 @@ div#line-div {
 
 .path {
   fill: none;
-  stroke-width: 2px;
+  stroke-width: 0.2em;
 }
 
 #ush-path {
   stroke: $ush;
 }
 
+.ush-nodes {
+  fill: $ush;
+}
+
 #sep-path {
   stroke: $sep;
+}
+
+.sep-nodes {
+  fill: $sep;
 }
 
 #ihd-path {
   stroke: $ihd;
 }
 
+.ihd-nodes {
+  fill: $ihd;
+}
+
 #ieg-path {
   stroke: $ieg;
+}
+
+.ieg-nodes {
+  fill: $ieg;
 }
 
 #enr-path {
   stroke: $enr;
 }
 
-.nodes {
-  fill: $default-color;
+.enr-nodes {
+  fill: $enr;
 }
-
 
 .value-display {
   color: $default-color;
@@ -124,7 +139,8 @@ div#line-div {
 
 .axis text {
   fill: $axis-color;
-  font-size: 1.2em;
+  font-size: 1.4em;
+  font-family: $default-font;
 }
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/

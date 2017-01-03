@@ -11,7 +11,7 @@
 
 
 	//Parse date values functions
-//	var parseDate = d3.timeParse("%Y");
+	//var parseDate = d3.timeParse("%Y");
 	var parseDate = d3.timeParse("%d-%b-%y");
 	var formatTimeWeek = d3.timeFormat("%d-%b-%y");
 	var formatTimeMonth = d3.timeFormat("%b");
@@ -63,7 +63,6 @@ function(d) {
 	var iegData = data.filter(function(d) { return d.division_clean == "IEG" });
 	var enrData = data.filter(function(d) { return d.division_clean == "ENR" });
 
-
 	var lineData = function(d) { return d.revenue_share; };
 
 //Define linear scales - because it's a line chart, we set ranges first, then domains
@@ -106,11 +105,29 @@ function(d) {
 		.attr("class", "path")
 		.attr("id","ush-path");
 
+	var nodesUSH = svg.selectAll("circle.ush-nodes")
+		.data(ushData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes ush-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
+
 	var pathSEP = svg.append("path")
 		.datum(sepData)
 		.attr("d", line)
 		.attr("class", "path")
 		.attr("id","sep-path");
+
+	var nodesSEP = svg.selectAll("circle.sep-nodes")
+		.data(sepData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes sep-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
 
 	var pathIHD = svg.append("path")
 		.datum(ihdData)
@@ -118,17 +135,44 @@ function(d) {
 		.attr("class", "path")
 		.attr("id","ihd-path");
 
+	var nodesIHD = svg.selectAll("circle.ihd-nodes")
+		.data(ihdData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes ihd-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
+
 	var pathIEG = svg.append("path")
 		.datum(iegData)
 		.attr("d", line)
 		.attr("class", "path")
 		.attr("id","ieg-path");
 
+	var nodesIEG = svg.selectAll("circle.ieg-nodes")
+		.data(iegData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes ieg-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
+
 	var pathENR = svg.append("path")
 		.datum(enrData)
 		.attr("d", line)
 		.attr("class", "path")
 		.attr("id","enr-path");
+
+	var nodesENR = svg.selectAll("circle.enr-nodes")
+		.data(enrData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes enr-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
 
 //Call the axes
 

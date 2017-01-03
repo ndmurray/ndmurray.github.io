@@ -140,7 +140,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	lineMargin = {top: 0, right: 0, bottom: 70, left: 60},
+	var	lineMargin = {top: 60, right: 40, bottom: 70, left: 60},
 		lineW = parseInt(d3.select('#line-div').style('width'), 10),//Get width of containing div for responsiveness
 		lineW = lineW - lineMargin.left - lineMargin.right,
 		lineH = parseInt(d3.select('#line-div').style('height'),10),
@@ -148,7 +148,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 
 	//Parse date values functions
-//	var parseDate = d3.timeParse("%Y");
+	//var parseDate = d3.timeParse("%Y");
 	var parseDate = d3.timeParse("%d-%b-%y");
 	var formatTimeWeek = d3.timeFormat("%d-%b-%y");
 	var formatTimeMonth = d3.timeFormat("%b");
@@ -165,11 +165,11 @@ d3.csv("datadev/crime.csv",function(error,data) {
 	   //  .range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
 
 	//Positioning
-	var yLabelShift = lineMargin.left/2 - 10;
+	var yLabelShift = -lineMargin.left/2 - 20;
 
 	
 //Begin data function 
-d3.csv("/8step.io/production_data/ctc_data/ctc_lines_test2.csv",
+d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv",
 //parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
 function(d) {
 		d.date = parseDate(d.date);
@@ -192,11 +192,13 @@ function(d) {
 
 //Key dataset-dependent variables
 
-	//Data and key functions
+	//Data functions
 	var timeData = data;
-	// var	key = function(d,i) {
-	// 	return d.year; //Binding row ID to year
-	// };
+	var ushData = data.filter(function(d) { return d.division_clean == "USH" });
+	var sepData = data.filter(function(d) { return d.division_clean == "SEP" });
+	var ihdData = data.filter(function(d) { return d.division_clean == "IHD" });
+	var iegData = data.filter(function(d) { return d.division_clean == "IEG" });
+	var enrData = data.filter(function(d) { return d.division_clean == "ENR" });
 
 	var lineData = function(d) { return d.revenue_share; };
 
@@ -216,16 +218,11 @@ function(d) {
 
 //Define the lines
 	//v4 curves defined - https://bl.ocks.org/d3noob/ced1b9b18bd8192d2c898884033b5529
-	var lineUSH = d3.line()
+	var line = d3.line()
 	    .curve(d3.curveLinear)
 	    .x(function(d) { return xScale(d.date); })
 	    .y(function(d) { return yScale(lineData(d)); });
 
-	//Filter USH	
-	d3.select(lineUSH)
-		.datum(timeData)
-		.filter(function(d) { return d.division_clean == "USH" });
-		
 
 //Set up the canvas
 	var svg = d3.select("#line-div")
@@ -238,13 +235,45 @@ function(d) {
 
 //Default chart elements
 
+	//Division Paths
 	var pathUSH = svg.append("path")
-		.datum(timeData)
-		.attr("fill","#FBAF43")
-		.attr("d", lineUSH)
-		.attr("class", "line")
-		.attr("id","ush-line");
+		.datum(ushData)
+		.attr("d", line)
+		.attr("class", "path")
+		.attr("id","ush-path");
 
+	var nodesUSH = svg.selectAll("circle")
+		.data(ushData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); } );
+
+	var pathSEP = svg.append("path")
+		.datum(sepData)
+		.attr("d", line)
+		.attr("class", "path")
+		.attr("id","sep-path");
+
+	var pathIHD = svg.append("path")
+		.datum(ihdData)
+		.attr("d", line)
+		.attr("class", "path")
+		.attr("id","ihd-path");
+
+	var pathIEG = svg.append("path")
+		.datum(iegData)
+		.attr("d", line)
+		.attr("class", "path")
+		.attr("id","ieg-path");
+
+	var pathENR = svg.append("path")
+		.datum(enrData)
+		.attr("d", line)
+		.attr("class", "path")
+		.attr("id","enr-path");
 
 //Call the axes
 

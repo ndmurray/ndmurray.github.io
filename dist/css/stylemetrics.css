@@ -38,25 +38,37 @@ div#line-div {
 
 .path {
   fill: none;
-  stroke-width: 2px; }
+  stroke-width: 0.2em; }
 
 #ush-path {
   stroke: #fbaf43; }
 
+.ush-nodes {
+  fill: #fbaf43; }
+
 #sep-path {
   stroke: #198f90; }
+
+.sep-nodes {
+  fill: #198f90; }
 
 #ihd-path {
   stroke: #9bd19d; }
 
+.ihd-nodes {
+  fill: #9bd19d; }
+
 #ieg-path {
   stroke: #f1594e; }
+
+.ieg-nodes {
+  fill: #f1594e; }
 
 #enr-path {
   stroke: #9e004d; }
 
-.nodes {
-  fill: #F7F7F7; }
+.enr-nodes {
+  fill: #9e004d; }
 
 .value-display {
   color: #F7F7F7;
@@ -73,7 +85,8 @@ div#line-div {
 
 .axis text {
   fill: gray;
-  font-size: 1.2em; }
+  font-size: 1.4em;
+  font-family: "Century Gothic"; }
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
 /*Dropdown mixins*/
