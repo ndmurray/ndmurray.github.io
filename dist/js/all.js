@@ -135,6 +135,139 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 
 		});
+//based on Bostock's example - https://bl.ocks.org/mbostock/3884955
+
+//General use variables
+	
+	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
+	var	lineMargin = {top: 0, right: 0, bottom: 70, left: 60},
+		lineW = parseInt(d3.select('#line-div').style('width'), 10),//Get width of containing div for responsiveness
+		lineW = lineW - lineMargin.left - lineMargin.right,
+		lineH = parseInt(d3.select('#line-div').style('height'),10),
+		lineH = lineH - lineMargin.top - lineMargin.bottom;
+
+
+	//Parse date values functions
+//	var parseDate = d3.timeParse("%Y");
+	var parseDate = d3.timeParse("%d-%b-%y");
+	var formatTimeWeek = d3.timeFormat("%d-%b-%y");
+	var formatTimeMonth = d3.timeFormat("%b");
+
+	//X range
+	var xScale = d3.scaleTime().range([0,lineW]);
+	//we're including the .scaleTime method to make sure D3 handles the values as date/time entities.
+
+	//Y range
+	var yScale = d3.scaleLinear().range([lineH, 0]);
+
+	// //from donut.js
+    // var color = d3.scaleOrdinal()
+	   //  .range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
+
+	//Positioning
+	var yLabelShift = lineMargin.left/2 - 10;
+
+	
+//Begin data function 
+d3.csv("/8step.io/production_data/ctc_data/ctc_lines_test2.csv",
+//parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
+function(d) {
+		d.date = parseDate(d.date);
+		d.division_clean = d.division_clean;
+		d.avg_revenue = +d.avg_revenue;
+		d.projects_share = +d.projects_share;
+		d.projects_total = +d.projects_total;
+		d.revenue_share = +d.revenue_share;
+		d.revenue_total = +d.revenue_total;
+		return d;
+	}
+,function(error,data) {
+			
+	if(error) {
+		console.log(error);
+	} else {
+		console.log(data);
+	}
+
+
+//Key dataset-dependent variables
+
+	//Data and key functions
+	var timeData = data;
+	// var	key = function(d,i) {
+	// 	return d.year; //Binding row ID to year
+	// };
+
+	var lineData = function(d) { return d.revenue_share; };
+
+//Define linear scales - because it's a line chart, we set ranges first, then domains
+
+	//X domain
+	xScale.domain(d3.extent(timeData, function(d) { return d.date; }));
+
+	//Y domain
+	yScale.domain(d3.extent(timeData, function(d) { return lineData(d); })).nice();
+
+//Define Axes
+	
+	var xAxis = d3.axisBottom().scale(xScale).tickFormat(formatTimeMonth);
+
+	var yAxis = d3.axisLeft().scale(yScale);
+
+//Define the lines
+	//v4 curves defined - https://bl.ocks.org/d3noob/ced1b9b18bd8192d2c898884033b5529
+	var lineUSH = d3.line()
+	    .curve(d3.curveLinear)
+	    .x(function(d) { return xScale(d.date); })
+	    .y(function(d) { return yScale(lineData(d)); });
+
+	//Filter USH	
+	d3.select(lineUSH)
+		.datum(timeData)
+		.filter(function(d) { return d.division_clean == "USH" });
+		
+
+//Set up the canvas
+	var svg = d3.select("#line-div")
+		.append("svg")
+		.attr("width", lineW + lineMargin.left + lineMargin.right)
+		.attr("height",lineH + lineMargin.top + lineMargin.bottom)
+		.attr("id","canvas")
+		.append("g") //This g element and it attributes also following bstok's margin convention. It holds all the canvas' elements.
+			.attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")");
+
+//Default chart elements
+
+	var pathUSH = svg.append("path")
+		.datum(timeData)
+		.attr("fill","#FBAF43")
+		.attr("d", lineUSH)
+		.attr("class", "line")
+		.attr("id","ush-line");
+
+
+//Call the axes
+
+	//X axis group
+
+	svg.append("g")
+		.attr("class","axis x-axis")
+		.attr("transform","translate(0," + lineH + ")")
+		.call(xAxis);
+
+	d3.selectAll(".x-axis text")
+		.attr("transform","rotate(-45)")
+		.attr("text-anchor","end");
+
+	//Y axis group
+	svg.append("g")
+		.attr("class","axis y-axis")
+		.call(yAxis)
+		.append("text")
+		.text("Average Revenue ($US)")
+			.attr("fill","gray")
+			.attr("transform","translate(" + yLabelShift + "," + (h/2 - lineMargin.bottom - lineMargin.top) + "), rotate(-90)");
+});
 //BEGIN DONUT
 
 //General use variables
@@ -208,7 +341,7 @@ var arcData = function(d) { return +d.avg_revenue; };
 
 	var pie = d3.pie()
 	    .sort(null)
-	    .value(function(d) { return donutData(d); });
+	    .value(function(d) { return arcData(d); });
 
 	//Draw arc group that holds the arc path
 	var arc = svg.selectAll(".arc")
@@ -271,7 +404,7 @@ var arcData = function(d) { return +d.avg_revenue; };
 		var arcData = function(d) {return eval(arcValue); };
 		
 		//Update elements, from - http://bl.ocks.org/mbostock/1346410
-		pie.value(function(d) { return donutData(d); }); // the data driving pie layou
+		pie.value(function(d) { return arcData(d); }); // the data driving pie layou
 		arcPath.data(pie(donutData));// compute the new angles
 		arcPath.transition().duration(donutDuration).attrTween("d",arcTween);
 
@@ -279,7 +412,7 @@ var arcData = function(d) { return +d.avg_revenue; };
 
 		d3.selectAll(".arc-label")
 			.data(pie(donutData))
-			.transition().duration(donutDuration + 200)
+			.transition().duration(donutDuration)
 			.attr("transform", function(d) { return "translate(" + arcDefLabel.centroid(d) +")"; }) 
 			//this puts labels at uniform distance away from donut per the deprecated stack overflow link in original label definition, although I don't quite understand how it works
 	      	.attr("text-anchor", function (d) {
@@ -306,8 +439,7 @@ var arcData = function(d) { return +d.avg_revenue; };
 });
 
 
-//END DONUT
-//NOW BEGIN LINE
+
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
@@ -329,12 +461,10 @@ var arcData = function(d) { return +d.avg_revenue; };
 	//Y range
 	var yScale = d3.scaleLinear().range([h, 0]);
 
-//Positioning
+	//Positioning
 	var yLabelShift = margin.left/2 - 10;
 
-
-
-//Transitions
+	//Transitions
 	var tipDuration = 100;
 
 //Begin data function 

@@ -19,12 +19,10 @@
 	//Y range
 	var yScale = d3.scaleLinear().range([h, 0]);
 
-//Positioning
+	//Positioning
 	var yLabelShift = margin.left/2 - 10;
 
-
-
-//Transitions
+	//Transitions
 	var tipDuration = 100;
 
 //Begin data function 

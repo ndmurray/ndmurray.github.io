@@ -2,8 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 /*Theme*/
 /*Dropdown colors*/
-/*Dot colors*/
-/*Tooltip colors*/
+/*Division colors*/
 /*******************STYLES****************************************************************/
 body {
   font-family: "Century Gothic";
@@ -20,22 +19,61 @@ h2#chart-title {
 div#donut-div {
   display: inline-block;
   position: relative;
-  width: 40%;
-  height: 70%;
+  width: 33%;
+  height: 60%;
   vertical-align: top;
   overflow: hidden; }
 
-div#lines-div {
+div#line-div {
   display: inline-block;
   position: relative;
-  width: 60%;
-  height: 70%;
+  width: 66%;
+  height: 60%;
   vertical-align: top;
   overflow: hidden; }
 
 /*Donut components*/
 .arc-path {
   fill: none; }
+
+.path {
+  fill: none;
+  stroke-width: 2px; }
+
+#ush-path {
+  stroke: #fbaf43; }
+
+#sep-path {
+  stroke: #198f90; }
+
+#ihd-path {
+  stroke: #9bd19d; }
+
+#ieg-path {
+  stroke: #f1594e; }
+
+#enr-path {
+  stroke: #9e004d; }
+
+.nodes {
+  fill: #F7F7F7; }
+
+.value-display {
+  color: #F7F7F7;
+  font-size: 16px;
+  font-weight: bold; }
+
+.date-display {
+  color: #F7F7F7;
+  font-size: 14px; }
+
+.axis path, .axis line {
+  fill: none;
+  stroke: gray; }
+
+.axis text {
+  fill: gray;
+  font-size: 1.2em; }
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
 /*Dropdown mixins*/

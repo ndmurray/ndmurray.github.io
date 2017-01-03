@@ -169,5 +169,3 @@ var arcData = function(d) { return +d.avg_revenue; };
 });
 
 
-//END DONUT
-//NOW BEGIN LINE

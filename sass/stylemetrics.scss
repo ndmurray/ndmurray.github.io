@@ -5,29 +5,21 @@
 $default-font: 'Century Gothic';
 $default-color: #F7F7F7; 
 $page-background: #1A1F1E; //"night sweat"
+$axis-color: gray;
 //#18071E;
 
 /*Dropdown colors*/
-$base : white; //text color for dropdown header
+$base: white; //text color for dropdown header
 $flat: #035435; //backgound/highlight color
 $dark: gray; //dropdown text color
 
-//teal #1a614d
-//magenta #791636
+/*Division colors*/
+$ush: #fbaf43;
+$ihd: #9bd19d;
+$sep: #198f90;
+$ieg: #f1594e;
+$enr: #9e004d;
 
-
-
-
-/*Dot colors*/
-$dot-color: rgb(132,22,6)/*#D63510*/; 
-$dot-color-hover: #B11E07;
-
-/*Tooltip colors*/
-$tooltip-head-color: white;
-$tooltip-color: white;
-$tooltip-background: #791636;
-
-//FFB627
 
 /*******************STYLES****************************************************************/
 
@@ -52,17 +44,17 @@ h2#chart-title {
 div#donut-div {
     display: inline-block;
     position: relative;
-    width: 40%;
-    height: 70%;
+    width: 33%;
+    height: 60%;
     vertical-align: top;
     overflow: hidden;
 }
 
-div#lines-div {
+div#line-div {
     display: inline-block;
     position: relative;
-    width: 60%;
-    height: 70%;
+    width: 66%;
+    height: 60%;
     vertical-align: top;
     overflow: hidden;
 }
@@ -78,6 +70,62 @@ div#lines-div {
   //shape-rendering: crispEdges;
 }
 
+
+//Line components
+
+.path {
+  fill: none;
+  stroke-width: 2px;
+}
+
+#ush-path {
+  stroke: $ush;
+}
+
+#sep-path {
+  stroke: $sep;
+}
+
+#ihd-path {
+  stroke: $ihd;
+}
+
+#ieg-path {
+  stroke: $ieg;
+}
+
+#enr-path {
+  stroke: $enr;
+}
+
+.nodes {
+  fill: $default-color;
+}
+
+
+.value-display {
+  color: $default-color;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.date-display {
+  color: $default-color;
+  font-size: 14px;
+}
+
+
+//Axes
+
+.axis path, .axis line {
+  fill: none;
+  stroke: $axis-color;
+}
+
+.axis text {
+  fill: $axis-color;
+  font-size: 1.2em;
+}
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
 
