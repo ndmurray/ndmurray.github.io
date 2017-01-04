@@ -146,6 +146,9 @@ d3.csv("datadev/crime.csv",function(error,data) {
 		lineH = parseInt(d3.select('#line-div').style('height'),10),
 		lineH = lineH - lineMargin.top - lineMargin.bottom;
 
+	//Transitions
+	var lineDuration = 600;
+	var tipDuration = 200;
 
 	//Parse date values functions
 	//var parseDate = d3.timeParse("%Y");
@@ -180,8 +183,7 @@ function(d) {
 		d.revenue_share = +d.revenue_share;
 		d.revenue_total = +d.revenue_total;
 		return d;
-	}
-,function(error,data) {
+	},function(error,data) {
 			
 	if(error) {
 		console.log(error);
@@ -194,11 +196,11 @@ function(d) {
 
 	//Data functions
 	var timeData = data;
-	var ushData = data.filter(function(d) { return d.division_clean == "USH" });
-	var sepData = data.filter(function(d) { return d.division_clean == "SEP" });
-	var ihdData = data.filter(function(d) { return d.division_clean == "IHD" });
-	var iegData = data.filter(function(d) { return d.division_clean == "IEG" });
-	var enrData = data.filter(function(d) { return d.division_clean == "ENR" });
+	var ushData = data.filter(function(d) { return d.division_clean == "USH"; });
+	var sepData = data.filter(function(d) { return d.division_clean == "SEP"; });
+	var ihdData = data.filter(function(d) { return d.division_clean == "IHD"; });
+	var iegData = data.filter(function(d) { return d.division_clean == "IEG"; })
+	var enrData = data.filter(function(d) { return d.division_clean == "ENR"; });
 
 	var lineData = function(d) { return d.revenue_share; };
 
@@ -242,14 +244,14 @@ function(d) {
 		.attr("class", "path")
 		.attr("id","ush-path");
 
-	var nodesUSH = svg.selectAll("circle")
+	var nodesUSH = svg.selectAll("circle.ush-nodes")
 		.data(ushData)
 		.enter()
 		.append("circle")
-			.attr("class","nodes")
+			.attr("class","nodes ush-nodes")
 			.attr("r","0.15em")
 			.attr("cx", function(d) { return xScale(d.date); } )
-			.attr("cy", function(d) { return yScale(lineData(d)); } );
+			.attr("cy", function(d) { return yScale(lineData(d)); });
 
 	var pathSEP = svg.append("path")
 		.datum(sepData)
@@ -257,11 +259,29 @@ function(d) {
 		.attr("class", "path")
 		.attr("id","sep-path");
 
+	var nodesSEP = svg.selectAll("circle.sep-nodes")
+		.data(sepData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes sep-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
+
 	var pathIHD = svg.append("path")
 		.datum(ihdData)
 		.attr("d", line)
 		.attr("class", "path")
 		.attr("id","ihd-path");
+
+	var nodesIHD = svg.selectAll("circle.ihd-nodes")
+		.data(ihdData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes ihd-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
 
 	var pathIEG = svg.append("path")
 		.datum(iegData)
@@ -269,11 +289,29 @@ function(d) {
 		.attr("class", "path")
 		.attr("id","ieg-path");
 
+	var nodesIEG = svg.selectAll("circle.ieg-nodes")
+		.data(iegData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes ieg-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
+
 	var pathENR = svg.append("path")
 		.datum(enrData)
 		.attr("d", line)
 		.attr("class", "path")
 		.attr("id","enr-path");
+
+	var nodesENR = svg.selectAll("circle.enr-nodes")
+		.data(enrData)
+		.enter()
+		.append("circle")
+			.attr("class","nodes enr-nodes")
+			.attr("r","0.15em")
+			.attr("cx", function(d) { return xScale(d.date); } )
+			.attr("cy", function(d) { return yScale(lineData(d)); });
 
 //Call the axes
 
@@ -296,7 +334,124 @@ function(d) {
 		.text("Average Revenue ($US)")
 			.attr("fill","gray")
 			.attr("transform","translate(" + yLabelShift + "," + (h/2 - lineMargin.bottom - lineMargin.top) + "), rotate(-90)");
+
+//Update lines data
+	d3.selectAll(".m2-choice").on("click", function() {
+
+		//Update data variable
+		var lineValue = d3.select(this).attr('value');
+		var lineData = function(d) { return eval(lineValue); };
+
+		//Update yScale domain
+		yScale.domain(d3.extent(timeData, function(d) { return lineData(d); })).nice();
+
+		//Redefine line y attribute
+		var line = d3.line()
+			.x(function(d) { return xScale(d.date); })
+	    	.y(function(d) { return yScale(lineData(d)); });
+
+	    //Redraw paths and nodes
+
+	    //USH
+	    pathUSH.transition().duration(lineDuration).attr("d", line);
+		nodesUSH.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//SEP
+		pathSEP.transition().duration(lineDuration).attr("d", line);
+		nodesSEP.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//IHD
+		pathIHD.transition().duration(lineDuration).attr("d", line);
+		nodesIHD.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//IEG
+		pathIEG.transition().duration(lineDuration).attr("d", line);
+		nodesIEG.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//ENR
+		pathENR.transition().duration(lineDuration).attr("d", line);
+		nodesENR.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+	});
+
+//Update lines dates
 });
+d3.selectAll(".m-choice").on("click", function() {
+
+
+//Update lines!
+		//Update data variable
+		var lineValue = d3.select(this).attr('value');
+		var lineData = function(d) { return eval(lineValue); };
+
+		//Update yScale domain
+		yScale.domain(d3.extent(timeData, function(d) { return lineData(d); })).nice();
+
+		//Redefine line y attribute
+		var line = d3.line()
+			.x(function(d) { return xScale(d.date); })
+	    	.y(function(d) { return yScale(lineData(d)); });
+
+	    //Redraw paths and nodes
+
+	    //USH
+	    pathUSH.transition().duration(lineDuration).attr("d", line);
+		nodesUSH.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//SEP
+		pathSEP.transition().duration(lineDuration).attr("d", line);
+		nodesSEP.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//IHD
+		pathIHD.transition().duration(lineDuration).attr("d", line);
+		nodesIHD.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//IEG
+		pathIEG.transition().duration(lineDuration).attr("d", line);
+		nodesIEG.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//ENR
+		pathENR.transition().duration(lineDuration).attr("d", line);
+		nodesENR.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+//Update donut!
+
+		//Update data variable
+		var arcValue = d3.select(this).attr('value');
+		var arcData = function(d) {return eval(arcValue); };
+		
+		//Update elements, from - http://bl.ocks.org/mbostock/1346410
+		pie.value(function(d) { return arcData(d); }); // the data driving pie layou
+		arcPath.data(pie(donutData));// compute the new angles
+		arcPath.transition().duration(donutDuration).attrTween("d",arcTween);
+
+		//Redraw labels
+
+		d3.selectAll(".arc-label")
+			.data(pie(donutData))
+			.transition().duration(donutDuration)
+			.attr("transform", function(d) { return "translate(" + arcDefLabel.centroid(d) +")"; }) 
+			//this puts labels at uniform distance away from donut per the deprecated stack overflow link in original label definition, although I don't quite understand how it works
+	      	.attr("text-anchor", function (d) {
+      					return (d.endAngle + d.startAngle)/2 > Math.PI ?
+		      					"end" : "start";
+		     })
+		    .text(function(d) { return d.data.division_clean; });
+		    	    
+		});
+
+	//Tween function for smooth transition, also from Bostock
+	// Store the displayed angles in _current.
+	// Then, interpolate from _current to the new angles.
+		// During the transition, _current is updated in-place by d3.interpolate.
+	function arcTween(a) {
+	  var i = d3.interpolate(this._current, a);
+	  this._current = i(0);
+	  return function(t) {
+	    return arcDef(i(t));
+	  };
+	}
+
+
 //BEGIN DONUT
 
 //General use variables
@@ -449,8 +604,7 @@ var arcData = function(d) { return +d.avg_revenue; };
 		      					"end" : "start";
 		     })
 		    .text(function(d) { return d.data.division_clean; });
-		    
-		    
+		    	    
 		});
 
 	//Tween function for smooth transition, also from Bostock

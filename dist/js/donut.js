@@ -9,8 +9,8 @@ var donutMargin = {
     w = w - donutMargin.left - donutMargin.right,
     h = parseInt(d3.select('#donut-div').style('height'), 10),
     h = h - donutMargin.top - donutMargin.bottom,
-    radius = Math.min(w, h) / 2;
-labelRadius = w / 2 + 8;
+    radius = Math.min(w, h) / 2,
+    labelRadius = w / 2 + 8;
 var tipDuration = 200;
 var donutDuration = 600;
 d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data) {

@@ -9,7 +9,7 @@
 		h = parseInt(d3.select('#donut-div').style('height'),10),
 		h = h - donutMargin.top - donutMargin.bottom,
 		//Radius for donut
-		radius = Math.min(w, h) / 2;
+		radius = Math.min(w, h) / 2,
 		labelRadius = w/2 + 8;
 
 		//Transitions
@@ -126,7 +126,7 @@ var arcData = function(d) { return +d.avg_revenue; };
 				.style("opacity",0);
 		});
 
-//Update donut!
+ //Update donut!
 	d3.selectAll(".m-choice").on("click",function() {
 
 		//Update data variable
@@ -150,8 +150,7 @@ var arcData = function(d) { return +d.avg_revenue; };
 		      					"end" : "start";
 		     })
 		    .text(function(d) { return d.data.division_clean; });
-		    
-		    
+		    	    
 		});
 
 	//Tween function for smooth transition, also from Bostock

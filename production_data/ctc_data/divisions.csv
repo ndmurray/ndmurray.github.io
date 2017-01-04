@@ -1,4 +1,4 @@
-division_clean,division_display,projects,project_share,revenue,revenue_share,avg_revenue
+division_clean,division_display,projects_total,projects_share,revenue_total,revenue_share,avg_revenue
 USH,U.S. Health,75,0.496688742,546677.38,0.475423969,7289.031733
 SEP,Social & Economic Policy,38,0.251655629,357274.53,0.310707707,9401.961316
 ENR,Environment & Natural Resources,9,0.059602649,18195.59,0.015823994,2021.732222

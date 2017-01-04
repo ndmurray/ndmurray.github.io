@@ -9,6 +9,9 @@
 		lineH = parseInt(d3.select('#line-div').style('height'),10),
 		lineH = lineH - lineMargin.top - lineMargin.bottom;
 
+	//Transitions
+	var lineDuration = 600;
+	var tipDuration = 200;
 
 	//Parse date values functions
 	//var parseDate = d3.timeParse("%Y");
@@ -43,8 +46,7 @@ function(d) {
 		d.revenue_share = +d.revenue_share;
 		d.revenue_total = +d.revenue_total;
 		return d;
-	}
-,function(error,data) {
+	},function(error,data) {
 			
 	if(error) {
 		console.log(error);
@@ -57,11 +59,11 @@ function(d) {
 
 	//Data functions
 	var timeData = data;
-	var ushData = data.filter(function(d) { return d.division_clean == "USH" });
-	var sepData = data.filter(function(d) { return d.division_clean == "SEP" });
-	var ihdData = data.filter(function(d) { return d.division_clean == "IHD" });
-	var iegData = data.filter(function(d) { return d.division_clean == "IEG" });
-	var enrData = data.filter(function(d) { return d.division_clean == "ENR" });
+	var ushData = data.filter(function(d) { return d.division_clean == "USH"; });
+	var sepData = data.filter(function(d) { return d.division_clean == "SEP"; });
+	var ihdData = data.filter(function(d) { return d.division_clean == "IHD"; });
+	var iegData = data.filter(function(d) { return d.division_clean == "IEG"; })
+	var enrData = data.filter(function(d) { return d.division_clean == "ENR"; });
 
 	var lineData = function(d) { return d.revenue_share; };
 
@@ -195,4 +197,44 @@ function(d) {
 		.text("Average Revenue ($US)")
 			.attr("fill","gray")
 			.attr("transform","translate(" + yLabelShift + "," + (h/2 - lineMargin.bottom - lineMargin.top) + "), rotate(-90)");
+
+//Update lines data
+	d3.selectAll(".m-choice").on("click", function() {
+
+		//Update data variable
+		var lineValue = d3.select(this).attr('value');
+		var lineData = function(d) { return eval(lineValue); };
+
+		//Update yScale domain
+		yScale.domain(d3.extent(timeData, function(d) { return lineData(d); })).nice();
+
+		//Redefine line y attribute
+		var line = d3.line()
+			.x(function(d) { return xScale(d.date); })
+	    	.y(function(d) { return yScale(lineData(d)); });
+
+	    //Redraw paths and nodes
+
+	    //USH
+	    pathUSH.transition().duration(lineDuration).attr("d", line);
+		nodesUSH.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//SEP
+		pathSEP.transition().duration(lineDuration).attr("d", line);
+		nodesSEP.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//IHD
+		pathIHD.transition().duration(lineDuration).attr("d", line);
+		nodesIHD.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//IEG
+		pathIEG.transition().duration(lineDuration).attr("d", line);
+		nodesIEG.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//ENR
+		pathENR.transition().duration(lineDuration).attr("d", line);
+		nodesENR.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+	});
+
+//Update lines dates
 });

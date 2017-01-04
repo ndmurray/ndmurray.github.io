@@ -9,6 +9,8 @@ var lineMargin = {
     lineW = lineW - lineMargin.left - lineMargin.right,
     lineH = parseInt(d3.select('#line-div').style('height'), 10),
     lineH = lineH - lineMargin.top - lineMargin.bottom;
+var lineDuration = 600;
+var tipDuration = 200;
 var parseDate = d3.timeParse("%d-%b-%y");
 var formatTimeWeek = d3.timeFormat("%d-%b-%y");
 var formatTimeMonth = d3.timeFormat("%b");
@@ -96,4 +98,38 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
   svg.append("g").attr("class", "axis x-axis").attr("transform", "translate(0," + lineH + ")").call(xAxis);
   d3.selectAll(".x-axis text").attr("transform", "rotate(-45)").attr("text-anchor", "end");
   svg.append("g").attr("class", "axis y-axis").call(yAxis).append("text").text("Average Revenue ($US)").attr("fill", "gray").attr("transform", "translate(" + yLabelShift + "," + (h / 2 - lineMargin.bottom - lineMargin.top) + "), rotate(-90)");
+  d3.selectAll(".m-choice").on("click", function() {
+    var lineValue = d3.select(this).attr('value');
+    var lineData = function(d) {
+      return eval(lineValue);
+    };
+    yScale.domain(d3.extent(timeData, function(d) {
+      return lineData(d);
+    })).nice();
+    var line = d3.line().x(function(d) {
+      return xScale(d.date);
+    }).y(function(d) {
+      return yScale(lineData(d));
+    });
+    pathUSH.transition().duration(lineDuration).attr("d", line);
+    nodesUSH.transition().duration(lineDuration).attr("cy", function(d) {
+      return yScale(lineData(d));
+    });
+    pathSEP.transition().duration(lineDuration).attr("d", line);
+    nodesSEP.transition().duration(lineDuration).attr("cy", function(d) {
+      return yScale(lineData(d));
+    });
+    pathIHD.transition().duration(lineDuration).attr("d", line);
+    nodesIHD.transition().duration(lineDuration).attr("cy", function(d) {
+      return yScale(lineData(d));
+    });
+    pathIEG.transition().duration(lineDuration).attr("d", line);
+    nodesIEG.transition().duration(lineDuration).attr("cy", function(d) {
+      return yScale(lineData(d));
+    });
+    pathENR.transition().duration(lineDuration).attr("d", line);
+    nodesENR.transition().duration(lineDuration).attr("cy", function(d) {
+      return yScale(lineData(d));
+    });
+  });
 });
