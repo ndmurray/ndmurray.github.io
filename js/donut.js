@@ -127,7 +127,7 @@ var arcData = function(d) { return +d.avg_revenue; };
 		});
 
  //Update donut!
-	d3.selectAll(".m-choice").on("change",function() {
+	d3.selectAll(".m-choice").on("click",function() {
 
 		//Update data variable
 		var arcValue = d3.select(this).attr('value');

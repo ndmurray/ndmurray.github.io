@@ -50,7 +50,7 @@ d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data)
   }).on("mouseout", function(d) {
     donutTip.transition().duration(tipDuration).style("opacity", 0);
   });
-  d3.selectAll(".m-choice").on("change", function() {
+  d3.selectAll(".m-choice").on("click", function() {
     var arcValue = d3.select(this).attr('value');
     var arcData = function(d) {
       return eval(arcValue);
