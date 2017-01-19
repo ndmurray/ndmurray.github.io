@@ -169,18 +169,17 @@ ul li {
 .data-display {
   color: #F7F7F7;
   font-size: 18px;
-  line-height: 22px;
+  line-height: 32px;
   margin-top: -18px; }
 
-div.tooltip {
-  position: absolute;
-  text-align: left;
+div.donut-tip {
+  text-align: center;
   font-family: "Century Gothic";
   width: auto;
   height: auto;
   padding: 20px;
   font-size: 16px;
-  background: #035435;
+  background: transparent;
   border: 0px;
   pointer-events: none; }
 

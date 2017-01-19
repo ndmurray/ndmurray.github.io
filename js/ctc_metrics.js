@@ -259,10 +259,17 @@ function(d) {
 
 	//Tooltips - http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
 
-		//Donut tooltip
-		var donutTip = d3.select("body").append("div")	
-	    .attr("class", "tooltip donut-tip")				
-	    .style("opacity", 0);
+		//Define Donut tooltip
+		var donutTip = d3.select("#donut-div").append("div")	
+		    .attr("class", "tooltip donut-tip")
+		    //Position in center of donut
+		    .style("position", "absolute")
+		    .style("left", ((w + donutMargin.left + donutMargin.right)/2))
+				//added margins because we're appending to div, not to the svg
+		    .style("top", ((h / 2) + donutMargin.top))
+		    //Anchor in middle, rather than top left
+		    .style("-webkit-transform","translate(-45%,-50%)")
+		    .style("opacity", 0);
 
 
 		//Oridinal color scheme
@@ -326,9 +333,7 @@ function(d) {
 					.duration(tipDuration)
 					.style("opacity",1);
 
-				donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects: " + d.data.projects +"<br />Total Revenue: $" + d3.format(',')(+d.data.revenue) +  "</div>")
-					.style("left", "18em") 
-					.style("top", "2em");
+				donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects:<strong> " + d.data.projects_total +"</strong><br />Total Revenue: <strong>$" + d3.format(',.2f')(d.data.revenue_total) + "</strong><br />Avg Revenue/Project:<strong> $" + d3.format(',.2f')(d.data.avg_revenue) + "</strong></div>") //the .data bit keeps you from having to wrap the whole thing in a function.
 			})
 			.on("mouseout",function(d) {
 				donutTip.transition()

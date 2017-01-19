@@ -123,7 +123,7 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
       return +d.revenue_share;
     };
     var svg = d3.select("#donut-div").append("svg").attr("width", w + donutMargin.left + donutMargin.right).attr("height", h + donutMargin.top + donutMargin.bottom).attr("id", "donut-canvas").append("g").attr("transform", "translate(" + ((w / 2) + donutMargin.left) + "," + ((h / 2) + donutMargin.top) + ")");
-    var donutTip = d3.select("body").append("div").attr("class", "tooltip donut-tip").style("opacity", 0);
+    var donutTip = d3.select("#donut-div").append("div").attr("class", "tooltip donut-tip").style("position", "absolute").style("left", ((w + donutMargin.left + donutMargin.right) / 2)).style("top", ((h / 2) + donutMargin.top)).style("-webkit-transform", "translate(-45%,-50%)").style("opacity", 0);
     var color = d3.scaleOrdinal().range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
     var arcDef = d3.arc().outerRadius(radius - 10).innerRadius(radius - 80);
     var arcDefLabel = d3.arc().outerRadius(radius + 40).innerRadius(radius);
@@ -145,7 +145,7 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
     });
     arcPath.on("mouseover", function(d) {
       donutTip.transition().duration(tipDuration).style("opacity", 1);
-      donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects: " + d.data.projects + "<br />Total Revenue: $" + d3.format(',')(+d.data.revenue) + "</div>").style("left", "18em").style("top", "2em");
+      donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects:<strong> " + d.data.projects_total + "</strong><br />Total Revenue: <strong>$" + d3.format(',.2f')(d.data.revenue_total) + "</strong><br />Avg Revenue/Project:<strong> $" + d3.format(',.2f')(d.data.avg_revenue) + "</strong></div>");
     }).on("mouseout", function(d) {
       donutTip.transition().duration(tipDuration).style("opacity", 0);
     });

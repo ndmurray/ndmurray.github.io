@@ -135,7 +135,14 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 
 		});
-
+//Combined Line and Donut Chart. Implemented in an interesting way; may not be the industry standard:
+//1. We write the line chart script
+//2. Within the data 'holder' function, we write the donut script, with it's own data 'holder function'
+//3. Within the donut data 'holder' function we define the update on click event. Because it's defined in this donut holder function 
+//nested within the line holder function, it has access to both sets of data dependent variables, for line and donut
+//4. However, this confuses the definition of d. To make it work, we set up a NEW line data holder function within the on click event listener
+//Notice in the listener arcValue and lineValue are the same (because data fields have the same name) although lineValue and arcValue are different, because they reference
+//columns in different dataset, even though these columns have the same name
 
 //BEGIN LINE based on Bostock's example - https://bl.ocks.org/mbostock/3884955
 
@@ -201,7 +208,7 @@ function(d) {
 	var ushData = data.filter(function(d) { return d.division_clean == "USH"; });
 	var sepData = data.filter(function(d) { return d.division_clean == "SEP"; });
 	var ihdData = data.filter(function(d) { return d.division_clean == "IHD"; });
-	var iegData = data.filter(function(d) { return d.division_clean == "IEG"; });
+	var iegData = data.filter(function(d) { return d.division_clean == "IEG" && d.avg_revenue != "null"; });
 	var enrData = data.filter(function(d) { return d.division_clean == "ENR"; });
 
 	var lineData = function(d) { return d.revenue_share; };
@@ -376,7 +383,7 @@ function(d) {
 
 
 	//Holder variable for data selection
-	var arcData = function(d) { return +d.avg_revenue; };
+	var arcData = function(d) { return +d.revenue_share; };
 		
 	//Set up the canvas
 		var svg = d3.select("#donut-div")
@@ -390,9 +397,16 @@ function(d) {
 	//Tooltips - http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
 
 		//Donut tooltip
-		var donutTip = d3.select("body").append("div")	
-	    .attr("class", "tooltip donut-tip")				
-	    .style("opacity", 0);
+		var donutTip = d3.select("#donut-div").append("div")	
+		    .attr("class", "tooltip donut-tip")
+		    //Position in center of donut
+		    .style("position", "absolute")
+		    .style("left", ((w + donutMargin.left + donutMargin.right)/2))
+				//added margins because we're appending to div, not to the svg
+		    .style("top", ((h / 2) + donutMargin.top))
+		    //Anchor in middle, rather than top left
+		    .style("-webkit-transform","translate(-45%,-50%)")
+		    .style("opacity", 0);
 
 
 		//Oridinal color scheme
@@ -456,9 +470,7 @@ function(d) {
 					.duration(tipDuration)
 					.style("opacity",1);
 
-				donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects: " + d.data.projects +"<br />Total Revenue: $" + d3.format(',')(+d.data.revenue) +  "</div>")
-					.style("left", "18em") 
-					.style("top", "2em");
+				donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div>")
 			})
 			.on("mouseout",function(d) {
 				donutTip.transition()
@@ -468,14 +480,38 @@ function(d) {
 
 
 
-	//Update lines and donut data
+//Update lines and donut data - 
 	d3.selectAll(".m-choice").on("click", function() {
 
 	//Lines
 		//Update line (and donut) data variable
-		var lineValue, arcValue = d3.select(this).attr('value');
+		var lineValue = d3.select(this).attr('value');
+		var arcValue = lineValue;
 		var lineData = function(d) { return eval(lineValue); };
 
+
+	d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv",
+		//parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
+		function(d) {
+				d.date = parseDate(d.date);
+				d.division_clean = d.division_clean;
+				d.avg_revenue = +d.avg_revenue;
+				d.projects_share = +d.projects_share;
+				d.projects_total = +d.projects_total;
+				d.revenue_share = +d.revenue_share;
+				d.revenue_total = +d.revenue_total;
+				return d;
+			},function(error,data) {
+					
+			if(error) {
+				console.log(error);
+			} else {
+				// console.log(data);
+			}
+
+
+		//redefine Y range
+		var yScale = d3.scaleLinear().range([lineH, 0]);
 
 		//Update yScale domain
 		yScale.domain(d3.extent(timeData, function(d) { return lineData(d); })).nice();
@@ -507,6 +543,7 @@ function(d) {
 		pathENR.transition().duration(lineDuration).attr("d", line);
 		nodesENR.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
 
+	});
 	//Update Donut
 		
 		//Update donut data variable
