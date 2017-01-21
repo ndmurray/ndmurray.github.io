@@ -20,6 +20,10 @@ $sep: #198f90;
 $ieg: #f1594e;
 $enr: #9e004d;
 
+/*Toolip - line*/
+$lineTipBkgd: rgba(75,75,75,0.8);
+$lineTipColor: white;
+
 
 /*******************STYLES****************************************************************/
 
@@ -240,7 +244,7 @@ ul li{
   to {height: 170;}
 }
 
-//Tooltips
+// DONUT Tooltips
 
 .title-display {
   color: $default-color;
@@ -259,47 +263,39 @@ ul li{
 div.donut-tip { 
     text-align: center;
     font-family: $default-font;
-    width: auto;
+    // width: auto;
     height: auto;
     padding: 20px;
+    margin: 6px;
     font-size: 16px;
     background: transparent;
     border: 0px;
+    -webkit-transform: translate(-45%,-50%);
     // margin-left: 68px;
     // margin-top: -48px;
     pointer-events: none;     
 }
 
-/* Creates a small triangle extender for the tooltip */
-.tooltip:after {
+//LINE TOOLTIP
 
-  //West
+div#line-tip {
+  position: absolute;
+  background-color: $lineTipBkgd;
+  padding: 10px 10px 0px 10px;
+  margin-left: 36.5px;
+  margin-top: -19px;
+}
 
-    // border-top: 9px solid transparent;
-    // border-left: 10px solid transparent;
-    // border-right: 10px solid $price-color;
-    // border-bottom: 9px solid transparent;
-    // bottom: 12px;
-    // content: "";
-    // position: absolute;
-    // left: 0%;
-    // margin-left: -20px;
-    // width: 0;
-    // height: 0;
-    // pointer-events: none;
-
-    //South
-
-    // border-top: 16px solid $flat;
-    // border-left: 8px solid transparent;
-    // border-right: 8px solid transparent;
-    // border-bottom: 0px solid transparent;
-    // // bottom: -16px;
-    // content: "";
-    // position: absolute;
-    // left: 0%;
-    // // margin-left: 4px;
-    // width: 0;
-    // height: 0;
-    // pointer-events: none;
+div#line-tip:after {
+    border-top: 16px solid $lineTipBkgd;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 0px solid transparent;
+    content: "";
+    position: absolute;
+    left: 0%;
+    margin-left: 30px;
+    width: 0;
+    height: 0;
+    pointer-events: none;
 }

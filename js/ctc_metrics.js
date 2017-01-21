@@ -22,11 +22,14 @@
 	var lineDuration = 600;
 	var tipDuration = 200;
 
+	//Dates
+
 	//Parse date values functions
 	//var parseDate = d3.timeParse("%Y");
 	var parseDate = d3.timeParse("%d-%b-%y");
 	var formatTimeWeek = d3.timeFormat("%d-%b-%y");
 	var formatTimeMonth = d3.timeFormat("%b");
+	var formatTimeYear = d3.timeFormat("%Y");
 
 	//X range
 	var xScale = d3.scaleTime().range([0,lineW]);
@@ -35,12 +38,12 @@
 	//Y range
 	var yScale = d3.scaleLinear().range([lineH, 0]);
 
-	// //from donut.js
-    // var color = d3.scaleOrdinal()
-	   //  .range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
+	//Size
+	var dotRadius = "0.25em"
 
 	//Positioning
 	var yLabelShift = -lineMargin.left/2 - 20;
+
 
 	
 //Begin data function 
@@ -71,7 +74,7 @@ function(d) {
 	var ushData = data.filter(function(d) { return d.division_clean == "USH"; });
 	var sepData = data.filter(function(d) { return d.division_clean == "SEP"; });
 	var ihdData = data.filter(function(d) { return d.division_clean == "IHD"; });
-	var iegData = data.filter(function(d) { return d.division_clean == "IEG" && d.avg_revenue != "null"; });
+	var iegData = data.filter(function(d) { return d.division_clean == "IEG"; });
 	var enrData = data.filter(function(d) { return d.division_clean == "ENR"; });
 
 	var lineData = function(d) { return d.revenue_share; };
@@ -107,6 +110,8 @@ function(d) {
 		.append("g") //This g element and it attributes also following bstok's margin convention. It holds all the canvas' elements.
 			.attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")");
 
+
+
 //Default chart elements
 
 	//Division Paths
@@ -121,7 +126,7 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes ush-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
 
@@ -136,7 +141,7 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes sep-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
 
@@ -151,7 +156,7 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes ihd-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
 
@@ -166,7 +171,7 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes ieg-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
 
@@ -181,9 +186,32 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes enr-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
+
+//Define line tooltips
+
+	var lineTip = d3.select("#line-div").append("div")
+		.attr("id", "line-tip")
+		.style("display","none");
+
+//Call tooltips on line hover
+	d3.selectAll(".nodes").on("mouseover",function(d){
+		lineTip.transition()
+			.duration(tipDuration)
+			.style("display","inline-block");
+		lineTip.html(
+			"<p><span class='line-val-display'>" + d3.format(".1%")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>")
+			.style("left", d3.select(this).attr("cx"))
+			.style("top", d3.select(this).attr("cy"));
+	})
+	.on("mouseout",function() {
+		lineTip.transition()
+			.duration(tipDuration)
+			.style("display","none");
+	});
+
 
 //Call the axes
 
@@ -213,7 +241,7 @@ function(d) {
 	//General use variables
 		
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	donutMargin = {top: 10, right: 60, bottom: 20, left: 60},
+	var	donutMargin = {top: 0, right: 60, bottom: 0, left: 60},
 		w = parseInt(d3.select('#donut-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - donutMargin.left - donutMargin.right,
 		h = parseInt(d3.select('#donut-div').style('height'),10),
@@ -257,21 +285,6 @@ function(d) {
 			.append("g") //This g element and it attributes also following bstok's margin convention. It holds all the canvas' elements.
 				.attr("transform", "translate(" + ((w / 2) + donutMargin.left)  + "," + ((h / 2) + donutMargin.top) + ")");
 
-	//Tooltips - http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
-
-		//Define Donut tooltip
-		var donutTip = d3.select("#donut-div").append("div")	
-		    .attr("class", "tooltip donut-tip")
-		    //Position in center of donut
-		    .style("position", "absolute")
-		    .style("left", ((w + donutMargin.left + donutMargin.right)/2))
-				//added margins because we're appending to div, not to the svg
-		    .style("top", ((h / 2) + donutMargin.top))
-		    //Anchor in middle, rather than top left
-		    .style("-webkit-transform","translate(-45%,-50%)")
-		    .style("opacity", 0);
-
-
 		//Oridinal color scheme
 		var color = d3.scaleOrdinal()
 		    .range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
@@ -304,18 +317,11 @@ function(d) {
 	      .style("fill", function(d) { return color(d.data.division_clean); })
 	      .each(function(d) { this._current = d; }); // store the initial angles, for transition
 		
-		//Pie labels
+		//Donut labels
 		var donutLabels = arc.append("text")
 		//Native 8step method: Plae labels on centroid of "arcDefLabel" the definintion of a larger invisible set of arts
 			.attr("transform", function(d) { return "translate(" + arcDefLabel.centroid(d) + ")"; })
-		  //DEPRECATED - labels on outside of pie - http://stackoverflow.com/questions/8053424/label-outside-arc-pie-chart-d3-js
-	      // .attr("transform", function(d) { 
-	      // 		var c = arcDef.centroid(d),
-	      // 			x = c[0], //centriod is array of x and y
-	      // 			y = c[1],
-	      // 			//pythagoras for hypotenuse
-	      // 			h = Math.sqrt(x*x + y*y);
-	      // 		return "translate(" + (x/h * labelRadius) + "," + (y/h * labelRadius) + ")"; })
+	
 	      .attr("fill","white")
 	      .attr("class", "arc-label")
 	      //this puts labels at uniform distance away from donut per the stack overflow link above, although I don't quite understand how it works
@@ -325,9 +331,21 @@ function(d) {
 	      })
 	      .text(function(d) { return d.data.division_clean; });
 
+		//Tooltips - http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+
+		//Define Donut tooltip
+		var donutTip = d3.select("#donut-div").append("div")	
+		    .attr("class", "tooltip donut-tip")
+		    //Position in center of donut
+		    .style("position", "absolute")
+		    .style("left", ((w + donutMargin.left + donutMargin.right)/2))
+				//added margins because we're appending to div, not to the svg
+		    .style("top", ((h / 2) + donutMargin.top))
+		    //Anchor in middle, rather than top left
+		    .style("opacity", 0);
+
 
 		//Show tooltips	
-
 		arcPath.on("mouseover",function(d) {
 				donutTip.transition()
 					.duration(tipDuration)

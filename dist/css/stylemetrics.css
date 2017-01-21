@@ -3,6 +3,7 @@
 /*Theme*/
 /*Dropdown colors*/
 /*Division colors*/
+/*Toolip - line*/
 /*******************STYLES****************************************************************/
 body {
   font-family: "Century Gothic";
@@ -175,12 +176,31 @@ ul li {
 div.donut-tip {
   text-align: center;
   font-family: "Century Gothic";
-  width: auto;
   height: auto;
   padding: 20px;
+  margin: 6px;
   font-size: 16px;
   background: transparent;
   border: 0px;
+  -webkit-transform: translate(-45%, -50%);
   pointer-events: none; }
 
-/* Creates a small triangle extender for the tooltip */
+div#line-tip {
+  position: absolute;
+  background-color: rgba(75, 75, 75, 0.8);
+  padding: 10px 10px 0px 10px;
+  margin-left: 36.5px;
+  margin-top: -19px; }
+
+div#line-tip:after {
+  border-top: 16px solid rgba(75, 75, 75, 0.8);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 0px solid transparent;
+  content: "";
+  position: absolute;
+  left: 0%;
+  margin-left: 30px;
+  width: 0;
+  height: 0;
+  pointer-events: none; }

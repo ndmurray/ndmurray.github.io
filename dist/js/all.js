@@ -172,12 +172,12 @@ d3.csv("datadev/crime.csv",function(error,data) {
 	//Y range
 	var yScale = d3.scaleLinear().range([lineH, 0]);
 
-	// //from donut.js
-    // var color = d3.scaleOrdinal()
-	   //  .range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
+	//Size
+	var dotRadius = "0.25em"
 
 	//Positioning
 	var yLabelShift = -lineMargin.left/2 - 20;
+
 
 	
 //Begin data function 
@@ -208,7 +208,7 @@ function(d) {
 	var ushData = data.filter(function(d) { return d.division_clean == "USH"; });
 	var sepData = data.filter(function(d) { return d.division_clean == "SEP"; });
 	var ihdData = data.filter(function(d) { return d.division_clean == "IHD"; });
-	var iegData = data.filter(function(d) { return d.division_clean == "IEG" && d.avg_revenue != "null"; });
+	var iegData = data.filter(function(d) { return d.division_clean == "IEG"; });
 	var enrData = data.filter(function(d) { return d.division_clean == "ENR"; });
 
 	var lineData = function(d) { return d.revenue_share; };
@@ -244,6 +244,12 @@ function(d) {
 		.append("g") //This g element and it attributes also following bstok's margin convention. It holds all the canvas' elements.
 			.attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")");
 
+//Define line tooltips
+
+	var lineTip = d3.select("#line-div").append("div")
+		.attr("id", "line-tip")
+		.style("display","none");
+
 //Default chart elements
 
 	//Division Paths
@@ -258,7 +264,7 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes ush-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
 
@@ -273,7 +279,7 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes sep-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
 
@@ -288,7 +294,7 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes ihd-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
 
@@ -303,7 +309,7 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes ieg-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
 
@@ -318,9 +324,26 @@ function(d) {
 		.enter()
 		.append("circle")
 			.attr("class","nodes enr-nodes")
-			.attr("r","0.15em")
+			.attr("r",dotRadius)
 			.attr("cx", function(d) { return xScale(d.date); } )
 			.attr("cy", function(d) { return yScale(lineData(d)); });
+
+//Call tooltips on line hover
+	nodesUSH.on("mouseover",function(d){
+		lineTip.transition()
+			.duration(tipDuration)
+			.style("display","inline-block");
+		lineTip.html(
+			"<p><span class='line-val-display'>" + d3.format(".1%")(lineData(d)) + "</span><br /><span class='time-display'>Week ending " + formatTimeWeek(d.date) + "</span></p>")
+			.style("left", d3.select(this).attr("cx"))
+			.style("top", d3.select(this).attr("cy"));
+	})
+	.on("mouseout",function() {
+		lineTip.transition()
+			.duration(tipDuration)
+			.style("display","none");
+	});
+
 
 //Call the axes
 
@@ -396,7 +419,7 @@ function(d) {
 
 	//Tooltips - http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
 
-		//Donut tooltip
+		//Define Donut tooltip
 		var donutTip = d3.select("#donut-div").append("div")	
 		    .attr("class", "tooltip donut-tip")
 		    //Position in center of donut
@@ -405,7 +428,7 @@ function(d) {
 				//added margins because we're appending to div, not to the svg
 		    .style("top", ((h / 2) + donutMargin.top))
 		    //Anchor in middle, rather than top left
-		    .style("-webkit-transform","translate(-45%,-50%)")
+		    .style("-webkit-transform","translate(-50%,-50%)")
 		    .style("opacity", 0);
 
 
@@ -470,7 +493,7 @@ function(d) {
 					.duration(tipDuration)
 					.style("opacity",1);
 
-				donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div>")
+				donutTip.html("<div class='title-display'>" + d.data.division_display + ", FY17</div><br /><div class = data-display>Total Projects:<strong> " + d.data.projects_total +"</strong><br />Total Revenue: <strong>$" + d3.format(',.2f')(d.data.revenue_total) + "</strong><br />Avg Revenue/Project:<strong> $" + d3.format(',.2f')(d.data.avg_revenue) + "</strong></div>") //the .data bit keeps you from having to wrap the whole thing in a function.
 			})
 			.on("mouseout",function(d) {
 				donutTip.transition()
