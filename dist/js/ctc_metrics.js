@@ -3,7 +3,7 @@ var lineMargin = {
   top: 60,
   right: 40,
   bottom: 70,
-  left: 60
+  left: 80
 },
     lineW = parseInt(d3.select('#line-div').style('width'), 10),
     lineW = lineW - lineMargin.left - lineMargin.right,
@@ -18,7 +18,8 @@ var formatTimeYear = d3.timeFormat("%Y");
 var xScale = d3.scaleTime().range([0, lineW]);
 var yScale = d3.scaleLinear().range([lineH, 0]);
 var dotRadius = "0.25em";
-var yLabelShift = -lineMargin.left / 2 - 20;
+var yLabelShift = -lineMargin.left + 15;
+var dataTitle = "Total Revenue ($US)";
 d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
   d.date = parseDate(d.date);
   d.division_clean = d.division_clean;
@@ -51,7 +52,7 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
     return d.division_clean == "ENR";
   });
   var lineData = function(d) {
-    return d.revenue_share;
+    return d.revenue_total;
   };
   xScale.domain(d3.extent(timeData, function(d) {
     return d.date;
@@ -66,6 +67,7 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
   }).y(function(d) {
     return yScale(lineData(d));
   });
+  var titleText = d3.select("#chart-title").append("text").attr("class", "title-text").text(dataTitle + " by Division, CTC, FY17");
   var svg = d3.select("#line-div").append("svg").attr("width", lineW + lineMargin.left + lineMargin.right).attr("height", lineH + lineMargin.top + lineMargin.bottom).attr("id", "line-canvas").append("g").attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")");
   var pathUSH = svg.append("path").datum(ushData).attr("d", line).attr("class", "path").attr("id", "ush-path");
   var nodesUSH = svg.selectAll("circle.ush-nodes").data(ushData).enter().append("circle").attr("class", "nodes ush-nodes").attr("r", dotRadius).attr("cx", function(d) {
@@ -100,26 +102,26 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
   var lineTip = d3.select("#line-div").append("div").attr("id", "line-tip").style("display", "none");
   d3.selectAll(".nodes").on("mouseover", function(d) {
     lineTip.transition().duration(tipDuration).style("display", "inline-block");
-    lineTip.html("<p><span class='line-val-display'>" + d3.format(".1%")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>").style("left", d3.select(this).attr("cx")).style("top", d3.select(this).attr("cy"));
+    lineTip.html("<p><span class='line-val-display'>" + d3.format(",.2f")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>").style("left", d3.select(this).attr("cx")).style("top", d3.select(this).attr("cy"));
   }).on("mouseout", function() {
     lineTip.transition().duration(tipDuration).style("display", "none");
   });
   svg.append("g").attr("class", "axis x-axis").attr("transform", "translate(0," + lineH + ")").call(xAxis);
   d3.selectAll(".x-axis text").attr("transform", "rotate(-45)").attr("text-anchor", "end");
-  svg.append("g").attr("class", "axis y-axis").call(yAxis).append("text").text("Average Revenue ($US)").attr("fill", "gray").attr("transform", "translate(" + yLabelShift + "," + (lineH / 2 - lineMargin.bottom - lineMargin.top) + "), rotate(-90)");
+  svg.append("g").attr("class", "axis y-axis").call(yAxis).append("text").text(dataTitle).attr("fill", "gray").attr("text-anchor", "middle").attr("transform", "translate(" + yLabelShift + "," + (lineH / 2) + "), rotate(-90)");
   var donutMargin = {
     top: 0,
-    right: 60,
+    right: 30,
     bottom: 0,
-    left: 60
+    left: 30
   },
       w = parseInt(d3.select('#donut-div').style('width'), 10),
       w = w - donutMargin.left - donutMargin.right,
       h = parseInt(d3.select('#donut-div').style('height'), 10),
       h = h - donutMargin.top - donutMargin.bottom,
       outerRadius = (w / 2 * 0.88),
-      innerRadius = (w / 2 * 0.65),
-      labelRadius = (w / 2 * 0.96);
+      innerRadius = (w / 2 * 0.64),
+      labelRadius = (w / 2 * 0.98);
   var tipDuration = 200;
   var donutDuration = 600;
   d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data) {
@@ -130,7 +132,7 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
     }
     var donutData = data;
     var arcData = function(d) {
-      return +d.revenue_share;
+      return +d.revenue_total;
     };
     var svg = d3.select("#donut-div").append("svg").attr("width", w + donutMargin.left + donutMargin.right).attr("height", h + donutMargin.top + donutMargin.bottom).attr("id", "donut-canvas").append("g").attr("transform", "translate(" + ((w / 2) + donutMargin.left) + "," + ((h / 2) + donutMargin.top) + ")");
     var color = d3.scaleOrdinal().range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
@@ -165,6 +167,18 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
       var lineData = function(d) {
         return eval(lineValue);
       };
+      switch (lineValue) {
+        case "d.projects_total":
+          dataTitle = "Total Projects";
+          break;
+        case "d.revenue_total":
+          dataTitle = "Total Revenue ($US)";
+          break;
+        case "d.avg_revenue":
+          dataTitle = "Avg. Revenue / Project ($US)";
+          break;
+      }
+      titleText.text(dataTitle + " by Division, CTC, FY17");
       d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
         d.date = parseDate(d.date);
         d.division_clean = d.division_clean;
@@ -186,6 +200,12 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
           return xScale(d.date);
         }).y(function(d) {
           return yScale(lineData(d));
+        });
+        d3.selectAll(".nodes").on("mouseover", function(d) {
+          lineTip.transition().duration(tipDuration).style("display", "inline-block");
+          lineTip.html("<p><span class='line-val-display'>" + d3.format(",.2f")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>").style("left", d3.select(this).attr("cx")).style("top", d3.select(this).attr("cy"));
+        }).on("mouseout", function() {
+          lineTip.transition().duration(tipDuration).style("display", "none");
         });
         pathUSH.transition().duration(lineDuration).attr("d", line);
         nodesUSH.transition().duration(lineDuration).attr("cy", function(d) {

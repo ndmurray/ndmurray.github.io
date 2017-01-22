@@ -40,10 +40,109 @@ body {
 /*Header styling*/
 
 h2#chart-title {
-	font-size: 32px;
+	font-size: 3em;
   margin-left: 1em;
-  margin-bottom: 1em;
+  margin-bottom: 0em;
 }
+
+/*Dropdowns - http://cssdeck.com/labs/pure-css3-smooth-drop-down-menu*/
+
+#primary_nav_wrap {
+  margin-left: 3em;
+}
+
+nav ul {
+  -webkit-font-smoothing: antialiased;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 12%;
+    display: inline-block;
+    text-align: center;
+}
+nav li {
+    background-color: $button-bkgd1;
+    color: $button-color1;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-width: 25%;
+}
+
+
+nav a {
+    display: block;
+    font: 16px/50px $default-font;
+    padding: 0 25px;
+    text-align: center;
+    text-decoration: none !important;
+    -webkit-transition: all .25s ease;
+       -moz-transition: all .25s ease;
+        -ms-transition: all .25s ease;
+         -o-transition: all .25s ease;
+            transition: all .25s ease;
+}
+
+a#dropdown-title {
+  color: $button-color1;
+}
+
+nav li:hover a {
+    // background-color: $button-bkgd2;
+}
+nav li ul {
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    position: absolute;
+    top: 50px;
+    visibility: hidden;
+    z-index: 1;
+    -webkit-transition: all .25s ease;
+       -moz-transition: all .25s ease;
+        -ms-transition: all .25s ease;
+         -o-transition: all .25s ease;
+            transition: all .25s ease;
+}
+nav li:hover ul {
+    opacity: 1;
+    top: 50px;
+    visibility: visible;
+    border-top: 6px solid $page-background;
+}
+nav li ul li {
+    float: none;
+    width: 100%;
+    background-color:$button-bkgd2;
+    color: $button-color1;
+}
+
+nav li ul a:hover {
+    background: $button-bkgd-hghlt;
+}
+
+/* Clearfix */
+
+.cf:after, .cf:before {
+    content:"";
+    display:table;
+}
+.cf:after {
+    clear:both;
+}
+.cf {
+    zoom:1;
+}​
+
+a:focus, a:hover, a:active, a:visited {
+  /*Override bootstrap blue text decoration on a hover*/
+  text-decoration:none !important;
+  /*default text styling*/
+  color: $button-color2;
+}
+
+
+
 
 /*Canvas container*/
  
@@ -55,8 +154,6 @@ div#donut-div {
     vertical-align: top;
     overflow: hidden;
 }
-
-
 
 div#line-div {
     display: inline-block;
@@ -165,97 +262,6 @@ div#line-div {
   font-family: $default-font;
 }
 
-/*Dropdowns - http://cssdeck.com/labs/pure-css3-smooth-drop-down-menu*/
-
-nav ul {
-  -webkit-font-smoothing: antialiased;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 12%;
-    display: inline-block;
-    text-align: center;
-}
-nav li {
-    background-color: $button-bkgd1;
-    color: $button-color1;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    min-width: 25%;
-}
-
-
-nav a {
-    display: block;
-    font: 16px/50px $default-font;
-    padding: 0 25px;
-    text-align: center;
-    text-decoration: none !important;
-    -webkit-transition: all .25s ease;
-       -moz-transition: all .25s ease;
-        -ms-transition: all .25s ease;
-         -o-transition: all .25s ease;
-            transition: all .25s ease;
-}
-
-a#dropdown-title {
-  color: $button-color1;
-}
-
-nav li:hover a {
-    // background-color: $button-bkgd2;
-}
-nav li ul {
-    left: 0;
-    opacity: 0;
-    width: 100%;
-    position: absolute;
-    top: 35px;
-    visibility: hidden;
-    z-index: 1;
-    -webkit-transition: all .25s ease;
-       -moz-transition: all .25s ease;
-        -ms-transition: all .25s ease;
-         -o-transition: all .25s ease;
-            transition: all .25s ease;
-}
-nav li:hover ul {
-    opacity: 1;
-    top: 50px;
-    visibility: visible;
-    border-top: 6px solid $page-background;
-}
-nav li ul li {
-    float: none;
-    width: 100%;
-    background-color:$button-bkgd2;
-    color: $button-color1;
-}
-
-nav li ul a:hover {
-    background: $button-bkgd-hghlt;
-}
-
-/* Clearfix */
-
-.cf:after, .cf:before {
-    content:"";
-    display:table;
-}
-.cf:after {
-    clear:both;
-}
-.cf {
-    zoom:1;
-}​
-
-a:focus, a:hover, a:active, a:visited {
-  /*Override bootstrap blue text decoration on a hover*/
-  text-decoration:none !important;
-  /*default text styling*/
-  color: $button-color2;
-}
 
 // DONUT Tooltips
 
@@ -295,7 +301,7 @@ div#line-tip {
   position: absolute;
   background-color: $line-tip-bkgd;
   padding: 10px 10px 0px 10px;
-  margin-left: 36.5px;
+  margin-left: 56.5px;
   margin-top: -19px;
 }
 

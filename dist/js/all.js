@@ -384,9 +384,9 @@ function(d) {
 		h = parseInt(d3.select('#donut-div').style('height'),10),
 		h = h - donutMargin.top - donutMargin.bottom,
 		//Radius for donut
-		labelRadius = (w/2 + 8),
-		outerRadius = ((w - outerRadius)/2 - (w/2)),
-		innerRadius = (w/3);
+		outerRadius = (w/2 * 0.88), /*88% of the way to from center to edge*/
+		innerRadius = (w/2 * 0.65),
+		labelRadius = (w/2 * 0.96);
 		//Transitions
 		var tipDuration = 200;
 		var donutDuration = 600;
@@ -433,8 +433,8 @@ function(d) {
 		    .innerRadius(innerRadius);
 
 		var arcDefLabel = d3.arc()
-			.outerRadius(outerRadius)
-			.innerRadius((w - outerRadius)/2 - (w/2));
+			.outerRadius(labelRadius)
+			.innerRadius(outerRadius);
 
 		var pie = d3.pie()
 		    .sort(null)
@@ -538,6 +538,22 @@ function(d) {
 		var line = d3.line()
 			.x(function(d) { return xScale(d.date); })
 	    	.y(function(d) { return yScale(lineData(d)); });
+
+	    //Recall tooltip values
+	    d3.selectAll(".nodes").on("mouseover",function(d){
+		lineTip.transition()
+			.duration(tipDuration)
+			.style("display","inline-block");
+		lineTip.html(
+			"<p><span class='line-val-display'>" + d3.format(".1%")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>")
+			.style("left", d3.select(this).attr("cx"))
+			.style("top", d3.select(this).attr("cy"));
+		})
+		.on("mouseout",function() {
+			lineTip.transition()
+				.duration(tipDuration)
+				.style("display","none");
+		});
 
 	    //Redraw paths and nodes
 

@@ -70,7 +70,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 //Chart title
 
-	var titleText = d3.select("h2#chart-title").append("text.title-text")
+	var titleText = d3.select("h2#chart-title").append("text")
+		.attr("class", "title-text")
 		.text(titleX + " vs. " + titleY);
 
 //Tooltips - http://bit.ly/22HClnd

@@ -49,7 +49,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv", function(error,
   var titleX = "Political Stabtility";
   var titleY = "Press Freedom";
   var titleR = "GDP per Capita";
-  var titleText = d3.select("h2#chart-title").append("text.title-text").text(titleX + " vs. " + titleY);
+  var titleText = d3.select("h2#chart-title").append("text").attr("class", "title-text").text(titleX + " vs. " + titleY);
   var dotTips = d3.tip().attr("class", "d3-tip").style({
     top: infoTop,
     left: infoLeft,
