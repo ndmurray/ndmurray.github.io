@@ -30,20 +30,20 @@
 				</div>
 			</div>
 			
-		<!--Dropdowns  - http://codepen.io/keukenrolletje/pen/ILvze*/-->
-			<div class="row" id="dropdown-row">
-				<ul class='dropdown' id="dropdown-left">
-				     <li class="top">Select Metric
-				        <ul class="dropdown-box" id="dropdown-x">
-				        	<li class="m-choice" value="+d.revenue_total"><a href="#">Total Revenue</a></li>
-				        	<li class="m-choice" value="+d.projects_total"><a href="#">Total Projects</a></li>
-				           <li class="m-choice" value="+d.avg_revenue"><a href="#">Revenue / Project</a></li>
-				        </ul>
-				     </li>
-				  </ul>
-
-			</div>
+		<!--Dropdowns  - http://cssdeck.com/labs/pure-css3-smooth-drop-down-menu*/-->
+				<nav id="primary_nav_wrap">
+					<ul class="cf">
+					  <li><a id="dropdown-title" class="dropdown" href="#">Select Metric</a>
+					    <ul>
+					      <li class="m-choice" value="d.projects_total"><a href="#">Total Projects</a></li>
+					      <li class="m-choice" value="d.revenue_total"><a href="#">Total Revenue</a></li>
+					      <li class="m-choice" value="d.avg_revenue"><a href="#">Revenue/Project</a></li>
+					    </ul>
+					  </li>
+					</ul>
+				</nav>
 		
+		<!--Charts-->
 			<div class = "row">
 				<!--Donut Canvas-->
 				<div id="donut-div" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">

@@ -247,9 +247,9 @@ function(d) {
 		h = parseInt(d3.select('#donut-div').style('height'),10),
 		h = h - donutMargin.top - donutMargin.bottom,
 		//Radius for donut
-		radius = Math.min(w, h) / 2,
-		labelRadius = w/2 + 8;
-
+		outerRadius = (w/2 * 0.88), /*88% of the way to from center to edge*/
+		innerRadius = (w/2 * 0.65),
+		labelRadius = (w/2 * 0.96);
 		//Transitions
 		var tipDuration = 200;
 		var donutDuration = 600;
@@ -292,12 +292,12 @@ function(d) {
 
 		//Arc and pie functions
 		var arcDef = d3.arc()
-		    .outerRadius(radius - 10)
-		    .innerRadius(radius - 80);
+		    .outerRadius(outerRadius)
+		    .innerRadius(innerRadius);
 
 		var arcDefLabel = d3.arc()
-			.outerRadius(radius + 40)
-			.innerRadius(radius);
+			.outerRadius(labelRadius)
+			.innerRadius(outerRadius);
 
 		var pie = d3.pie()
 		    .sort(null)

@@ -117,8 +117,9 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
       w = w - donutMargin.left - donutMargin.right,
       h = parseInt(d3.select('#donut-div').style('height'), 10),
       h = h - donutMargin.top - donutMargin.bottom,
-      radius = Math.min(w, h) / 2,
-      labelRadius = w / 2 + 8;
+      outerRadius = (w / 2 * 0.88),
+      innerRadius = (w / 2 * 0.65),
+      labelRadius = (w / 2 * 0.96);
   var tipDuration = 200;
   var donutDuration = 600;
   d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data) {
@@ -133,8 +134,8 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
     };
     var svg = d3.select("#donut-div").append("svg").attr("width", w + donutMargin.left + donutMargin.right).attr("height", h + donutMargin.top + donutMargin.bottom).attr("id", "donut-canvas").append("g").attr("transform", "translate(" + ((w / 2) + donutMargin.left) + "," + ((h / 2) + donutMargin.top) + ")");
     var color = d3.scaleOrdinal().range(["#FBAF43", "#198F90", "#9E004D", "#F1594E", "#9BD19D"]);
-    var arcDef = d3.arc().outerRadius(radius - 10).innerRadius(radius - 80);
-    var arcDefLabel = d3.arc().outerRadius(radius + 40).innerRadius(radius);
+    var arcDef = d3.arc().outerRadius(outerRadius).innerRadius(innerRadius);
+    var arcDefLabel = d3.arc().outerRadius(labelRadius).innerRadius(outerRadius);
     var pie = d3.pie().sort(null).value(function(d) {
       return arcData(d);
     });

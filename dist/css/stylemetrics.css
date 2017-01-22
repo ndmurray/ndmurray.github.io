@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*Montserrat font*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 /*Theme*/
@@ -33,6 +34,16 @@ div#line-div {
   vertical-align: top;
   overflow: hidden; }
 
+@media (max-width: 600px) {
+  div#donut-div {
+    width: 100%;
+    /*overrides bootstrap forcing lines below donut */
+    height: 50%; }
+
+  div#line-div {
+    width: 100%;
+    /*overrides bootstrap forcing lines below donut */
+    height: 50%; } }
 /*Donut components*/
 .arc-path {
   fill: none; }
@@ -89,79 +100,86 @@ div#line-div {
   font-size: 1.4em;
   font-family: "Century Gothic"; }
 
-/*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
-/*Dropdown mixins*/
-a, a:hover, a:focus {
-  text-decoration: none;
-  color: inherit; }
-
-ul li {
-  list-style: none; }
-
-#dropdown-left {
-  margin-left: 3.33em;
-  margin-right: 0.33em; }
-
-.dropdown {
-  padding: 16px 10px;
-  width: 14em;
-  background-color: #035435;
-  text-align: center;
-  float: left; }
-
-.dropdown .top {
-  color: white;
-  font-size: 1.2em;
-  font-weight: bold; }
-
-.dropdown li ul li:hover {
-  color: white;
-  background-color: #023b25;
-  padding: 16px 10px;
-  width: 11.67em;
-  margin-left: -10px; }
-
-.dropdown li ul li {
-  padding: 16px 10px;
-  width: 11.67em;
-  margin-left: -10px;
-  color: gray;
-  border-bottom: 1px solid #f2f2f2;
-  font-weight: normal; }
-
-.dropdown li ul li:first-child {
-  margin-top: -7px; }
-
-.dropdown li .dropdown-box {
-  height: 0;
-  overflow: hidden;
-  display: none;
-  background-color: white;
-  width: 100%;
-  left: 0px;
-  top: 55px;
-  position: absolute;
-  bottom: -15px;
-  border-top: 6px solid #1A1F1E;
-  padding: 7px 10px;
-  width: 11.67em;
-  opacity: 0.8; }
-
-.dropdown:hover .dropdown-box,
-.dropdown li:active .dropdown-box {
+/*Dropdowns - http://cssdeck.com/labs/pure-css3-smooth-drop-down-menu*/
+nav ul {
+  -webkit-font-smoothing: antialiased;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 12%;
   display: inline-block;
-  background-color: white;
-  position: absolute;
-  animation: box 0.25s ease;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  z-index: 999; }
+  text-align: center; }
 
-@keyframes box {
-  from {
-    height: 0; }
-  to {
-    height: 170; } }
+nav li {
+  background-color: #035435;
+  color: white;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  min-width: 25%; }
+
+nav a {
+  display: block;
+  font: 16px/50px "Century Gothic";
+  padding: 0 25px;
+  text-align: center;
+  text-decoration: none !important;
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease; }
+
+a#dropdown-title {
+  color: white; }
+
+nav li ul {
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  position: absolute;
+  top: 35px;
+  visibility: hidden;
+  z-index: 1;
+  -webkit-transition: all .25s ease;
+  -moz-transition: all .25s ease;
+  -ms-transition: all .25s ease;
+  -o-transition: all .25s ease;
+  transition: all .25s ease; }
+
+nav li:hover ul {
+  opacity: 1;
+  top: 50px;
+  visibility: visible;
+  border-top: 6px solid #1A1F1E; }
+
+nav li ul li {
+  float: none;
+  width: 100%;
+  background-color: rgba(247, 247, 247, 0.8);
+  color: white; }
+
+nav li ul a:hover {
+  background: rgba(187, 187, 187, 0.8); }
+
+/* Clearfix */
+.cf:after, .cf:before {
+  content: "";
+  display: table; }
+
+.cf:after {
+  clear: both; }
+
+.cf {
+  zoom: 1; }
+
+ΓÇï
+a:focus, a:hover, a:active, a:visited {
+  /*Override bootstrap blue text decoration on a hover*/
+  text-decoration: none !important;
+  /*default text styling*/
+  color: black; }
+
 .title-display {
   color: #F7F7F7;
   font-size: 22px;
