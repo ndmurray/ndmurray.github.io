@@ -18,7 +18,6 @@ var formatTimeYear = d3.timeFormat("%Y");
 var xScale = d3.scaleTime().range([0, lineW]);
 var yScale = d3.scaleLinear().range([lineH, 0]);
 var dotRadius = "0.25em";
-var yLabelShift = -lineMargin.left + 15;
 var dataTitle = "Total Revenue ($US)";
 d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
   d.date = parseDate(d.date);
@@ -108,7 +107,10 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
   });
   svg.append("g").attr("class", "axis x-axis").attr("transform", "translate(0," + lineH + ")").call(xAxis);
   d3.selectAll(".x-axis text").attr("transform", "rotate(-45)").attr("text-anchor", "end");
-  svg.append("g").attr("class", "axis y-axis").call(yAxis).append("text").text(dataTitle).attr("fill", "gray").attr("text-anchor", "middle").attr("transform", "translate(" + yLabelShift + "," + (lineH / 2) + "), rotate(-90)");
+  svg.append("g").attr("class", "axis y-axis").call(yAxis);
+  var yLabelBox = d3.select(".y-axis text").node().getBBox();
+  var yLabelShift = yLabelBox.x - 50;
+  var yLabel = svg.append("text").text(dataTitle).attr("fill", "gray").attr("text-anchor", "middle").attr("transform", "translate(" + yLabelShift + "," + (lineH / 2) + "), rotate(-90)");
   var donutMargin = {
     top: 0,
     right: 30,
@@ -227,6 +229,10 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
         nodesENR.transition().duration(lineDuration).attr("cy", function(d) {
           return yScale(lineData(d));
         });
+        var yAxis = d3.axisLeft().scale(yScale);
+        d3.select(".y-axis").transition().duration(lineDuration).call(yAxis);
+        var yLabelBox = d3.select(".y-axis text").node().getBBox();
+        yLabel.text(dataTitle).transition().duration(lineDuration).attr("transform", "translate(" + yLabelShift + "," + (lineH / 2) + "), rotate(-90)");
       });
       var arcData = function(d) {
         return eval(arcValue);

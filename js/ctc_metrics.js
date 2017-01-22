@@ -42,7 +42,6 @@
 	var dotRadius = "0.25em"
 
 	//Positioning
-	var yLabelShift = -lineMargin.left + 15;
 
 	//Dynamic text
 	var dataTitle = "Total Revenue ($US)";
@@ -234,7 +233,15 @@ function(d) {
 	svg.append("g")
 		.attr("class","axis y-axis")
 		.call(yAxis)
-		.append("text")
+	
+	//Get bounding box of y label text
+	var yLabelBox = d3.select(".y-axis text").node().getBBox();
+
+	//Define y label shift
+	var yLabelShift = yLabelBox.x - 50;
+
+	//Y axis label
+	var yLabel = svg.append("text")
 		.text(dataTitle)
 			.attr("fill","gray")
 			.attr("text-anchor","middle")
@@ -462,6 +469,26 @@ function(d) {
 		//ENR
 		pathENR.transition().duration(lineDuration).attr("d", line);
 		nodesENR.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//Update Axes - redefine
+		var yAxis = d3.axisLeft().scale(yScale);
+
+		//Update Axes - call
+		d3.select(".y-axis")
+			.transition()
+			.duration(lineDuration)
+			.call(yAxis);
+
+		//Axes labels
+		
+		//Get bounding box of y label text
+		var yLabelBox = d3.select(".y-axis text").node().getBBox();
+
+		//Update text
+		yLabel.text(dataTitle)
+			.transition()
+			.duration(lineDuration)
+			.attr("transform","translate(" + yLabelShift + "," + (lineH/2) + "), rotate(-90)");
 
 	});
 	//Update Donut
