@@ -41,12 +41,14 @@ function ready(error, usa, data) {
       mapObject[d.id] = eval(mapData);
     });
     cScale.domain(d3.values(mapObject));
-    d3.selectAll("path").transition().duration(1000).attr("fill", function(d) {
+    d3.selectAll("path").transition().duration(2000).attr("fill", function(d) {
       return cScale(mapObject[d.id]);
     });
-    svg.select("g.legendQuant").attr("opacity", 0);
-    legend.labelFormat(d3.format('.0%')).title("% of Adults with a High School Diploma");
-    svg.select("g.legendQuant").transition().delay(1000).duration(1000).attr("opacity", 1).call(legend);
+    svg.select("g.legendQuant").transition().duration(500).attr("opacity", 0).on("end", function() {
+      legend.labelFormat(d3.format('.0%')).title("% of Adults with a High School Diploma");
+      svg.call(legend);
+    });
+    svg.select("g.legendQuant").transition().delay(1000).duration(500).attr("opacity", 1);
   });
 }
 ;
