@@ -103,7 +103,8 @@ a:focus, a:hover, a:active, a:visited {
 /*Canvas container*/
 div#map-div {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  margin-top: 20px; }
 
 /*Legend*/
 text.legendTitle {

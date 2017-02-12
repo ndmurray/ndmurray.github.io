@@ -76,16 +76,16 @@ function ready(error, usa, data) {
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
 		.attr("class","legendQuant")
-		.attr("transform","translate("+ 20 +"," + (h - (h/4)) + ")")
+		.attr("transform","translate("+ 20 +"," + (-margin.top + 24) + ")")
 
 	var legend = d3.legendColor()
-		.labelFormat(d3.format('$.2f'))
+		.labelFormat(d3.format('.2s'))
 		.shapeWidth(20)
-		.shapePadding(40)
+		.shapePadding(60)
 		.useClass(false)
 		.orient('horizontal')
 		.title("Median Household Income")
-		.titleWidth(200)
+		.titleWidth(800)
 		.scale(cScale);
 
 	svg.select(".legendQuant")
@@ -108,6 +108,14 @@ function ready(error, usa, data) {
 		.transition()
 		.duration(1000)
 		.attr("fill", function(d) { return cScale(mapObject[d.id]); });
+
+		//Update legend
+		legend.labelFormat(d3.format('.0%'))
+		.title("% of Adults with a High School Diploma");
+
+
+		svg.select(".legendQuant")
+		.call(legend);
 
 	});
 
