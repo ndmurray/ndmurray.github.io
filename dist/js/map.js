@@ -1,6 +1,6 @@
 "use strict";
 var margin = {
-  top: 10,
+  top: 100,
   right: 10,
   bottom: 10,
   left: 80
@@ -21,17 +21,24 @@ function ready(error, usa, data) {
     console.log(usa);
   }
   var mapObject = {};
+  var mapData = function(d) {
+    +d.rate;
+  };
   data.forEach(function(d) {
-    mapObject[d.id] = +d.rate;
+    mapObject[d.id] = +d.med_inc;
   });
-  var cScale = d3.scaleQuantile().domain(d3.values(mapObject)).range(d3.schemeBlues[9]);
-  svg.append("g").attr("class", "counties").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("d", mapPath);
+  var cScale = d3.scaleQuantile().domain(d3.values(mapObject)).range(d3.schemeGnBu[9]);
+  svg.append("g").attr("class", "county-group").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("class", "counties").attr("d", mapPath);
   d3.selectAll("path").attr("fill", function(d) {
     return cScale(mapObject[d.id]);
   });
+  svg.append("g").attr("class", "legendQuant").attr("transform", "translate(" + 20 + "," + (h - (h / 4)) + ")");
+  var legend = d3.legendColor().labelFormat(d3.format('$.2f')).shapeWidth(20).shapePadding(40).useClass(false).orient('horizontal').title("Median Household Income").titleWidth(200).scale(cScale);
+  svg.select(".legendQuant").call(legend);
   d3.select("#switch").on("click", function() {
+    var mapData = d3.select(this).attr('value');
     data.forEach(function(d) {
-      mapObject[d.id] = +d.edu;
+      mapObject[d.id] = eval(mapData);
     });
     cScale.domain(d3.values(mapObject));
     d3.selectAll("path").transition().duration(1000).attr("fill", function(d) {

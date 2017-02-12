@@ -106,7 +106,7 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
     lineTip.transition().duration(tipDuration).style("display", "none");
   });
   svg.append("g").attr("class", "axis x-axis").attr("transform", "translate(0," + lineH + ")").call(xAxis);
-  d3.selectAll(".x-axis text").attr("transform", "rotate(-45)").attr("text-anchor", "end");
+  d3.selectAll(".x-axis text").attr("transform", "rotate(-90)").attr("text-anchor", "end");
   svg.append("g").attr("class", "axis y-axis").call(yAxis);
   var yLabelBox = d3.select(".y-axis text").node().getBBox();
   var yLabelShift = yLabelBox.x - 50;

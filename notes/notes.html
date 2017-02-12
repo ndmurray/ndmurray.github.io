@@ -374,6 +374,28 @@ svg.selectAll(".xaxis text")  // select all the text elements for the xaxis
          });
 
 
+/**********Layouts**********************************************************/
+
+A layout doesn't arrange data in the dom in any way, simply transforms data / adds attributes so that it can more easily be displayed in the way you're looking for
+
+e.g. d3.layout.pie() (v3) or d3.pie() adds thigns like slice angles etc that your data doesn't already have
+
+d3.stack() is a widely used layout, as it's behind not just stacked bar charts but area graphs and stream graphs (same as area, just no 0 as baseline)
+
+
+/********SVG Paths****************************************************/
+
+Used for anything that isn't a regualr SVG shape
+
+They don't really have a human readable attribute set, so we use layouts like .arc() to define them
+
+//d3.arc() (used to be d3.svg.arc()
+
+A custom path function that requiures values for inner radius (.innerRadius()) and outer radius (.outerRadius())
+
+
+
+
 /**************APIs***********************************************************/
 
 -A good starter on APIs: http://schoolofdata.org/2013/11/18/web-apis-for-non-programmers/

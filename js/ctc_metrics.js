@@ -226,7 +226,7 @@ function(d) {
 		.call(xAxis);
 
 	d3.selectAll(".x-axis text")
-		.attr("transform","rotate(-45)")
+		.attr("transform","rotate(-90)")
 		.attr("text-anchor","end");
 
 	//Y axis group
