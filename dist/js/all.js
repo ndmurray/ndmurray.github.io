@@ -1090,11 +1090,6 @@ function(d) {
 
 //Boundaries and data maps elements
 
-	//Map boundary path
-	var mapPath = d3.geoPath();
-
-	//A new, empty map (data map not geo) for the unemployment data
-	var unemployment = d3.map();
 
 	//Draw the canvas
 	var svg = d3.select("#map-div").append("svg")
@@ -1108,23 +1103,30 @@ function(d) {
 
 	d3.queue()
 		.defer(d3.json,"https://d3js.org/us-10m.v1.json")
-		.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv", function(d) { unemployment.set(d.id, +d.rate); })
+		.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv")
+		//.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv", function(d) { unemployment.set(d.id, +d.rate) })
 		.await(ready);
 
+	//Map boundary path
+	var mapPath = d3.geoPath();
 
 //Map data and its dependent elements
-function ready(error, usa) {
+function ready(error, usa, data) {
 	
 	if (error) { console.log(error); }
 	else { console.log(usa) }
 
-	//Data variable holder variable
-	var mapData = function(d) { return d.rate; };
+	//Mapping array we'll use to assign data to counties
+
+	var mapArray = {};
+
+	data.forEach(function(d) {mapArray[d.id] = +d.rate;})	;
 
 	//Color scale
 	var cScale = d3.scaleQuantile()
 		//.domain([d3.min(function(d) { +d.rate; }),d3.max(function(d) { +d.rate} )])
-		.domain(unemployment.values())
+		.domain(function(d) { mapArray.values() })
+		//.domain( function(d) { unemployment.set(d.id, +d.rate).values(); })
 		.range(d3.schemeBlues[9]);
 
 	svg.append("g")
@@ -1138,8 +1140,16 @@ function ready(error, usa) {
 		.data(topojson.feature(usa, usa.objects.counties).features)
 		.enter()
 		.append("path")
-		.attr("d",mapPath)
-		.attr("fill", function(d) { return cScale(mapData = unemployment.get(d.id)); });
+		.attr("d",mapPath);
+
+	// unemployment.remove();
+	// upDate = function (d) { unemployment.set(d.id, +d.edu);}
+	// upDate();
+
+	// cScale.domain(unemployment.values());
+
+	d3.selectAll("path")
+	.attr("fill", function(d) { return cScale(mapArray[d.id]); });
 
 };	
 //General use variables
