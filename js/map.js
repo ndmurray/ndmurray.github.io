@@ -76,6 +76,7 @@ function ready(error, usa, data) {
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
 		.attr("class","legendQuant")
+		.attr("opacity",1)
 		.attr("transform","translate("+ 20 +"," + (-margin.top + 24) + ")")
 
 	var legend = d3.legendColor()
@@ -88,7 +89,7 @@ function ready(error, usa, data) {
 		.titleWidth(800)
 		.scale(cScale);
 
-	svg.select(".legendQuant")
+	svg.select("g.legendQuant")
 		.call(legend);
 
 
@@ -105,17 +106,27 @@ function ready(error, usa, data) {
 
 		//update fill color
 		d3.selectAll("path")
-		.transition()
-		.duration(1000)
-		.attr("fill", function(d) { return cScale(mapObject[d.id]); });
+			.transition()
+			.duration(1000)
+			.attr("fill", function(d) { return cScale(mapObject[d.id]); });
+
+		svg.select("g.legendQuant")
+			// .transition()
+			// .duration(1000)
+			.attr("opacity",0);
 
 		//Update legend
 		legend.labelFormat(d3.format('.0%'))
-		.title("% of Adults with a High School Diploma");
+			.title("% of Adults with a High School Diploma");
 
-
-		svg.select(".legendQuant")
-		.call(legend);
+		svg.select("g.legendQuant")
+			.transition()
+			.delay(1000)
+			.duration(1000)
+			.attr("opacity",1)
+			.call(legend);
+		
+		
 
 	});
 

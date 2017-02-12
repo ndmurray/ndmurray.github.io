@@ -32,9 +32,9 @@ function ready(error, usa, data) {
   d3.selectAll("path").attr("fill", function(d) {
     return cScale(mapObject[d.id]);
   });
-  svg.append("g").attr("class", "legendQuant").attr("transform", "translate(" + 20 + "," + (-margin.top + 24) + ")");
+  svg.append("g").attr("class", "legendQuant").attr("opacity", 1).attr("transform", "translate(" + 20 + "," + (-margin.top + 24) + ")");
   var legend = d3.legendColor().labelFormat(d3.format('.2s')).shapeWidth(20).shapePadding(60).useClass(false).orient('horizontal').title("Median Household Income").titleWidth(800).scale(cScale);
-  svg.select(".legendQuant").call(legend);
+  svg.select("g.legendQuant").call(legend);
   d3.select("#switch").on("click", function() {
     var mapData = d3.select(this).attr('value');
     data.forEach(function(d) {
@@ -44,8 +44,9 @@ function ready(error, usa, data) {
     d3.selectAll("path").transition().duration(1000).attr("fill", function(d) {
       return cScale(mapObject[d.id]);
     });
+    svg.select("g.legendQuant").attr("opacity", 0);
     legend.labelFormat(d3.format('.0%')).title("% of Adults with a High School Diploma");
-    svg.select(".legendQuant").call(legend);
+    svg.select("g.legendQuant").transition().delay(1000).duration(1000).attr("opacity", 1).call(legend);
   });
 }
 ;
