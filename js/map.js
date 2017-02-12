@@ -14,14 +14,12 @@
 
 //Mapping functions
 
-
-
-//Map data independent elements
+//Boundaries and data maps elements
 
 	//Map boundary path
 	var mapPath = d3.geoPath();
 
-	//Map dataset to 
+	//A new, empty map (data map not geo) for the unemployment data
 	var unemployment = d3.map();
 
 	//Draw the canvas
@@ -36,14 +34,21 @@
 
 	d3.queue()
 		.defer(d3.json,"https://d3js.org/us-10m.v1.json")
-		.defer(d3.csv,"/8step.io/production_data/energy_data/solar.csv");
+		.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv", function(d) { unemployment.set(d.id, +d.rate); })
+		.await(ready);
 
 
 //Map data and its dependent elements
-d3.json('https://d3js.org/us-10m.v1.json', function(error, usa) {
+function ready(error, usa) {
 	
 	if (error) { console.log(error); }
-	else { console.log(usa); } 
+	else { console.log(usa)}
+		
+	//Color scale
+	var cScale = d3.scaleQuantile()
+		//.domain([d3.min(function(d) { +d.rate; }),d3.max(function(d) { +d.rate} )])
+		.domain(unemployment.values())
+		.range(d3.schemeBlues[9]);
 
 	svg.append("g")
 			.attr("class","counties")
@@ -57,8 +62,6 @@ d3.json('https://d3js.org/us-10m.v1.json', function(error, usa) {
 		.enter()
 		.append("path")
 		.attr("d",mapPath)
-		.attr("fill","yellow");
+		.attr("fill", function(d) { return cScale(d.rate = unemployment.get(d.id)); });
 
-
-
-});	
+};	
