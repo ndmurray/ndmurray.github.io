@@ -20,16 +20,23 @@ function ready(error, usa, data) {
   } else {
     console.log(usa);
   }
-  var mapArray = {};
+  var mapObject = {};
   data.forEach(function(d) {
-    mapArray[d.id] = +d.rate;
+    mapObject[d.id] = +d.rate;
   });
-  console.log(mapArray);
-  var cScale = d3.scaleQuantile().domain(d3.values(mapArray)).range(d3.schemeBlues[9]);
-  console.log(cScale.domain());
+  var cScale = d3.scaleQuantile().domain(d3.values(mapObject)).range(d3.schemeBlues[9]);
   svg.append("g").attr("class", "counties").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("d", mapPath);
   d3.selectAll("path").attr("fill", function(d) {
-    return cScale(mapArray[d.id]);
+    return cScale(mapObject[d.id]);
+  });
+  d3.select("#switch").on("click", function() {
+    data.forEach(function(d) {
+      mapObject[d.id] = +d.edu;
+    });
+    cScale.domain(d3.values(mapObject));
+    d3.selectAll("path").transition().duration(1000).attr("fill", function(d) {
+      return cScale(mapObject[d.id]);
+    });
   });
 }
 ;

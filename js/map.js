@@ -43,22 +43,18 @@ function ready(error, usa, data) {
 	else { console.log(usa) }
 
 	//Mapping array we'll use to assign data to counties
-	var mapArray = {};
+	//From example: https://bl.ocks.org/mbostock/3306362
+	var mapObject = {};
 
 	//Populate that array with your target set of values
-	data.forEach(function(d) {mapArray[d.id] = +d.rate;});
-	
-
-	console.log(mapArray);
+	data.forEach(function(d) {mapObject[d.id] = +d.rate;});
 
 	//Color scale
 	var cScale = d3.scaleQuantile()
 		//.domain([d3.min(function(d) { +d.rate; }),d3.max(function(d) { +d.rate} )])
-		.domain(d3.values(mapArray))
+		.domain(d3.values(mapObject))
 		//.domain( function(d) { unemployment.set(d.id, +d.rate).values(); })
 		.range(d3.schemeBlues[9]);
-
-	console.log(cScale.domain());
 
 	svg.append("g")
 			.attr("class","counties")
@@ -80,6 +76,23 @@ function ready(error, usa, data) {
 	// cScale.domain(unemployment.values());
 
 	d3.selectAll("path")
-	.attr("fill", function(d) { return cScale(mapArray[d.id]); });
+	.attr("fill", function(d) { return cScale(mapObject[d.id]); });
+
+	//Update map
+	d3.select("#switch").on("click",function() {
+
+		//Populate that array with your target set of values
+		data.forEach(function(d) {mapObject[d.id] = +d.edu;});
+
+		//Update color scale
+		cScale.domain(d3.values(mapObject));
+
+		//update fill color
+		d3.selectAll("path")
+		.transition()
+		.duration(1000)
+		.attr("fill", function(d) { return cScale(mapObject[d.id]); });
+
+	});
 
 };	
