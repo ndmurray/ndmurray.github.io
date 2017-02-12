@@ -42,6 +42,7 @@ nav a {
   display: block;
   font: 16px/50px "Century Gothic";
   padding: 0 25px;
+  color: #1A1F1E;
   text-align: center;
   text-decoration: none !important;
   -webkit-transition: all .25s ease;
@@ -77,7 +78,7 @@ nav li ul li {
   float: none;
   width: 100%;
   background-color: rgba(247, 247, 247, 0.8);
-  color: white; }
+  color: #1A1F1E; }
 
 nav li ul a:hover {
   background: rgba(187, 187, 187, 0.8); }
@@ -98,7 +99,7 @@ a:focus, a:hover, a:active, a:visited {
   /*Override bootstrap blue text decoration on a hover*/
   text-decoration: none !important;
   /*default text styling*/
-  color: black; }
+  color: #1A1F1E; }
 
 /*Canvas container*/
 div#donut-div {
@@ -117,16 +118,6 @@ div#line-div {
   vertical-align: top;
   overflow: hidden; }
 
-@media (max-width: 600px) {
-  div#donut-div {
-    width: 100%;
-    /*overrides bootstrap forcing lines below donut */
-    height: 50%; }
-
-  div#line-div {
-    width: 100%;
-    /*overrides bootstrap forcing lines below donut */
-    height: 50%; } }
 /*Donut components*/
 .arc-path {
   fill: none; }
@@ -225,3 +216,14 @@ div#line-tip:after {
   width: 0;
   height: 0;
   pointer-events: none; }
+
+@media (max-width: 600px) {
+  div#donut-div {
+    width: 100%;
+    /*overrides bootstrap forcing lines below donut */
+    height: 50%; }
+
+  div#line-div {
+    width: 100%;
+    /*overrides bootstrap forcing lines below donut */
+    height: 50%; } }

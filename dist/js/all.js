@@ -149,7 +149,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	lineMargin = {top: 60, right: 40, bottom: 70, left: 60},
+	var	lineMargin = {top: 60, right: 40, bottom: 70, left: 80},
 		lineW = parseInt(d3.select('#line-div').style('width'), 10),//Get width of containing div for responsiveness
 		lineW = lineW - lineMargin.left - lineMargin.right,
 		lineH = parseInt(d3.select('#line-div').style('height'),10),
@@ -179,8 +179,9 @@ d3.csv("datadev/crime.csv",function(error,data) {
 	var dotRadius = "0.25em"
 
 	//Positioning
-	var yLabelShift = -lineMargin.left/2 - 20;
 
+	//Dynamic text
+	var dataTitle = "Total Revenue ($US)";
 
 	
 //Begin data function 
@@ -214,7 +215,7 @@ function(d) {
 	var iegData = data.filter(function(d) { return d.division_clean == "IEG"; });
 	var enrData = data.filter(function(d) { return d.division_clean == "ENR"; });
 
-	var lineData = function(d) { return d.revenue_share; };
+	var lineData = function(d) { return d.revenue_total; };
 
 //Define linear scales - because it's a line chart, we set ranges first, then domains
 
@@ -237,6 +238,10 @@ function(d) {
 	    .x(function(d) { return xScale(d.date); })
 	    .y(function(d) { return yScale(lineData(d)); });
 
+//Chart title
+	var titleText = d3.select("#chart-title").append("text")
+		.attr("class","title-text")
+		.text(dataTitle + " by Division, CTC, FY17");
 
 //Set up the canvas
 	var svg = d3.select("#line-div")
@@ -246,8 +251,6 @@ function(d) {
 		.attr("id","line-canvas")
 		.append("g") //This g element and it attributes also following bstok's margin convention. It holds all the canvas' elements.
 			.attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")");
-
-
 
 //Default chart elements
 
@@ -339,7 +342,7 @@ function(d) {
 			.duration(tipDuration)
 			.style("display","inline-block");
 		lineTip.html(
-			"<p><span class='line-val-display'>" + d3.format(".1%")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>")
+			"<p><span class='line-val-display'>" + d3.format(",.2f")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>")
 			.style("left", d3.select(this).attr("cx"))
 			.style("top", d3.select(this).attr("cy"));
 	})
@@ -367,10 +370,19 @@ function(d) {
 	svg.append("g")
 		.attr("class","axis y-axis")
 		.call(yAxis)
-		.append("text")
-		.text("Average Revenue ($US)")
+	
+	//Get bounding box of y label text
+	var yLabelBox = d3.select(".y-axis text").node().getBBox();
+
+	//Define y label shift
+	var yLabelShift = yLabelBox.x - 50;
+
+	//Y axis label
+	var yLabel = svg.append("text")
+		.text(dataTitle)
 			.attr("fill","gray")
-			.attr("transform","translate(" + yLabelShift + "," + (lineH/2 - lineMargin.bottom - lineMargin.top) + "), rotate(-90)");
+			.attr("text-anchor","middle")
+			.attr("transform","translate(" + yLabelShift + "," + (lineH/2) + "), rotate(-90)");
 
 //END LINE
 
@@ -378,15 +390,15 @@ function(d) {
 	//General use variables
 		
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	donutMargin = {top: 0, right: 60, bottom: 0, left: 60},
+	var	donutMargin = {top: 0, right: 30, bottom: 0, left: 30},
 		w = parseInt(d3.select('#donut-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - donutMargin.left - donutMargin.right,
 		h = parseInt(d3.select('#donut-div').style('height'),10),
 		h = h - donutMargin.top - donutMargin.bottom,
 		//Radius for donut
 		outerRadius = (w/2 * 0.88), /*88% of the way to from center to edge*/
-		innerRadius = (w/2 * 0.65),
-		labelRadius = (w/2 * 0.96);
+		innerRadius = (w/2 * 0.64),
+		labelRadius = (w/2 * 0.98);
 		//Transitions
 		var tipDuration = 200;
 		var donutDuration = 600;
@@ -411,7 +423,7 @@ function(d) {
 
 
 	//Holder variable for data selection
-	var arcData = function(d) { return +d.revenue_share; };
+	var arcData = function(d) { return +d.revenue_total; };
 		
 	//Set up the canvas
 		var svg = d3.select("#donut-div")
@@ -440,14 +452,14 @@ function(d) {
 		    .sort(null)
 		    .value(function(d) { return arcData(d); });
 
-		//Draw arc group that holds the arc path
-		var arc = svg.selectAll(".arc")
+		//Draw each arc group that holds each arc path
+		var arc = svg.selectAll("g.arc")
 	      	.data(pie(donutData))
 	    	.enter()
 	    	.append("g")
 	      	.attr("class", "arc");
 
-	     //Fill arc with path?
+	     //Fill arc groups with arc path
 	    var arcPath = arc.append("path")
 	      .attr("d", arcDef)
 	      .attr("class","arc-path")
@@ -501,11 +513,29 @@ function(d) {
 //Update lines and donut data - 
 	d3.selectAll(".m-choice").on("click", function() {
 
+	
 	//Lines
 		//Update line (and donut) data variable
 		var lineValue = d3.select(this).attr('value');
 		var arcValue = lineValue;
 		var lineData = function(d) { return eval(lineValue); };
+
+
+	//Display values
+	switch (lineValue) {
+			case "d.projects_total":
+				dataTitle = "Total Projects";
+				break;
+			case "d.revenue_total":
+				dataTitle = "Total Revenue ($US)";
+				break;
+			case "d.avg_revenue":
+				dataTitle = "Avg. Revenue / Project ($US)";
+				break;
+		}
+
+	//Chart Title
+	titleText.text(dataTitle + " by Division, CTC, FY17");
 
 
 	d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv",
@@ -545,7 +575,7 @@ function(d) {
 			.duration(tipDuration)
 			.style("display","inline-block");
 		lineTip.html(
-			"<p><span class='line-val-display'>" + d3.format(".1%")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>")
+			"<p><span class='line-val-display'>" + d3.format(",.2f")(lineData(d)) + "</span><br /><span class='time-display'>" + formatTimeMonth(d.date) + " " + formatTimeYear(d.date) + "</span></p>")
 			.style("left", d3.select(this).attr("cx"))
 			.style("top", d3.select(this).attr("cy"));
 		})
@@ -576,6 +606,26 @@ function(d) {
 		//ENR
 		pathENR.transition().duration(lineDuration).attr("d", line);
 		nodesENR.transition().duration(lineDuration).attr("cy", function(d) { return yScale(lineData(d)); });
+
+		//Update Axes - redefine
+		var yAxis = d3.axisLeft().scale(yScale);
+
+		//Update Axes - call
+		d3.select(".y-axis")
+			.transition()
+			.duration(lineDuration)
+			.call(yAxis);
+
+		//Axes labels
+		
+		//Get bounding box of y label text
+		var yLabelBox = d3.select(".y-axis text").node().getBBox();
+
+		//Update text
+		yLabel.text(dataTitle)
+			.transition()
+			.duration(lineDuration)
+			.attr("transform","translate(" + yLabelShift + "," + (lineH/2) + "), rotate(-90)");
 
 	});
 	//Update Donut
@@ -1025,6 +1075,45 @@ function(d) {
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
+	var	margin = {top: 10, right: 20, bottom: 20, left: 80},
+		w = parseInt(d3.select('#map-div').style('width'), 10),//Get width of containing div for responsiveness
+		w = w - margin.left - margin.right,
+		h = parseInt(d3.select('#map-div').style('height'),10),
+		h = h - margin.top - margin.bottom;
+
+
+	//Parse date values function
+	var parseDate = d3.timeParse("%Y");
+	var formatTime = d3.timeFormat("%Y");
+
+	//Map boundary path
+	var mapPath = d3.geo.path();
+
+	//Draw the canvas
+	var canvas = d3.select("body").append("svg")
+		.attr("width", w + margin.left + margin.right)
+		.attr("height", h + margin.left + margin.right)
+		.attr("id","map-canvas")
+			.append("g")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+//Map data and its dependent elements
+d3.json('/8step.io/geo/us-counties.geojson', function(geojson) {
+	
+	d3.selectAll("path")
+		.data(json.features)
+		.enter()
+		.append("path")
+		.attr("d",mapPath);
+
+
+
+});	
+//General use variables
+	
+	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
 	var	margin = {top: 80, right: 140, bottom: 40, left: 60},
 		w = parseInt(d3.select('#scatter-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
@@ -1094,7 +1183,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 //Chart title
 
-	var titleText = d3.select("h2#chart-title").append("text.title-text")
+	var titleText = d3.select("h2#chart-title").append("text")
+		.attr("class", "title-text")
 		.text(titleX + " vs. " + titleY);
 
 //Tooltips - http://bit.ly/22HClnd

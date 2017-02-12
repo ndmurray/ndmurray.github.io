@@ -10,7 +10,7 @@ $axis-color: gray;
 
 /*Dropdown colors*/
 $button-color1: white; //text color for dropdown header
-$button-color2: black; //text color for dropdown content
+$button-color2: #1A1F1E; //text color for dropdown content
 $button-bkgd1: #035435; //accent color
 $button-bkgd2: rgba(247,247,247,0.8);
 $button-bkgd-hghlt: rgba(187,187,187,0.8);
@@ -74,6 +74,7 @@ nav a {
     display: block;
     font: 16px/50px $default-font;
     padding: 0 25px;
+    color: $button-color2;
     text-align: center;
     text-decoration: none !important;
     -webkit-transition: all .25s ease;
@@ -114,7 +115,7 @@ nav li ul li {
     float: none;
     width: 100%;
     background-color:$button-bkgd2;
-    color: $button-color1;
+    color: $button-color2;
 }
 
 nav li ul a:hover {
@@ -164,19 +165,7 @@ div#line-div {
     overflow: hidden;
 }
 
-@media (max-width: 600px) {
-  div#donut-div {
-    width: 100%; /*overrides bootstrap forcing lines below donut */
-    height: 50%; 
-  }
 
-  div#line-div {
-    width: 100%; /*overrides bootstrap forcing lines below donut */
-    height: 50%; 
-  }
-
-  
-}
 
 /*Donut components*/
 
@@ -278,7 +267,6 @@ div#line-div {
   margin-top: -18px;
 }
 
-
 div.donut-tip { 
     text-align: center;
     font-family: $default-font;
@@ -322,3 +310,15 @@ div#line-tip:after {
 
 //Media queries
 
+@media (max-width: 600px) {
+  div#donut-div {
+    width: 100%; /*overrides bootstrap forcing lines below donut */
+    height: 50%; 
+  }
+
+  div#line-div {
+    width: 100%; /*overrides bootstrap forcing lines below donut */
+    height: 50%; 
+  }
+
+}

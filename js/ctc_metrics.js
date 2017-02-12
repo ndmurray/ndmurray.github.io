@@ -315,14 +315,14 @@ function(d) {
 		    .sort(null)
 		    .value(function(d) { return arcData(d); });
 
-		//Draw arc group that holds the arc path
-		var arc = svg.selectAll(".arc")
+		//Draw each arc group that holds each arc path
+		var arc = svg.selectAll("g.arc")
 	      	.data(pie(donutData))
 	    	.enter()
 	    	.append("g")
 	      	.attr("class", "arc");
 
-	     //Fill arc with path?
+	     //Fill arc groups with arc path
 	    var arcPath = arc.append("path")
 	      .attr("d", arcDef)
 	      .attr("class","arc-path")

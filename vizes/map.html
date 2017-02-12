@@ -1,0 +1,52 @@
+<DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<!--Make viewport same as screen dimensions on mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Map</title>
+		<!--Bootstrap css-->
+			<!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+			<!--select element plugin http://bit.ly/1fXdaIa-->
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+
+			<!-- Optional theme
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
+
+		<!--Native styles-->
+		<link type="text/css" rel="stylesheet" href="/8step.io/dist/css/stylemap.css"/>
+
+		<!--solar data from the open PV project https://openpv.nrel.gov/search-->
+			
+	</head>
+	<body>
+		<!--Header-->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="title-div">
+					<h2 id="chart-title"></h2>
+				</div>
+			</div>
+		
+		<!--Canvas-->
+			<div class = "row">
+				<div id="map-div">
+				</div>
+			</div>
+		</div>
+		<!--Libaries-->
+		<script type="text/javascript" src="/8step.io/bower_components/jQuery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="/8step.io/bower_components/d3_4.0/d3.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<!--Add ons-->
+		<script src="https://d3js.org/topojson.v2.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+		<!--Native apps-->
+		<script type="text/javascript" src="/8step.io/js/map.js"></script>
+	</body>
+</html>
+

@@ -143,7 +143,7 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
     var pie = d3.pie().sort(null).value(function(d) {
       return arcData(d);
     });
-    var arc = svg.selectAll(".arc").data(pie(donutData)).enter().append("g").attr("class", "arc");
+    var arc = svg.selectAll("g.arc").data(pie(donutData)).enter().append("g").attr("class", "arc");
     var arcPath = arc.append("path").attr("d", arcDef).attr("class", "arc-path").style("fill", function(d) {
       return color(d.data.division_clean);
     }).each(function(d) {
