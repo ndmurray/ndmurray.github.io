@@ -1088,15 +1088,13 @@ function(d) {
 
 //Mapping functions
 
-//Boundaries and data maps
+//Boundaries and data maps elements
 
 	//Map boundary path
 	var mapPath = d3.geoPath();
 
 	//A new, empty map (data map not geo) for the unemployment data
 	var unemployment = d3.map();
-
-//Scales
 
 	//Draw the canvas
 	var svg = d3.select("#map-div").append("svg")
@@ -1111,13 +1109,17 @@ function(d) {
 	d3.queue()
 		.defer(d3.json,"https://d3js.org/us-10m.v1.json")
 		.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv", function(d) { unemployment.set(d.id, +d.rate); })
-		.await(ready); //load the data and wait for our function that uses both datasets!
+		.await(ready);
 
 
 //Map data and its dependent elements
 function ready(error, usa) {
 	
 	if (error) { console.log(error); }
+	else { console.log(usa) }
+
+	//Data variable holder variable
+	var mapData = function(d) { return d.rate; };
 
 	//Color scale
 	var cScale = d3.scaleQuantile()
@@ -1137,12 +1139,7 @@ function ready(error, usa) {
 		.enter()
 		.append("path")
 		.attr("d",mapPath)
-		//Return the scaled value of the specified key string (id),
-		//we want the rate value
-		//based on is associated "id" key
-		.attr("fill", function(d) { return cScale(d.rate = unemployment.get(d.id)); });
-
-
+		.attr("fill", function(d) { return cScale(mapData = unemployment.get(d.id)); });
 
 };	
 //General use variables

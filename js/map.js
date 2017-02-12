@@ -42,8 +42,11 @@
 function ready(error, usa) {
 	
 	if (error) { console.log(error); }
-	else { console.log(usa)}
-		
+	else { console.log(usa) }
+
+	//Data variable holder variable
+	var mapData = function(d) { return d.rate; };
+
 	//Color scale
 	var cScale = d3.scaleQuantile()
 		//.domain([d3.min(function(d) { +d.rate; }),d3.max(function(d) { +d.rate} )])
@@ -62,6 +65,6 @@ function ready(error, usa) {
 		.enter()
 		.append("path")
 		.attr("d",mapPath)
-		.attr("fill", function(d) { return cScale(d.rate = unemployment.get(d.id)); });
+		.attr("fill", function(d) { return cScale(mapData = unemployment.get(d.id)); });
 
 };	

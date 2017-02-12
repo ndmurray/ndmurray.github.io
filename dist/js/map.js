@@ -23,9 +23,12 @@ function ready(error, usa) {
   } else {
     console.log(usa);
   }
+  var mapData = function(d) {
+    return d.rate;
+  };
   var cScale = d3.scaleQuantile().domain(unemployment.values()).range(d3.schemeBlues[9]);
   svg.append("g").attr("class", "counties").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("d", mapPath).attr("fill", function(d) {
-    return cScale(d.rate = unemployment.get(d.id));
+    return cScale(mapData = unemployment.get(d.id));
   });
 }
 ;
