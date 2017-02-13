@@ -1,8 +1,7 @@
-@charset "UTF-8";
 /*Montserrat font*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 /*Theme*/
-/*Dropdown colors*/
+/*UI colors*/
 /*Toolip - line*/
 /*******************STYLES****************************************************************/
 body {
@@ -11,94 +10,25 @@ body {
   background-color: #1A1F1E; }
 
 /*Header styling*/
+div#header-row {
+  margin-left: 5em; }
+
 h2#chart-title {
   font-size: 3em;
   margin-left: 1em;
   margin-bottom: 0em; }
 
-/*Dropdowns - http://cssdeck.com/labs/pure-css3-smooth-drop-down-menu*/
-#primary_nav_wrap {
-  margin-left: 3em; }
-
-nav ul {
-  -webkit-font-smoothing: antialiased;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 12%;
-  display: inline-block;
-  text-align: center; }
-
-nav li {
-  background-color: #035435;
-  color: white;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  min-width: 25%; }
-
-nav a {
-  display: block;
-  font: 16px/50px "Century Gothic";
-  padding: 0 25px;
-  color: #1A1F1E;
-  text-align: center;
-  text-decoration: none !important;
-  -webkit-transition: all .25s ease;
-  -moz-transition: all .25s ease;
-  -ms-transition: all .25s ease;
-  -o-transition: all .25s ease;
-  transition: all .25s ease; }
-
-a#dropdown-title {
-  color: white; }
-
-nav li ul {
-  left: 0;
-  opacity: 0;
-  width: 100%;
-  position: absolute;
-  top: 50px;
-  visibility: hidden;
-  z-index: 1;
-  -webkit-transition: all .25s ease;
-  -moz-transition: all .25s ease;
-  -ms-transition: all .25s ease;
-  -o-transition: all .25s ease;
-  transition: all .25s ease; }
-
-nav li:hover ul {
-  opacity: 1;
-  top: 50px;
-  visibility: visible;
-  border-top: 6px solid #1A1F1E; }
-
-nav li ul li {
-  float: none;
-  width: 100%;
-  background-color: rgba(247, 247, 247, 0.8);
-  color: #1A1F1E; }
-
-nav li ul a:hover {
-  background: rgba(187, 187, 187, 0.8); }
-
-/* Clearfix */
-.cf:after, .cf:before {
-  content: "";
-  display: table; }
-
-.cf:after {
-  clear: both; }
-
-.cf {
-  zoom: 1; }
-
-ΓÇï
-a:focus, a:hover, a:active, a:visited {
-  /*Override bootstrap blue text decoration on a hover*/
-  text-decoration: none !important;
-  /*default text styling*/
-  color: #1A1F1E; }
+a.choice {
+  color: #3e3e3e;
+  background-color: #e0b524;
+  padding: 10px 20px;
+  margin-right: 0.5;
+  text-decoration: none;
+  font-weight: bold;
+  /*inspired by materialize css*/
+  webkit-user-select: none;
+  cursor: pointer;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); }
 
 /*Canvas container*/
 div#map-div {

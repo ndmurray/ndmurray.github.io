@@ -7,15 +7,6 @@
 		h = parseInt(d3.select('#map-div').style('height'),10),
 		h = h - margin.top - margin.bottom;
 
-
-	//Parse date values function
-	var parseDate = d3.timeParse("%Y");
-	var formatTime = d3.timeFormat("%Y");
-
-//Mapping functions
-
-//Boundaries and data maps elements
-
 	//Draw the canvas
 	var svg = d3.select("#map-div").append("svg")
 		.attr("width", w + margin.left + margin.right)
@@ -24,7 +15,9 @@
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//Load geographic and descriptive data
+//Mapping functions
+
+	//Load geographic and descriptive data
 
 	d3.queue()
 		.defer(d3.json,"https://d3js.org/us-10m.v1.json")
@@ -70,7 +63,9 @@ function ready(error, usa, data) {
 		.attr("d",mapPath);
 
 	d3.selectAll("path")
-	.attr("fill", function(d) { return cScale(mapObject[d.id]); });
+	.attr("fill", function(d) { return cScale(mapObject[d.id]); })
+	.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
+
 
 
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
@@ -79,13 +74,15 @@ function ready(error, usa, data) {
 		.attr("opacity",1)
 		.attr("transform","translate("+ 20 +"," + (-margin.top + 24) + ")")
 
+	var legendTitle = "Median Household Income";
+
 	var legend = d3.legendColor()
 		.labelFormat(d3.format('.2s'))
 		.shapeWidth(20)
 		.shapePadding(60)
 		.useClass(false)
 		.orient('horizontal')
-		.title("Median Household Income")
+		.title(legendTitle)
 		.titleWidth(800)
 		.scale(cScale);
 
@@ -93,35 +90,59 @@ function ready(error, usa, data) {
 		.call(legend);
 
 
-	//Update map
-	d3.select("#switch").on("click",function() {
+//Update map
+
+	d3.selectAll(".choice").on("click",function() {
+
+	//Data
 
 		//Update target data
 		var mapData = d3.select(this).attr('value');
+
 		//Populate that array with your target set of values
 		data.forEach(function(d) {mapObject[d.id] = eval(mapData);});
 
 		//Update color scale
-		cScale.domain(d3.values(mapObject));
+		cScale.domain(d3.values(mapObject))
+		.range(d3.schemeGnBu[9]);
 
-		//update fill color
+		//Display values
+		switch (mapData) {
+			case "+d.rate":
+				legendTitle = "Unemployment Rate";
+				break;
+			case "+d.edu":
+				legendTitle = "% of Adults without a High School Diploma";
+				break;
+			case "+d.med_inc":
+				legendTitle = "Median household income";
+				break;
+		}
+
+
+	//Map elements
+
+		//update  map path
 		d3.selectAll("path")
 			.transition()
 			.duration(2000)
-			.attr("fill", function(d) { return cScale(mapObject[d.id]); });
+			.attr("fill", function(d) { return cScale(mapObject[d.id]); })
+			.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
 
-		//Update legend
-		
+		//Legend
+
+		//fade out, then call new legend
 		svg.select("g.legendQuant")
 			.transition()
 			.duration(500)
 			.attr("opacity",0)
 			.on("end", function(){
 				legend.labelFormat(d3.format('.0%'))
-					.title("% of Adults with a High School Diploma");
+					.title(legendTitle);
 					svg.call(legend);
 			});		
 
+		//fade in
 		svg.select("g.legendQuant")
 			.transition()
 			.delay(1000)

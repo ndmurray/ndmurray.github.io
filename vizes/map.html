@@ -25,11 +25,16 @@
 	<body>
 		<!--Header-->
 		<div class="container-fluid">
-			<div class="row">
+			<div id="header-row" class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="title-div">
 					<h2 id="chart-title"></h2>
 				</div>
-				<button type="button" id="switch" class="btn btn-primary" value="+d.edu">Change that data</button>
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<a type="a" class="choice" value="+d.rate">Unemployment</a>
+					<a type="a" class="choice" value="+d.edu">Education</a>
+					<a type="a" class="choice" value="+d.med_inc">Income</a>
+				</div>
+				
 			</div>
 		
 		<!--Canvas-->

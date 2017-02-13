@@ -9,8 +9,6 @@ var margin = {
     w = w - margin.left - margin.right,
     h = parseInt(d3.select('#map-div').style('height'), 10),
     h = h - margin.top - margin.bottom;
-var parseDate = d3.timeParse("%Y");
-var formatTime = d3.timeFormat("%Y");
 var svg = d3.select("#map-div").append("svg").attr("width", w + margin.left + margin.right).attr("height", h + margin.left + margin.right).attr("id", "map-canvas").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 d3.queue().defer(d3.json, "https://d3js.org/us-10m.v1.json").defer(d3.csv, "/8step.io/production_data/employment_data/county_8.16.csv").await(ready);
 var mapPath = d3.geoPath();
@@ -31,21 +29,37 @@ function ready(error, usa, data) {
   svg.append("g").attr("class", "county-group").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("class", "counties").attr("d", mapPath);
   d3.selectAll("path").attr("fill", function(d) {
     return cScale(mapObject[d.id]);
+  }).attr("stroke", function(d) {
+    return cScale(mapObject[d.id]);
   });
   svg.append("g").attr("class", "legendQuant").attr("opacity", 1).attr("transform", "translate(" + 20 + "," + (-margin.top + 24) + ")");
-  var legend = d3.legendColor().labelFormat(d3.format('.2s')).shapeWidth(20).shapePadding(60).useClass(false).orient('horizontal').title("Median Household Income").titleWidth(800).scale(cScale);
+  var legendTitle = "Median Household Income";
+  var legend = d3.legendColor().labelFormat(d3.format('.2s')).shapeWidth(20).shapePadding(60).useClass(false).orient('horizontal').title(legendTitle).titleWidth(800).scale(cScale);
   svg.select("g.legendQuant").call(legend);
-  d3.select("#switch").on("click", function() {
+  d3.selectAll(".choice").on("click", function() {
     var mapData = d3.select(this).attr('value');
     data.forEach(function(d) {
       mapObject[d.id] = eval(mapData);
     });
-    cScale.domain(d3.values(mapObject));
+    cScale.domain(d3.values(mapObject)).range(d3.schemeGnBu[9]);
+    switch (mapData) {
+      case "+d.rate":
+        legendTitle = "Unemployment Rate";
+        break;
+      case "+d.edu":
+        legendTitle = "% of Adults without a High School Diploma";
+        break;
+      case "+d.med_inc":
+        legendTitle = "Median household income";
+        break;
+    }
     d3.selectAll("path").transition().duration(2000).attr("fill", function(d) {
+      return cScale(mapObject[d.id]);
+    }).attr("stroke", function(d) {
       return cScale(mapObject[d.id]);
     });
     svg.select("g.legendQuant").transition().duration(500).attr("opacity", 0).on("end", function() {
-      legend.labelFormat(d3.format('.0%')).title("% of Adults with a High School Diploma");
+      legend.labelFormat(d3.format('.0%')).title(legendTitle);
       svg.call(legend);
     });
     svg.select("g.legendQuant").transition().delay(1000).duration(500).attr("opacity", 1);
