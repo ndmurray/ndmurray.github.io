@@ -7,6 +7,9 @@
 		h = parseInt(d3.select('#map-div').style('height'),10),
 		h = h - margin.top - margin.bottom;
 
+	//Define filters
+
+
 	//Draw the canvas
 	var svg = d3.select("#map-div").append("svg")
 		.attr("width", w + margin.left + margin.right)
@@ -15,6 +18,15 @@
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+	svg.append("defs")
+		.append("filter")
+			.attr("id","blurFilter")
+			.attr("x","-20").attr("y","-20")
+			.attr("width","200")
+			.attr("height","200")
+				.append("feGaussianBlur")
+					.attr("in","SourceGraphic")
+					.attr("stdDeviation","10");
 //Mapping functions
 
 	//Load geographic and descriptive data
@@ -66,8 +78,6 @@ function ready(error, usa, data) {
 	.attr("fill", function(d) { return cScale(mapObject[d.id]); })
 	.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
 
-
-
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
 		.attr("class","legendQuant")
@@ -75,10 +85,12 @@ function ready(error, usa, data) {
 		.attr("transform","translate("+ 20 +"," + (-margin.top + 24) + ")")
 
 	var legendTitle = "Median Household Income";
+	var legendFormat = '.2s'
 
 	var legend = d3.legendColor()
-		.labelFormat(d3.format('.2s'))
+		.labelFormat(d3.format(legendFormat))
 		.shapeWidth(20)
+		.shape('circle')
 		.shapePadding(60)
 		.useClass(false)
 		.orient('horizontal')
@@ -88,6 +100,24 @@ function ready(error, usa, data) {
 
 	svg.select("g.legendQuant")
 		.call(legend);
+
+
+	//Map hover action
+	d3.selectAll('.counties').on('mouseover',function(d) {
+		d3.select(this)
+			//.attr("stroke","green")
+			//.attr("stroke-width","4px")
+			.attr("filter","url(#blurFilter)")
+			.moveToFront();
+	}).on('mouseout',function(d) {
+		d3.select(this)
+			//.attr("stroke",function(d) { return cScale(mapObject[d.id]); })
+			//.attr("stroke-width","1px")
+			.attr("filter","none")
+			.moveToBack();
+	});
+
+
 
 
 //Update map
@@ -106,7 +136,7 @@ function ready(error, usa, data) {
 		cScale.domain(d3.values(mapObject))
 		.range(d3.schemeGnBu[9]);
 
-		//Display values
+		//Title values
 		switch (mapData) {
 			case "+d.rate":
 				legendTitle = "Unemployment Rate";
@@ -119,6 +149,18 @@ function ready(error, usa, data) {
 				break;
 		}
 
+		//Legend formatting
+		switch (mapData) {
+			case "+d.rate":
+				legendFormat= '.0%';
+				break;
+			case "+d.edu":
+				legendFormat = '.0%';
+				break;
+			case "+d.med_inc":
+				legendFormat = '.2s';
+				break;
+		}
 
 	//Map elements
 
@@ -137,7 +179,7 @@ function ready(error, usa, data) {
 			.duration(500)
 			.attr("opacity",0)
 			.on("end", function(){
-				legend.labelFormat(d3.format('.0%'))
+				legend.labelFormat(d3.format(legendFormat))
 					.title(legendTitle);
 					svg.call(legend);
 			});		

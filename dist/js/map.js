@@ -10,6 +10,7 @@ var margin = {
     h = parseInt(d3.select('#map-div').style('height'), 10),
     h = h - margin.top - margin.bottom;
 var svg = d3.select("#map-div").append("svg").attr("width", w + margin.left + margin.right).attr("height", h + margin.left + margin.right).attr("id", "map-canvas").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+svg.append("defs").append("filter").attr("id", "blurFilter").attr("x", "-20").attr("y", "-20").attr("width", "200").attr("height", "200").append("feGaussianBlur").attr("in", "SourceGraphic").attr("stdDeviation", "10");
 d3.queue().defer(d3.json, "https://d3js.org/us-10m.v1.json").defer(d3.csv, "/8step.io/production_data/employment_data/county_8.16.csv").await(ready);
 var mapPath = d3.geoPath();
 function ready(error, usa, data) {
@@ -34,8 +35,14 @@ function ready(error, usa, data) {
   });
   svg.append("g").attr("class", "legendQuant").attr("opacity", 1).attr("transform", "translate(" + 20 + "," + (-margin.top + 24) + ")");
   var legendTitle = "Median Household Income";
-  var legend = d3.legendColor().labelFormat(d3.format('.2s')).shapeWidth(20).shapePadding(60).useClass(false).orient('horizontal').title(legendTitle).titleWidth(800).scale(cScale);
+  var legendFormat = '.2s';
+  var legend = d3.legendColor().labelFormat(d3.format(legendFormat)).shapeWidth(20).shape('circle').shapePadding(60).useClass(false).orient('horizontal').title(legendTitle).titleWidth(800).scale(cScale);
   svg.select("g.legendQuant").call(legend);
+  d3.selectAll('.counties').on('mouseover', function(d) {
+    d3.select(this).attr("filter", "url(#blurFilter)").moveToFront();
+  }).on('mouseout', function(d) {
+    d3.select(this).attr("filter", "none").moveToBack();
+  });
   d3.selectAll(".choice").on("click", function() {
     var mapData = d3.select(this).attr('value');
     data.forEach(function(d) {
@@ -53,13 +60,24 @@ function ready(error, usa, data) {
         legendTitle = "Median household income";
         break;
     }
+    switch (mapData) {
+      case "+d.rate":
+        legendFormat = '.0%';
+        break;
+      case "+d.edu":
+        legendFormat = '.0%';
+        break;
+      case "+d.med_inc":
+        legendFormat = '.2s';
+        break;
+    }
     d3.selectAll("path").transition().duration(2000).attr("fill", function(d) {
       return cScale(mapObject[d.id]);
     }).attr("stroke", function(d) {
       return cScale(mapObject[d.id]);
     });
     svg.select("g.legendQuant").transition().duration(500).attr("opacity", 0).on("end", function() {
-      legend.labelFormat(d3.format('.0%')).title(legendTitle);
+      legend.labelFormat(d3.format(legendFormat)).title(legendTitle);
       svg.call(legend);
     });
     svg.select("g.legendQuant").transition().delay(1000).duration(500).attr("opacity", 1);

@@ -1137,8 +1137,8 @@ function ready(error, usa, data) {
 		.attr("d",mapPath);
 
 	d3.selectAll("path")
-	.attr("fill", function(d) { return cScale(mapObject[d.id]); });
-
+	.attr("fill", function(d) { return cScale(mapObject[d.id]); })
+	.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
 
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
@@ -1147,10 +1147,12 @@ function ready(error, usa, data) {
 		.attr("transform","translate("+ 20 +"," + (-margin.top + 24) + ")")
 
 	var legendTitle = "Median Household Income";
+	var legendFormat = '.2s'
 
 	var legend = d3.legendColor()
-		.labelFormat(d3.format('.2s'))
+		.labelFormat(d3.format(legendFormat))
 		.shapeWidth(20)
+		.shape('circle')
 		.shapePadding(60)
 		.useClass(false)
 		.orient('horizontal')
@@ -1162,9 +1164,19 @@ function ready(error, usa, data) {
 		.call(legend);
 
 
+	//Map hover action
+	d3.selectAll('.counties').on('mouseover',function(d) {
+		d3.select(this).attr("stroke","green");
+	}).on('mouseout',function(d) {
+		d3.select(this).attr("stroke",function(d) { return cScale(mapObject[d.id]); });
+	});
+
+
+
+
 //Update map
 
-	d3.select(".choice").on("click",function() {
+	d3.selectAll(".choice").on("click",function() {
 
 	//Data
 
@@ -1175,29 +1187,43 @@ function ready(error, usa, data) {
 		data.forEach(function(d) {mapObject[d.id] = eval(mapData);});
 
 		//Update color scale
-		cScale.domain(d3.values(mapObject));
+		cScale.domain(d3.values(mapObject))
+		.range(d3.schemeGnBu[9]);
 
-		//Display values
+		//Title values
 		switch (mapData) {
-			case "+d.gini":
-				legendTitle = "Gini Index";
+			case "+d.rate":
+				legendTitle = "Unemployment Rate";
 				break;
-			case "+d.press":
-				legendTitle = "Press Freedom";
+			case "+d.edu":
+				legendTitle = "% of Adults without a High School Diploma";
 				break;
-			case "+d.mfr":
-				legendTitle = "Male to female Ratio";
+			case "+d.med_inc":
+				legendTitle = "Median household income";
 				break;
 		}
 
+		//Legend formatting
+		switch (mapData) {
+			case "+d.rate":
+				legendFormat= '.0%';
+				break;
+			case "+d.edu":
+				legendFormat = '.0%';
+				break;
+			case "+d.med_inc":
+				legendFormat = '.2s';
+				break;
+		}
 
 	//Map elements
 
-		//update fill color
+		//update  map path
 		d3.selectAll("path")
 			.transition()
 			.duration(2000)
-			.attr("fill", function(d) { return cScale(mapObject[d.id]); });
+			.attr("fill", function(d) { return cScale(mapObject[d.id]); })
+			.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
 
 		//Legend
 
@@ -1207,8 +1233,8 @@ function ready(error, usa, data) {
 			.duration(500)
 			.attr("opacity",0)
 			.on("end", function(){
-				legend.labelFormat(d3.format('.0%'))
-					.title("% of Adults with a High School Diploma");
+				legend.labelFormat(d3.format(legendFormat))
+					.title(legendTitle);
 					svg.call(legend);
 			});		
 
