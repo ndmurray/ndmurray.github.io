@@ -7,9 +7,6 @@
 		h = parseInt(d3.select('#map-div').style('height'),10),
 		h = h - margin.top - margin.bottom;
 
-	//Define filters
-
-
 	//Draw the canvas
 	var svg = d3.select("#map-div").append("svg")
 		.attr("width", w + margin.left + margin.right)
@@ -18,15 +15,39 @@
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+	//Define constructor functions - special functions avaialble to the elements we define below
+	//See introduction to constructor functions here: https://ejb.github.io/2016/05/23/a-better-way-to-structure-d3-code.html
+
+		//SVG element order - http://bl.ocks.org/eesur/4e0a69d57d3bfc8a82c2
+		d3.selection.prototype.moveToFront = function() {  
+	      return this.each(function() {
+	      	this.parentNode.appendChild(this);
+	      });
+	    };
+
+	    d3.selection.prototype.moveToBack = function() {
+	 	  return this.each(function() { 
+            var firstChild = this.parentNode.firstChild; 
+            if (firstChild) { 
+                this.parentNode.insertBefore(this, firstChild); 
+            } 
+          });
+	    };
+
+	//Special elements
 	svg.append("defs")
-		.append("filter")
-			.attr("id","blurFilter")
-			.attr("x","-20").attr("y","-20")
-			.attr("width","200")
-			.attr("height","200")
-				.append("feGaussianBlur")
-					.attr("in","SourceGraphic")
-					.attr("stdDeviation","10");
+		//Filters
+		.append("filter").attr("id","county-filter")
+			.append("feOffset")
+				.attr("result","offOut").attr("in","SourceGraphic")
+				.attr("dx","-2").attr("dy","-2")
+			.append("feBlend")
+				.attr("in","SourceGraphic").attr("in2","offOut")
+				.attr("mode","normal");
+
+
+
+			
 //Mapping functions
 
 	//Load geographic and descriptive data
@@ -70,7 +91,7 @@ function ready(error, usa, data) {
 		//later, topojosn.mesh() will let us draw state buondaries based on county boundaries
 		.data(topojson.feature(usa, usa.objects.counties).features)
 		.enter()
-		.append("path")
+	.append("path")
 		.attr("class","counties")
 		.attr("d",mapPath);
 
@@ -101,18 +122,18 @@ function ready(error, usa, data) {
 	svg.select("g.legendQuant")
 		.call(legend);
 
-
 	//Map hover action
 	d3.selectAll('.counties').on('mouseover',function(d) {
 		d3.select(this)
-			//.attr("stroke","green")
-			//.attr("stroke-width","4px")
-			.attr("filter","url(#blurFilter)")
+			// .attr("stroke","green")
+			// .attr("stroke-width","2px")
+			.attr("filter","url(#county-filter)")
 			.moveToFront();
+			
 	}).on('mouseout',function(d) {
 		d3.select(this)
-			//.attr("stroke",function(d) { return cScale(mapObject[d.id]); })
-			//.attr("stroke-width","1px")
+			// .attr("stroke",function(d) { return cScale(mapObject[d.id]); })
+			// .attr("stroke-width","1px")
 			.attr("filter","none")
 			.moveToBack();
 	});
@@ -142,7 +163,7 @@ function ready(error, usa, data) {
 				legendTitle = "Unemployment Rate";
 				break;
 			case "+d.edu":
-				legendTitle = "% of Adults without a High School Diploma";
+				legendTitle = "% of Adults with a High School Diploma";
 				break;
 			case "+d.med_inc":
 				legendTitle = "Median household income";

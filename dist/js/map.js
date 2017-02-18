@@ -10,7 +10,20 @@ var margin = {
     h = parseInt(d3.select('#map-div').style('height'), 10),
     h = h - margin.top - margin.bottom;
 var svg = d3.select("#map-div").append("svg").attr("width", w + margin.left + margin.right).attr("height", h + margin.left + margin.right).attr("id", "map-canvas").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-svg.append("defs").append("filter").attr("id", "blurFilter").attr("x", "-20").attr("y", "-20").attr("width", "200").attr("height", "200").append("feGaussianBlur").attr("in", "SourceGraphic").attr("stdDeviation", "10");
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function() {
+    this.parentNode.appendChild(this);
+  });
+};
+d3.selection.prototype.moveToBack = function() {
+  return this.each(function() {
+    var firstChild = this.parentNode.firstChild;
+    if (firstChild) {
+      this.parentNode.insertBefore(this, firstChild);
+    }
+  });
+};
+svg.append("defs").append("filter").attr("id", "county-filter").append("feOffset").attr("result", "offOut").attr("in", "SourceGraphic").attr("dx", "-2").attr("dy", "-2").append("feBlend").attr("in", "SourceGraphic").attr("in2", "offOut").attr("mode", "normal");
 d3.queue().defer(d3.json, "https://d3js.org/us-10m.v1.json").defer(d3.csv, "/8step.io/production_data/employment_data/county_8.16.csv").await(ready);
 var mapPath = d3.geoPath();
 function ready(error, usa, data) {
@@ -39,7 +52,7 @@ function ready(error, usa, data) {
   var legend = d3.legendColor().labelFormat(d3.format(legendFormat)).shapeWidth(20).shape('circle').shapePadding(60).useClass(false).orient('horizontal').title(legendTitle).titleWidth(800).scale(cScale);
   svg.select("g.legendQuant").call(legend);
   d3.selectAll('.counties').on('mouseover', function(d) {
-    d3.select(this).attr("filter", "url(#blurFilter)").moveToFront();
+    d3.select(this).attr("filter", "url(#county-filter)").moveToFront();
   }).on('mouseout', function(d) {
     d3.select(this).attr("filter", "none").moveToBack();
   });
@@ -54,7 +67,7 @@ function ready(error, usa, data) {
         legendTitle = "Unemployment Rate";
         break;
       case "+d.edu":
-        legendTitle = "% of Adults without a High School Diploma";
+        legendTitle = "% of Adults with a High School Diploma";
         break;
       case "+d.med_inc":
         legendTitle = "Median household income";
