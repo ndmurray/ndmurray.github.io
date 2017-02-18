@@ -58,6 +58,11 @@ div#map-div {
   margin-top: 20px;
 } 
 
+/*Map elements*/
+
+.target-county {
+  transform-origin: -50% -50% !important;
+}
 
 /*Legend*/
 text.legendTitle {

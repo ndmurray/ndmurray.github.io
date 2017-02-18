@@ -36,6 +36,10 @@ div#map-div {
   height: 100%;
   margin-top: 20px; }
 
+/*Map elements*/
+.target-county {
+  transform-origin: -50% -50% !important; }
+
 /*Legend*/
 text.legendTitle {
   fill: white; }

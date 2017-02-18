@@ -40,14 +40,14 @@
 		.append("filter").attr("id","county-filter")
 			.append("feOffset")
 				.attr("result","offOut").attr("in","SourceGraphic")
-				.attr("dx","-2").attr("dy","-2")
+				.attr("dx","-4").attr("dy","-4")
+			.append("feGaussianBlur")
+				.attr("result","blurOut").attr("in","offOut")
+				.attr("stdDeviation","100") //how much to blur	
 			.append("feBlend")
 				.attr("in","SourceGraphic").attr("in2","offOut")
 				.attr("mode","normal");
 
-
-
-			
 //Mapping functions
 
 	//Load geographic and descriptive data
@@ -125,20 +125,30 @@ function ready(error, usa, data) {
 	//Map hover action
 	d3.selectAll('.counties').on('mouseover',function(d) {
 		d3.select(this)
+			//SVG order
+			.moveToFront()
+			.transition()
+			.attrTween("transform", function(d, i, a) {
+    			return d3.interpolateString(a, 'scale(1)')
+			})
 			// .attr("stroke","green")
-			// .attr("stroke-width","2px")
+			.attr("stroke-width","4px")
+			//Drop shadow
 			.attr("filter","url(#county-filter)")
-			.moveToFront();
+			//Size (start by translating it to origin otherwise it will appear to change position)
+			//Source: http://stackoverflow.com/questions/16945951/how-to-scale-the-element-by-keeping-the-fixed-position-in-svg
+			//.classed("target-county",true) //transform-origin appears only to be a css property
+			// .attr("transform","scale(2)");
+			;
 			
 	}).on('mouseout',function(d) {
 		d3.select(this)
 			// .attr("stroke",function(d) { return cScale(mapObject[d.id]); })
 			// .attr("stroke-width","1px")
+			.classed("target-county",false) //transform-origin appears only to be a css property
 			.attr("filter","none")
 			.moveToBack();
 	});
-
-
 
 
 //Update map
