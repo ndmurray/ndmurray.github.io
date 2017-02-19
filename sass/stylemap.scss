@@ -4,7 +4,7 @@
 /*Theme*/
 $default-font: 'Century Gothic';
 $default-color: white; 
-$page-background: #1A1F1E; //"night sweat"
+$page-bkgd: #1A1F1E; //"night sweat"
 
 /*UI colors*/
 $button-color: #3e3e3e; 
@@ -20,7 +20,7 @@ $tip-color: white;
 body {
 	font-family: $default-font;
 	color: $default-color;
-  background-color: $page-background;
+  background-color: $page-bkgd;
   //background-image: url(images/bug_yellow_large.jpg);
 }
 
@@ -60,8 +60,22 @@ div#map-div {
 
 /*Map elements*/
 
-.target-county {
-  transform-origin: -50% -50% !important;
+// .target-county {
+//   transform-origin: -50% -50% !important;
+// }
+
+.states {
+  fill: none;
+  stroke: $page-bkgd;
+  stroke-linejoin: round;
+  opacity: 0.5;
+}
+
+/*Right panel*/
+
+div#right-panel {
+  width: 40%;
+  float: right;
 }
 
 /*Legend*/

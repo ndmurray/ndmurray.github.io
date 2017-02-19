@@ -1089,6 +1089,10 @@ function(d) {
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+	//Right panel
+	svg.append("div")
+		.attr("id","right-panel");
+
 	//Define constructor functions - special functions avaialble to the elements we define below
 	//See introduction to constructor functions here: https://ejb.github.io/2016/05/23/a-better-way-to-structure-d3-code.html
 
@@ -1115,12 +1119,13 @@ function(d) {
 			.append("feOffset")
 				.attr("result","offOut").attr("in","SourceGraphic")
 				.attr("dx","-4").attr("dy","-4")
-			.append("feGaussianBlur")
-				.attr("result","blurOut").attr("in","offOut")
-				.attr("stdDeviation","100") //how much to blur	
 			.append("feBlend")
 				.attr("in","SourceGraphic").attr("in2","offOut")
-				.attr("mode","normal");
+				.attr("mode","normal")
+			.append("feGaussianBlur")
+				.attr("result","blurOut").attr("in","offOut")
+				.attr("stdDeviation","100"); //how much to blur	
+			
 
 //Mapping functions
 
@@ -1199,6 +1204,12 @@ function ready(error, usa, data) {
 	//Map hover action
 	d3.selectAll('.counties').on('mouseover',function(d) {
 		d3.select(this)
+			//SVG order
+			.moveToFront()
+			// .transition()
+			// .attrTween("transform", function(d, i, a) {
+   //  			return d3.interpolateString(a, 'scale(1)')
+			// })
 			// .attr("stroke","green")
 			.attr("stroke-width","4px")
 			//Drop shadow
@@ -1206,16 +1217,14 @@ function ready(error, usa, data) {
 			//Size (start by translating it to origin otherwise it will appear to change position)
 			//Source: http://stackoverflow.com/questions/16945951/how-to-scale-the-element-by-keeping-the-fixed-position-in-svg
 			//.classed("target-county",true) //transform-origin appears only to be a css property
-			.attr("transform","scale(2) translate(50, 50)")
-
-			//SVG order
-			.moveToFront();
+			// .attr("transform","scale(2)");
+			;
 			
 	}).on('mouseout',function(d) {
 		d3.select(this)
-			.attr("stroke",function(d) { return cScale(mapObject[d.id]); })
-			.attr("stroke-width","1px")
-			.classed("target-county",false) //transform-origin appears only to be a css property
+			// .attr("stroke",function(d) { return cScale(mapObject[d.id]); })
+			// .attr("stroke-width","1px")
+			//.classed("target-county",false) //transform-origin appears only to be a css property
 			.attr("filter","none")
 			.moveToBack();
 	});

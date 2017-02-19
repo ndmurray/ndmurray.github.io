@@ -37,8 +37,16 @@ div#map-div {
   margin-top: 20px; }
 
 /*Map elements*/
-.target-county {
-  transform-origin: -50% -50% !important; }
+.states {
+  fill: none;
+  stroke: #1A1F1E;
+  stroke-linejoin: round;
+  opacity: 0.5; }
+
+/*Right panel*/
+div#right-panel {
+  width: 40%;
+  float: right; }
 
 /*Legend*/
 text.legendTitle {

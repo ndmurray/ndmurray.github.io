@@ -10,6 +10,7 @@ var margin = {
     h = parseInt(d3.select('#map-div').style('height'), 10),
     h = h - margin.top - margin.bottom;
 var svg = d3.select("#map-div").append("svg").attr("width", w + margin.left + margin.right).attr("height", h + margin.left + margin.right).attr("id", "map-canvas").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+svg.append("div").attr("id", "right-panel");
 d3.selection.prototype.moveToFront = function() {
   return this.each(function() {
     this.parentNode.appendChild(this);
@@ -23,7 +24,7 @@ d3.selection.prototype.moveToBack = function() {
     }
   });
 };
-svg.append("defs").append("filter").attr("id", "county-filter").append("feOffset").attr("result", "offOut").attr("in", "SourceGraphic").attr("dx", "-4").attr("dy", "-4").append("feGaussianBlur").attr("result", "blurOut").attr("in", "offOut").attr("stdDeviation", "100").append("feBlend").attr("in", "SourceGraphic").attr("in2", "offOut").attr("mode", "normal");
+svg.append("defs").append("filter").attr("id", "county-filter").append("feOffset").attr("result", "offOut").attr("in", "SourceGraphic").attr("dx", "-4").attr("dy", "-4").append("feBlend").attr("in", "SourceGraphic").attr("in2", "offOut").attr("mode", "normal").append("feGaussianBlur").attr("result", "blurOut").attr("in", "offOut").attr("stdDeviation", "100");
 d3.queue().defer(d3.json, "https://d3js.org/us-10m.v1.json").defer(d3.csv, "/8step.io/production_data/employment_data/county_8.16.csv").await(ready);
 var mapPath = d3.geoPath();
 function ready(error, usa, data) {
@@ -46,18 +47,19 @@ function ready(error, usa, data) {
   }).attr("stroke", function(d) {
     return cScale(mapObject[d.id]);
   });
+  svg.append("path").datum(topojson.mesh(usa, usa.objects.states), function(a, b) {
+    return a !== b;
+  }).attr("class", "states").attr("d", mapPath);
   svg.append("g").attr("class", "legendQuant").attr("opacity", 1).attr("transform", "translate(" + 20 + "," + (-margin.top + 24) + ")");
   var legendTitle = "Median Household Income";
   var legendFormat = '.2s';
   var legend = d3.legendColor().labelFormat(d3.format(legendFormat)).shapeWidth(20).shape('circle').shapePadding(60).useClass(false).orient('horizontal').title(legendTitle).titleWidth(800).scale(cScale);
   svg.select("g.legendQuant").call(legend);
   d3.selectAll('.counties').on('mouseover', function(d) {
-    d3.select(this).moveToFront().transition().attrTween("transform", function(d, i, a) {
-      return d3.interpolateString(a, 'scale(1)');
-    }).attr("stroke-width", "4px").attr("filter", "url(#county-filter)");
+    d3.select(this).moveToFront().attr("stroke-width", "4px").attr("filter", "url(#county-filter)");
     ;
   }).on('mouseout', function(d) {
-    d3.select(this).classed("target-county", false).attr("filter", "none").moveToBack();
+    d3.select(this).attr("filter", "none").moveToBack();
   });
   d3.selectAll(".choice").on("click", function() {
     var mapData = d3.select(this).attr('value');

@@ -15,6 +15,10 @@
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+	//Right panel
+	svg.append("div")
+		.attr("id","right-panel");
+
 	//Define constructor functions - special functions avaialble to the elements we define below
 	//See introduction to constructor functions here: https://ejb.github.io/2016/05/23/a-better-way-to-structure-d3-code.html
 
@@ -36,17 +40,20 @@
 
 	//Special elements
 	svg.append("defs")
-		//Filters
+
+		//County hover filter
 		.append("filter").attr("id","county-filter")
 			.append("feOffset")
 				.attr("result","offOut").attr("in","SourceGraphic")
 				.attr("dx","-4").attr("dy","-4")
-			.append("feGaussianBlur")
-				.attr("result","blurOut").attr("in","offOut")
-				.attr("stdDeviation","100") //how much to blur	
 			.append("feBlend")
 				.attr("in","SourceGraphic").attr("in2","offOut")
-				.attr("mode","normal");
+				.attr("mode","normal")
+			.append("feGaussianBlur")
+				.attr("result","blurOut").attr("in","offOut")
+				.attr("stdDeviation","100"); //how much to blur	
+		
+			
 
 //Mapping functions
 
@@ -81,6 +88,7 @@ function ready(error, usa, data) {
 		//.domain( function(d) { unemployment.set(d.id, +d.rate).values(); })
 		.range(d3.schemeGnBu[9]);
 
+	//County boundaries
 	svg.append("g")
 			.attr("class","county-group")
 		.selectAll("path")
@@ -95,9 +103,16 @@ function ready(error, usa, data) {
 		.attr("class","counties")
 		.attr("d",mapPath);
 
+	//County markup
 	d3.selectAll("path")
 	.attr("fill", function(d) { return cScale(mapObject[d.id]); })
 	.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
+
+	//State boundaries
+	svg.append("path")
+		.datum(topojson.mesh(usa, usa.objects.states), function(a,b) { return a !== b; } )
+		.attr("class","states")
+		.attr("d",mapPath);
 
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
@@ -127,10 +142,10 @@ function ready(error, usa, data) {
 		d3.select(this)
 			//SVG order
 			.moveToFront()
-			.transition()
-			.attrTween("transform", function(d, i, a) {
-    			return d3.interpolateString(a, 'scale(1)')
-			})
+			// .transition()
+			// .attrTween("transform", function(d, i, a) {
+   //  			return d3.interpolateString(a, 'scale(1)')
+			// })
 			// .attr("stroke","green")
 			.attr("stroke-width","4px")
 			//Drop shadow
@@ -145,7 +160,7 @@ function ready(error, usa, data) {
 		d3.select(this)
 			// .attr("stroke",function(d) { return cScale(mapObject[d.id]); })
 			// .attr("stroke-width","1px")
-			.classed("target-county",false) //transform-origin appears only to be a css property
+			//.classed("target-county",false) //transform-origin appears only to be a css property
 			.attr("filter","none")
 			.moveToBack();
 	});
