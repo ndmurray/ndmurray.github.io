@@ -2,7 +2,8 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 /*Theme*/
 /*UI colors*/
-/*Toolip - line*/
+/*Map elements*/
+/*Toolip*/
 /*******************STYLES****************************************************************/
 body {
   font-family: "Century Gothic";
@@ -39,9 +40,9 @@ div#map-div {
 /*Map elements*/
 .states {
   fill: none;
-  stroke: #1A1F1E;
+  stroke: #ccc4c4;
   stroke-linejoin: round;
-  opacity: 0.5; }
+  opacity: 1; }
 
 /*Right panel*/
 div#right-panel {

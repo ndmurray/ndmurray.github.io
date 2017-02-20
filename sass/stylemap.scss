@@ -10,7 +10,10 @@ $page-bkgd: #1A1F1E; //"night sweat"
 $button-color: #3e3e3e; 
 $button-bkgd: #e0b524; 
 
-/*Toolip - line*/
+/*Map elements*/
+$state-bnd: #ccc4c4;
+
+/*Toolip*/
 $tip-bkgd: rgba(75,75,75,0.8);
 $tip-color: white;
 
@@ -66,9 +69,9 @@ div#map-div {
 
 .states {
   fill: none;
-  stroke: $page-bkgd;
+  stroke: $state-bnd;
   stroke-linejoin: round;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 /*Right panel*/

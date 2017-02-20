@@ -41,24 +41,31 @@
 	//Special elements
 	svg.append("defs");
 
-		//County hover filter
-	var countyFilter = d3.select("defs").append("filter").attr("id","county-filter");
-		countyFilter.append("feOffset")
+		//County hover filter - inspired by http://bl.ocks.org/cpbotha/5200394
+	var countyFilter = d3.select("defs").append("filter").attr("id","county-filter")
+			.attr("height","400%").attr("width","400%").attr("y","-40%").attr("x","-40%"); //These dimensions keep the shadow getting clipped by the filter area
+		countyFilter.append("feOffset") //offset the shape area, call it "offOut"
 				.attr("result","offOut").attr("in","SourceGraphic")
-				.attr("dx","-4").attr("dy","-4");
-		countyFilter.append("feBlend")
-				.attr("in","SourceGraphic").attr("in2","offOut")
-				.attr("mode","normal")
-				.attr("stdDeviation","100"); //how much to blur	
-		countyFilter.append("feDiffuseLighting")
-				.attr("in","SourceGraphic").attr("result","light")
-				.attr("lighting-color","white");
-		countyFilter.append("fePointLight")
-				.attr("x","150").attr("y","60").attr("z","20");
-
-			// .append("feMorphology")
-			// 	.attr("operator","dilate").attr("radius","20")
-			// 	.attr("in","SourceGraphic").attr("result","BEVEL_10");
+				.attr("dx","4").attr("dy","4");
+		countyFilter.append("feMorphology") //Enlarge the offset area, call it bigOut
+				.attr("result","bigOut").attr("in","SourceGraphic").attr("operator","dilate")
+				.attr("radius","4");
+		countyFilter.append("feColorMatrix") //Bring the offset image (shadow) color closer to black, call it "matrixOut" 
+				.attr("result","matrixOut").attr("in","bigOut").attr("type","matrix")
+				.attr("values","0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 1 0");
+		countyFilter.append("feGaussianBlur") //Blur the offset image, call it "blurOut"
+				.attr("result","blurOut").attr("in","matrixOut")
+				.attr("stdDeviation","1");
+		countyFilter.append("feBlend") //fill the shape area with the county shpae (SourceGraphic)
+				.attr("in","SourceGraphic").attr("in2","blurOut")
+				.attr("mode","normal");
+		// countyFilter.append("feDiffuseLighting")
+		// 		.attr("in","SourceGraphic").attr("result","light")
+		// 		.attr("lighting-color","white");
+		// countyFilter.append("fePointLight")
+		// 		.attr("x","150").attr("y","60").attr("z","20")
+		// 		.attr("operator","dilate").attr("radius","20")
+		// 		.attr("in","SourceGraphic").attr("result","BEVEL_10");
 
 		//state boundaries filter
 	var stateFilter = d3.select("defs")
@@ -160,7 +167,7 @@ function ready(error, usa, data) {
      		//	return d3.interpolateString(a, 'scale(1)')
 			// })
 			// .attr("stroke","green")
-			.attr("stroke-width","4px")
+			//.attr("stroke-width","4px")
 			//Drop shadow
 			.attr("filter","url(#county-filter)");
 			//Size (start by translating it to origin otherwise it will appear to change position)
@@ -168,7 +175,7 @@ function ready(error, usa, data) {
 			//.classed("target-county",true) //transform-origin appears only to be a css property
 			//.attr("transform","scale(2)");
 		
-		d3.select(".states").moveToBack();
+		//d3.select(".states").moveToBack();
 			
 	}).on('mouseout',function(d) {
 		d3.select(this)
@@ -178,7 +185,7 @@ function ready(error, usa, data) {
 			.attr("filter","none")
 			.moveToBack();
 
-		d3.select(".states").moveToFront();
+		//d3.select(".states").moveToFront();
 	});
 
 
