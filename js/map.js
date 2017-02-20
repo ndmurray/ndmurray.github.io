@@ -39,21 +39,33 @@
 	    };
 
 	//Special elements
-	svg.append("defs")
+	svg.append("defs");
 
 		//County hover filter
-		.append("filter").attr("id","county-filter")
-			.append("feOffset")
+	var countyFilter = d3.select("defs").append("filter").attr("id","county-filter");
+		countyFilter.append("feOffset")
 				.attr("result","offOut").attr("in","SourceGraphic")
-				.attr("dx","-4").attr("dy","-4")
-			.append("feBlend")
+				.attr("dx","-4").attr("dy","-4");
+		countyFilter.append("feBlend")
 				.attr("in","SourceGraphic").attr("in2","offOut")
 				.attr("mode","normal")
+				.attr("stdDeviation","100"); //how much to blur	
+		countyFilter.append("feDiffuseLighting")
+				.attr("in","SourceGraphic").attr("result","light")
+				.attr("lighting-color","white");
+		countyFilter.append("fePointLight")
+				.attr("x","150").attr("y","60").attr("z","20");
+
+			// .append("feMorphology")
+			// 	.attr("operator","dilate").attr("radius","20")
+			// 	.attr("in","SourceGraphic").attr("result","BEVEL_10");
+
+		//state boundaries filter
+	var stateFilter = d3.select("defs")
+		.append("filter").attr("id","state-filter")
 			.append("feGaussianBlur")
 				.attr("result","blurOut").attr("in","offOut")
-				.attr("stdDeviation","100"); //how much to blur	
-		
-			
+				.attr("stdDeviation","1");
 
 //Mapping functions
 
@@ -112,7 +124,8 @@ function ready(error, usa, data) {
 	svg.append("path")
 		.datum(topojson.mesh(usa, usa.objects.states), function(a,b) { return a !== b; } )
 		.attr("class","states")
-		.attr("d",mapPath);
+		.attr("d",mapPath)
+		.attr("filter","url(#state-filter");
 
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
@@ -144,17 +157,18 @@ function ready(error, usa, data) {
 			.moveToFront()
 			// .transition()
 			// .attrTween("transform", function(d, i, a) {
-   //  			return d3.interpolateString(a, 'scale(1)')
+     		//	return d3.interpolateString(a, 'scale(1)')
 			// })
 			// .attr("stroke","green")
 			.attr("stroke-width","4px")
 			//Drop shadow
-			.attr("filter","url(#county-filter)")
+			.attr("filter","url(#county-filter)");
 			//Size (start by translating it to origin otherwise it will appear to change position)
 			//Source: http://stackoverflow.com/questions/16945951/how-to-scale-the-element-by-keeping-the-fixed-position-in-svg
 			//.classed("target-county",true) //transform-origin appears only to be a css property
-			// .attr("transform","scale(2)");
-			;
+			//.attr("transform","scale(2)");
+		
+		d3.select(".states").moveToBack();
 			
 	}).on('mouseout',function(d) {
 		d3.select(this)
@@ -163,6 +177,8 @@ function ready(error, usa, data) {
 			//.classed("target-county",false) //transform-origin appears only to be a css property
 			.attr("filter","none")
 			.moveToBack();
+
+		d3.select(".states").moveToFront();
 	});
 
 
