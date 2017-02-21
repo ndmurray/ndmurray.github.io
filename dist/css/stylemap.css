@@ -12,20 +12,24 @@ body {
 
 /*Header styling*/
 div#header-row {
-  margin-left: 5em; }
+  height: 6em; }
 
-h2#chart-title {
-  font-size: 3em;
-  margin-left: 1em;
-  margin-bottom: 0em; }
+#chart-title {
+  font-size: 2.5em;
+  margin-left: 2em;
+  -webkit-transition: all 0.25s linear; }
+
+div#nav {
+  margin-left: 5em;
+  margin-top: 1em;
+  margin-bottom: 1em; }
 
 a.choice {
   color: #3e3e3e;
   background-color: #e0b524;
-  padding: 10px 20px;
+  padding: 8px 20px;
   margin-right: 0.5;
   text-decoration: none;
-  font-weight: bold;
   /*inspired by materialize css*/
   webkit-user-select: none;
   cursor: pointer;
@@ -33,21 +37,22 @@ a.choice {
 
 /*Canvas container*/
 div#map-div {
-  width: 100%;
-  height: 100%;
-  margin-top: 20px; }
+  height: 100%; }
 
 /*Map elements*/
-.states {
+.state-boundaries {
   fill: none;
-  stroke: #ccc4c4;
+  stroke: transparent;
   stroke-linejoin: round;
   opacity: 1; }
 
-/*Right panel*/
-div#right-panel {
-  width: 40%;
-  float: right; }
+/*Tooltip*/
+div#map-tip {
+  position: relative;
+  display: inline;
+  background-color: rgba(75, 75, 75, 0.8);
+  width: 20px;
+  height: 20px; }
 
 /*Legend*/
 text.legendTitle {

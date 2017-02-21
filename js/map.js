@@ -1,24 +1,33 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 100, right: 10, bottom: 10, left: 80},
+	var	margin = {top: 10, right: 10, bottom: 10, left: 80},
 		w = parseInt(d3.select('#map-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#map-div').style('height'),10),
 		h = h - margin.top - margin.bottom;
 
+	//Default values
+	var legendTitle = "Median Household Income";
+	var legendFormat = '.2s';
+
 	//Draw the canvas
 	var svg = d3.select("#map-div").append("svg")
 		.attr("width", w + margin.left + margin.right)
-		.attr("height", h + margin.left + margin.right)
+		.attr("height", h + margin.top + margin.bottom)
 		.attr("id","map-canvas")
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	//Right panel
-	svg.append("div")
-		.attr("id","right-panel");
+	//Chart title
+	var chartTitle = d3.select("#header-row").append("g").attr("id","chart-title").append("text")
+		.text(legendTitle + ", USDA, 2015")
+		.attr("opacity","1");
 
+	//Tooltip
+	var mapTip = d3.select("#map-div").append("div")
+		.attr("id","map-tip").attr("opacity","0");
+	
 	//Define constructor functions - special functions avaialble to the elements we define below
 	//See introduction to constructor functions here: https://ejb.github.io/2016/05/23/a-better-way-to-structure-d3-code.html
 
@@ -40,16 +49,15 @@
 
 	//Special elements
 	svg.append("defs");
-
-		//County hover filter - inspired by http://bl.ocks.org/cpbotha/5200394
+		// Drop shadow for county hover - inspired by http://bl.ocks.org/cpbotha/5200394
 	var countyFilter = d3.select("defs").append("filter").attr("id","county-filter")
-			.attr("height","400%").attr("width","400%").attr("y","-40%").attr("x","-40%"); //These dimensions keep the shadow getting clipped by the filter area
+			.attr("height","400%").attr("width","400%").attr("y","-80%").attr("x","-80%"); //These dimensions keep the shadow getting clipped by the filter area
 		countyFilter.append("feOffset") //offset the shape area, call it "offOut"
 				.attr("result","offOut").attr("in","SourceGraphic")
 				.attr("dx","4").attr("dy","4");
 		countyFilter.append("feMorphology") //Enlarge the offset area, call it bigOut
 				.attr("result","bigOut").attr("in","SourceGraphic").attr("operator","dilate")
-				.attr("radius","4");
+				.attr("radius","3");
 		countyFilter.append("feColorMatrix") //Bring the offset image (shadow) color closer to black, call it "matrixOut" 
 				.attr("result","matrixOut").attr("in","bigOut").attr("type","matrix")
 				.attr("values","0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 1 0");
@@ -59,20 +67,12 @@
 		countyFilter.append("feBlend") //fill the shape area with the county shpae (SourceGraphic)
 				.attr("in","SourceGraphic").attr("in2","blurOut")
 				.attr("mode","normal");
-		// countyFilter.append("feDiffuseLighting")
-		// 		.attr("in","SourceGraphic").attr("result","light")
-		// 		.attr("lighting-color","white");
-		// countyFilter.append("fePointLight")
-		// 		.attr("x","150").attr("y","60").attr("z","20")
-		// 		.attr("operator","dilate").attr("radius","20")
-		// 		.attr("in","SourceGraphic").attr("result","BEVEL_10");
 
 		//state boundaries filter
 	var stateFilter = d3.select("defs")
 		.append("filter").attr("id","state-filter")
 			.append("feGaussianBlur")
-				.attr("result","blurOut").attr("in","offOut")
-				.attr("stdDeviation","1");
+				.attr("result","blurOut").attr("stdDeviation","1");
 
 //Mapping functions
 
@@ -109,7 +109,7 @@ function ready(error, usa, data) {
 
 	//County boundaries
 	svg.append("g")
-			.attr("class","county-group")
+			.attr("class","counties")
 		.selectAll("path")
 		//Taken from the d3 topojson library - see example: https://bl.ocks.org/mbostock/4060606
 		//Make sure the topojson reference is in your html file
@@ -119,7 +119,7 @@ function ready(error, usa, data) {
 		.data(topojson.feature(usa, usa.objects.counties).features)
 		.enter()
 	.append("path")
-		.attr("class","counties")
+		.attr("class","county")
 		.attr("d",mapPath);
 
 	//County markup
@@ -128,37 +128,39 @@ function ready(error, usa, data) {
 	.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
 
 	//State boundaries
-	svg.append("path")
+	svg.append("g").attr("class","states")
+	.append("path")
 		.datum(topojson.mesh(usa, usa.objects.states), function(a,b) { return a !== b; } )
-		.attr("class","states")
+		.attr("class","state-boundaries")
 		.attr("d",mapPath)
 		.attr("filter","url(#state-filter");
 
+	//Bounding box of state boundaries aka, the map
+	var mapExtent = d3.select(".states").node().getBBox();
+	var mapWidth = mapExtent.width;
+	
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
 		.attr("class","legendQuant")
 		.attr("opacity",1)
-		.attr("transform","translate("+ 20 +"," + (-margin.top + 24) + ")")
-
-	var legendTitle = "Median Household Income";
-	var legendFormat = '.2s'
+		.attr("transform","translate("+ (0.9 * mapWidth) +"," + (0.33 * h) + ")")
 
 	var legend = d3.legendColor()
 		.labelFormat(d3.format(legendFormat))
-		.shapeWidth(20)
+		// .shapeWidth(20)
 		.shape('circle')
-		.shapePadding(60)
+		// .shapePadding(60)
 		.useClass(false)
-		.orient('horizontal')
+		//.orient('horizontal')
 		.title(legendTitle)
-		.titleWidth(800)
+		.titleWidth(200)
 		.scale(cScale);
 
 	svg.select("g.legendQuant")
 		.call(legend);
 
 	//Map hover action
-	d3.selectAll('.counties').on('mouseover',function(d) {
+	d3.selectAll('.county').on('mouseover',function(d) {
 		d3.select(this)
 			//SVG order
 			.moveToFront()
@@ -176,6 +178,7 @@ function ready(error, usa, data) {
 			//.attr("transform","scale(2)");
 		
 		//d3.select(".states").moveToBack();
+		d3.select(this).append("svg")
 			
 	}).on('mouseout',function(d) {
 		d3.select(this)
@@ -211,7 +214,7 @@ function ready(error, usa, data) {
 				legendTitle = "Unemployment Rate";
 				break;
 			case "+d.edu":
-				legendTitle = "% of Adults with a High School Diploma";
+				legendTitle = "% Adults with High School Diploma";
 				break;
 			case "+d.med_inc":
 				legendTitle = "Median household income";
@@ -240,10 +243,10 @@ function ready(error, usa, data) {
 			.attr("fill", function(d) { return cScale(mapObject[d.id]); })
 			.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
 
-		//Legend
+		//Legend and title
 
-		//fade out, then call new legend
-		svg.select("g.legendQuant")
+		//fade out
+		d3.select("g.legendQuant")
 			.transition()
 			.duration(500)
 			.attr("opacity",0)
@@ -251,10 +254,18 @@ function ready(error, usa, data) {
 				legend.labelFormat(d3.format(legendFormat))
 					.title(legendTitle);
 					svg.call(legend);
+			});	
+
+		d3.select("g.chart-title")
+			.transition()
+			.duration(500)
+			.attr("opacity",0)
+			.on("end", function(){
+				chartTitle.text(legendTitle + ", USDA, 2015");
 			});		
 
 		//fade in
-		svg.select("g.legendQuant")
+		d3.select("g.legendQuant")
 			.transition()
 			.delay(1000)
 			.duration(500)

@@ -12,6 +12,7 @@ $button-bkgd: #e0b524;
 
 /*Map elements*/
 $state-bnd: #ccc4c4;
+// $state-bnd: #1A1F1E;
 
 /*Toolip*/
 $tip-bkgd: rgba(75,75,75,0.8);
@@ -24,30 +25,34 @@ body {
 	font-family: $default-font;
 	color: $default-color;
   background-color: $page-bkgd;
-  //background-image: url(images/bug_yellow_large.jpg);
 }
 
 
 /*Header styling*/
 
 div#header-row {
-  margin-left: 5em;
+  height: 6em;
 }
 
-h2#chart-title {
-	font-size: 3em;
-  margin-left: 1em;
-  margin-bottom: 0em;
+#chart-title {
+  font-size: 2.5em;
+  margin-left: 2em;
+  -webkit-transition: all 0.25s linear;
+}
+
+div#nav {
+  margin-left: 5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 //Buttons
 a.choice {
     color: $button-color;
     background-color: $button-bkgd;
-    padding: 10px 20px;
+    padding: 8px 20px;
     margin-right: 0.5;
     text-decoration: none;
-    font-weight: bold;
     /*inspired by materialize css*/
     webkit-user-select: none;
     cursor: pointer;
@@ -56,29 +61,28 @@ a.choice {
 
 /*Canvas container*/
 div#map-div {
-  width: 100%;
   height: 100%;
-  margin-top: 20px;
 } 
 
 /*Map elements*/
 
-// .target-county {
-//   transform-origin: -50% -50% !important;
-// }
-
-.states {
+.state-boundaries {
   fill: none;
-  stroke: $state-bnd;
+  // stroke: $state-bnd;
+  stroke: transparent;
   stroke-linejoin: round;
   opacity: 1;
 }
 
-/*Right panel*/
+/*Tooltip*/
 
-div#right-panel {
-  width: 40%;
-  float: right;
+div#map-tip {
+  position: relative;
+  display: inline;
+  background-color: $tip-bkgd;
+  width: 20px;
+  height: 20px;
+
 }
 
 /*Legend*/
