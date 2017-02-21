@@ -12,7 +12,7 @@ var margin = {
 var legendTitle = "Median Household Income";
 var legendFormat = '.2s';
 var svg = d3.select("#map-div").append("svg").attr("width", w + margin.left + margin.right).attr("height", h + margin.top + margin.bottom).attr("id", "map-canvas").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-var chartTitle = d3.select("#header-row").append("g").attr("id", "chart-title").append("text").text(legendTitle + ", USDA, 2015").attr("opacity", "1");
+var chartTitle = d3.select("h2#chart-title").append("text").text(legendTitle + ", USDA, 2015");
 var mapTip = d3.select("#map-div").append("div").attr("id", "map-tip").attr("opacity", "0");
 d3.selection.prototype.moveToFront = function() {
   return this.each(function() {
@@ -108,10 +108,11 @@ function ready(error, usa, data) {
       legend.labelFormat(d3.format(legendFormat)).title(legendTitle);
       svg.call(legend);
     });
-    d3.select("g.chart-title").transition().duration(500).attr("opacity", 0).on("end", function() {
+    d3.select("h2#chart-title").transition().duration(500).attr("class", "hide").on("end", function() {
       chartTitle.text(legendTitle + ", USDA, 2015");
     });
     d3.select("g.legendQuant").transition().delay(1000).duration(500).attr("opacity", 1);
+    d3.select("h2#chart-title").transition().delay(1000).duration(500).attr("class", "show");
   });
 }
 ;

@@ -1330,7 +1330,7 @@ function ready(error, usa, data) {
 					svg.call(legend);
 			});	
 
-		d3.select("g.chart-title")
+		d3.select("h2#chart-title")
 			.transition()
 			.duration(500)
 			.attr("opacity",0)

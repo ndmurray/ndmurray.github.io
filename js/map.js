@@ -20,9 +20,8 @@
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	//Chart title
-	var chartTitle = d3.select("#header-row").append("g").attr("id","chart-title").append("text")
-		.text(legendTitle + ", USDA, 2015")
-		.attr("opacity","1");
+	var chartTitle = d3.select("h2#chart-title")
+		.append("text").text(legendTitle + ", USDA, 2015");
 
 	//Tooltip
 	var mapTip = d3.select("#map-div").append("div")
@@ -256,10 +255,10 @@ function ready(error, usa, data) {
 					svg.call(legend);
 			});	
 
-		d3.select("g.chart-title")
+		d3.select("h2#chart-title")
 			.transition()
-			.duration(500)
-			.attr("opacity",0)
+			.duration(500)	
+			.attr("class","hide")		
 			.on("end", function(){
 				chartTitle.text(legendTitle + ", USDA, 2015");
 			});		
@@ -270,6 +269,13 @@ function ready(error, usa, data) {
 			.delay(1000)
 			.duration(500)
 			.attr("opacity",1);
+
+		d3.select("h2#chart-title")
+			.transition()
+			.delay(1000)
+			.duration(500)
+			.attr("class","show");
+			
 	});
 
 };	

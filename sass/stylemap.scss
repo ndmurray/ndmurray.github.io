@@ -27,6 +27,18 @@ body {
   background-color: $page-bkgd;
 }
 
+//for js
+.hide {
+   -webkit-animation: fadeOut 2s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadeOut 2s; /* Firefox < 16 */
+        -ms-animation: fadeOut 2s; /* Internet Explorer */
+         -o-animation: fadeOut 2s; /* Opera < 12.1 */
+            animation: fadeOut 2s;
+}
+
+.show {
+  opacity: 1;
+}
 
 /*Header styling*/
 
@@ -37,13 +49,12 @@ div#header-row {
 #chart-title {
   font-size: 2.5em;
   margin-left: 2em;
-  -webkit-transition: all 0.25s linear;
 }
 
 div#nav {
   margin-left: 5em;
   margin-top: 1em;
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 }
 
 //Buttons
@@ -92,4 +103,64 @@ text.legendTitle {
 
 text.label {
   fill: white;
+}
+
+
+/*Keyframes for fade animation*/
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
 }
