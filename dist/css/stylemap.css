@@ -1,9 +1,10 @@
 /*Montserrat font*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 /*Theme*/
-/*UI colors*/
-/*Map elements*/
+/*Nav*/
+/*Info div*/
 /*Toolip*/
+/*Map elements*/
 /*******************STYLES****************************************************************/
 body {
   font-family: "Century Gothic";
@@ -26,11 +27,11 @@ body {
 
 /*Header styling*/
 div#header-row {
-  height: 6em; }
+  height: 6em;
+  padding: 2em 4em 4em 6em; }
 
-#chart-title {
-  font-size: 2.5em;
-  margin-left: 2em; }
+.chart-title {
+  font-size: 2.5em; }
 
 div#nav {
   margin-left: 5em;
@@ -38,15 +39,20 @@ div#nav {
   margin-bottom: 1.5em; }
 
 a.choice {
+  display: block;
   color: #3e3e3e;
   background-color: #e0b524;
   padding: 8px 20px;
-  margin-right: 0.5;
+  margin-right: 0.5em;
   text-decoration: none;
   /*inspired by materialize css*/
   webkit-user-select: none;
   cursor: pointer;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); }
+
+#info-div {
+  position: relative;
+  background-color: #464646; }
 
 /*Canvas container*/
 div#map-div {

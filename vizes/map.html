@@ -27,14 +27,19 @@
 		<div class="container-fluid">
 		<!--Header-->
 		<div id="header-row" id="title-div" class="row">
-			<h2 id="chart-title"></h2>
+		<!-- 	<h2 id="chart-title"></h2> -->
 		</div>
 
 		<!--Nav-->
 		<div id="nav" class="row">
-			<a type="a" class="choice" value="+d.rate">Unemployment</a>
-			<a type="a" class="choice" value="+d.edu">Education</a>
-			<a type="a" class="choice" value="+d.med_inc">Income</a>
+			<div id="button-div" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+				<a type="a" class="choice" value="+d.rate">Unemployment</a>
+				<a type="a" class="choice" value="+d.edu">Education</a>
+				<a type="a" class="choice" value="+d.med_inc">Income</a>
+			</div>
+			<div id="info-div"class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				
+			</div>
 		</div>
 		
 		<!--Canvas-->
@@ -42,10 +47,6 @@
 				
 				<div id="map-div" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				</div>
-				<div id="right-panel">
-				<p>test</p>
-				</div>
-				
 			</div>
 		</div>
 		<!--Libaries-->

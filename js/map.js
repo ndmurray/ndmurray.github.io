@@ -20,13 +20,15 @@
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	//Chart title
-	var chartTitle = d3.select("h2#chart-title")
+	var chartTitle = d3.select("#header-row")
+		.append("g").attr("class","chart-title")
+		.attr("opacity",1)
 		.append("text").text(legendTitle + ", USDA, 2015");
 
-	//Tooltip
-	var mapTip = d3.select("#map-div").append("div")
-		.attr("id","map-tip").attr("opacity","0");
-	
+	//Info box
+	var infoDiv = d3.select("#info-div")
+		.style("height",d3.select("#nav").style("height"));
+
 	//Define constructor functions - special functions avaialble to the elements we define below
 	//See introduction to constructor functions here: https://ejb.github.io/2016/05/23/a-better-way-to-structure-d3-code.html
 
@@ -255,14 +257,11 @@ function ready(error, usa, data) {
 					svg.call(legend);
 			});	
 
-		d3.select("h2#chart-title")
+		d3.select("g.chart-title")
 			.transition()
 			.duration(500)	
-			.attr("class","hide")		
-			.on("end", function(){
-				chartTitle.text(legendTitle + ", USDA, 2015");
-			});		
-
+			.attr("opacity",0);
+			
 		//fade in
 		d3.select("g.legendQuant")
 			.transition()
