@@ -48,12 +48,19 @@ div.chart-title {
 
 //Buttons
 
+#button-div {
+  display: inline-block;
+  margin-right: 1em;
+  width: 12em;
+}
+
 a.choice {
     display: block;
     color: $button-color;
     background-color: $button-bkgd;
     padding: 8px 20px;
-    margin-right: 0.5em;
+    margin: 0px 0px 4px 0px;
+    text-align: center;
     text-decoration: none;
     /*inspired by materialize css*/
     webkit-user-select: none;
@@ -64,9 +71,9 @@ a.choice {
 //Info box
 
 #info-div {
-  position: relative;
+  display: inline-block;
   background-color: $info-bkgd;
-
+  width: 46em;
 }
 
 /*Canvas container*/

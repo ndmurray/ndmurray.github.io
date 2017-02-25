@@ -13,6 +13,7 @@
 
 	//Draw the canvas
 	var svg = d3.select("#map-div").append("svg")
+		.attr("class","svg")
 		.attr("width", w + margin.left + margin.right)
 		.attr("height", h + margin.top + margin.bottom)
 		.attr("id","map-canvas")
@@ -25,10 +26,6 @@
 		.append("div").attr("class","chart-title")
 		.style("opacity",1)
 		.text(titleText);
-
-	//Info box
-	var infoDiv = d3.select("#info-div")
-		.style("height",d3.select("#nav").style("height"));
 
 	//Define constructor functions - special functions avaialble to the elements we define below
 	//See introduction to constructor functions here: https://ejb.github.io/2016/05/23/a-better-way-to-structure-d3-code.html
@@ -140,6 +137,19 @@ function ready(error, usa, data) {
 	//Bounding box of state boundaries aka, the map
 	var mapExtent = d3.select(".states").node().getBBox();
 	var mapWidth = mapExtent.width;
+
+	//Set nav div width based on BBox
+	d3.select("#nav").style("width",mapExtent.width);
+
+	//Info div
+	d3.select("#info-div")
+		.style("height",d3.select("#nav").style("height"))
+		.style("width",(mapWidth * 0.6));
+
+	//Size buttons
+	d3.select("#button-div")
+		.style("width",(mapWidth * 0.2));
+
 	
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
@@ -236,6 +246,8 @@ function ready(error, usa, data) {
 				break;
 		}
 
+		var titleText = legendTitle + ", USDA, 2015";
+
 	//Map elements
 
 		//update  map path
@@ -248,6 +260,14 @@ function ready(error, usa, data) {
 		//Legend and title
 
 		//fade out
+
+		d3.select("div.chart-title").transition()
+			.duration(500)	
+			.style("opacity",0)
+			.on("end",function() {
+				chartTitle.text(titleText);
+			})
+
 		d3.select("g.legendQuant")
 			.transition()
 			.duration(200)
@@ -259,23 +279,20 @@ function ready(error, usa, data) {
 				
 			});	
 
-		d3.select("div.chart-title").transition()
-			.duration(500)	
-			.style("opacity",0)
-			.text(titleText);
-
 		//fade in
+		d3.select("div.chart-title")
+			.transition()
+			.delay(1000)
+			.duration(500)
+			.style("opacity",1);
+
 		d3.select("g.legendQuant")
 			.transition()
 			.delay(1000)
 			.duration(500)
 			.attr("opacity",1);
 
-		d3.select("div.chart-title")
-			.transition()
-			.delay(1000)
-			.duration(500)
-			.style("opacity",1);
+
 			
 	});
 

@@ -24,12 +24,18 @@ div#nav {
 div.chart-title {
   font-size: 2.5em; }
 
+#button-div {
+  display: inline-block;
+  margin-right: 1em;
+  width: 12em; }
+
 a.choice {
   display: block;
   color: #3e3e3e;
   background-color: #e0b524;
   padding: 8px 20px;
-  margin-right: 0.5em;
+  margin: 0px 0px 4px 0px;
+  text-align: center;
   text-decoration: none;
   /*inspired by materialize css*/
   webkit-user-select: none;
@@ -37,8 +43,9 @@ a.choice {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); }
 
 #info-div {
-  position: relative;
-  background-color: #464646; }
+  display: inline-block;
+  background-color: #464646;
+  width: 46em; }
 
 /*Canvas container*/
 div#map-div {
