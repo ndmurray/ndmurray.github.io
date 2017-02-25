@@ -11,32 +11,18 @@ body {
   color: white;
   background-color: #1A1F1E; }
 
-.hide {
-  -webkit-animation: fadeOut 2s;
-  /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadeOut 2s;
-  /* Firefox < 16 */
-  -ms-animation: fadeOut 2s;
-  /* Internet Explorer */
-  -o-animation: fadeOut 2s;
-  /* Opera < 12.1 */
-  animation: fadeOut 2s; }
-
-.show {
-  opacity: 1; }
-
 /*Header styling*/
 div#header-row {
   height: 6em;
   padding: 2em 4em 4em 6em; }
 
-.chart-title {
-  font-size: 2.5em; }
-
 div#nav {
   margin-left: 5em;
   margin-top: 1em;
   margin-bottom: 1.5em; }
+
+div.chart-title {
+  font-size: 2.5em; }
 
 a.choice {
   display: block;
@@ -64,14 +50,6 @@ div#map-div {
   stroke: transparent;
   stroke-linejoin: round;
   opacity: 1; }
-
-/*Tooltip*/
-div#map-tip {
-  position: relative;
-  display: inline;
-  background-color: rgba(75, 75, 75, 0.8);
-  width: 20px;
-  height: 20px; }
 
 /*Legend*/
 text.legendTitle {

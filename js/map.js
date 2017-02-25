@@ -20,10 +20,11 @@
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	//Chart title
+	var titleText = legendTitle + ", USDA, 2015";
 	var chartTitle = d3.select("#header-row")
-		.append("g").attr("class","chart-title")
-		.attr("opacity",1)
-		.append("text").text(legendTitle + ", USDA, 2015");
+		.append("div").attr("class","chart-title")
+		.style("opacity",1)
+		.text(titleText);
 
 	//Info box
 	var infoDiv = d3.select("#info-div")
@@ -249,19 +250,20 @@ function ready(error, usa, data) {
 		//fade out
 		d3.select("g.legendQuant")
 			.transition()
-			.duration(500)
+			.duration(200)
 			.attr("opacity",0)
 			.on("end", function(){
 				legend.labelFormat(d3.format(legendFormat))
 					.title(legendTitle);
 					svg.call(legend);
+				
 			});	
 
-		d3.select("g.chart-title")
-			.transition()
+		d3.select("div.chart-title").transition()
 			.duration(500)	
-			.attr("opacity",0);
-			
+			.style("opacity",0)
+			.text(titleText);
+
 		//fade in
 		d3.select("g.legendQuant")
 			.transition()
@@ -269,11 +271,11 @@ function ready(error, usa, data) {
 			.duration(500)
 			.attr("opacity",1);
 
-		d3.select("h2#chart-title")
+		d3.select("div.chart-title")
 			.transition()
 			.delay(1000)
 			.duration(500)
-			.attr("class","show");
+			.style("opacity",1);
 			
 	});
 

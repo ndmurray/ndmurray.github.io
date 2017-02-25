@@ -29,28 +29,11 @@ body {
   background-color: $page-bkgd;
 }
 
-//for js
-.hide {
-   -webkit-animation: fadeOut 2s; /* Safari, Chrome and Opera > 12.1 */
-       -moz-animation: fadeOut 2s; /* Firefox < 16 */
-        -ms-animation: fadeOut 2s; /* Internet Explorer */
-         -o-animation: fadeOut 2s; /* Opera < 12.1 */
-            animation: fadeOut 2s;
-}
-
-.show {
-  opacity: 1;
-}
-
 /*Header styling*/
 
 div#header-row {
   height: 6em;
   padding: 2em 4em 4em 6em;
-}
-
-.chart-title {
-  font-size: 2.5em;
 }
 
 div#nav {
@@ -59,7 +42,12 @@ div#nav {
   margin-bottom: 1.5em;
 }
 
+div.chart-title {
+  font-size: 2.5em;
+}
+
 //Buttons
+
 a.choice {
     display: block;
     color: $button-color;
@@ -74,6 +62,7 @@ a.choice {
 }
 
 //Info box
+
 #info-div {
   position: relative;
   background-color: $info-bkgd;
@@ -81,6 +70,7 @@ a.choice {
 }
 
 /*Canvas container*/
+
 div#map-div {
   height: 100%;
 } 
@@ -95,18 +85,8 @@ div#map-div {
   opacity: 1;
 }
 
-/*Tooltip*/
-
-div#map-tip {
-  position: relative;
-  display: inline;
-  background-color: $tip-bkgd;
-  width: 20px;
-  height: 20px;
-
-}
-
 /*Legend*/
+
 text.legendTitle {
   fill: white;
 }
