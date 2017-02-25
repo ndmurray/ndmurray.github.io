@@ -280,6 +280,7 @@ function ready(error, usa, data) {
 			});	
 
 		//fade in
+
 		d3.select("div.chart-title")
 			.transition()
 			.delay(1000)

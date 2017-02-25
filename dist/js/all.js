@@ -1334,6 +1334,14 @@ function ready(error, usa, data) {
 		//Legend and title
 
 		//fade out
+
+		d3.select("div.chart-title").transition()
+			.duration(500)	
+			.style("opacity",0)
+			.on("end",function() {
+				chartTitle.text(titleText);
+			})
+
 		d3.select("g.legendQuant")
 			.transition()
 			.duration(200)
@@ -1345,23 +1353,21 @@ function ready(error, usa, data) {
 				
 			});	
 
-		d3.select("div.chart-title").transition()
-			.duration(500)	
-			.style("opacity",0);
-
 		//fade in
+
+		d3.select("div.chart-title")
+			.transition()
+			.delay(1000)
+			.duration(500)
+			.style("opacity",1);
+
 		d3.select("g.legendQuant")
 			.transition()
 			.delay(1000)
 			.duration(500)
 			.attr("opacity",1);
 
-		d3.select("div.chart-title")
-			.text(titleText)
-			.transition()
-			.delay(1000)
-			.duration(500)
-			.style("opacity",1);
+
 			
 	});
 
