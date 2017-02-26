@@ -42,17 +42,15 @@ function ready(error, usa, data) {
     console.log(error);
   } else {
     console.log(usa);
+    console.log(data);
   }
   var mapObject = {};
-  var mapData = function(d) {
-    +d.rate;
-  };
   data.forEach(function(d) {
     mapObject[d.id] = +d.med_inc;
   });
   var cScale = d3.scaleQuantile().domain(d3.values(mapObject)).range(d3.schemeGnBu[9]);
-  svg.append("g").attr("class", "counties").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("class", "county").attr("d", mapPath);
-  d3.selectAll("path").attr("fill", function(d) {
+  var counties = svg.append("g").attr("class", "counties").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("class", "county").attr("d", mapPath);
+  d3.selectAll(".county").attr("fill", function(d) {
     return cScale(mapObject[d.id]);
   }).attr("stroke", function(d) {
     return cScale(mapObject[d.id]);
@@ -68,9 +66,16 @@ function ready(error, usa, data) {
   svg.append("g").attr("class", "legendQuant").attr("opacity", 1).attr("transform", "translate(" + (0.9 * mapWidth) + "," + (0.33 * h) + ")");
   var legend = d3.legendColor().labelFormat(d3.format(legendFormat)).shape('circle').useClass(false).title(legendTitle).titleWidth(200).scale(cScale);
   svg.select("g.legendQuant").call(legend);
-  d3.selectAll('.county').on('mouseover', function(d) {
+  var mapTip = d3.select("body").append("div").attr("id", "map-tip").style("opacity", 0);
+  var tipObject = {};
+  data.forEach(function(d) {
+    tipObject[d.id] = d;
+  });
+  console.log(tipObject);
+  d3.selectAll(".county").on('mouseover', function(d) {
     d3.select(this).moveToFront().attr("filter", "url(#county-filter)");
-    d3.select(this).append("svg");
+    mapTip.style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 40) + "px").transition().duration(500).style("opacity", 1);
+    mapTip.html("<p>fuckyou!" + tipObject[d.id] + "</p>");
   }).on('mouseout', function(d) {
     d3.select(this).attr("filter", "none").moveToBack();
   });
@@ -119,4 +124,3 @@ function ready(error, usa, data) {
     d3.select("g.legendQuant").transition().delay(1000).duration(500).attr("opacity", 1);
   });
 }
-;

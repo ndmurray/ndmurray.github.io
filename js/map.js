@@ -76,7 +76,6 @@
 //Mapping functions
 
 	//Load geographic and descriptive data
-
 	d3.queue()
 		.defer(d3.json,"https://d3js.org/us-10m.v1.json")
 		.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv")
@@ -90,14 +89,16 @@
 function ready(error, usa, data) {
 	
 	if (error) { console.log(error); }
-	else { console.log(usa) }
+	else { console.log(usa);
+		   console.log(data); }
 
 	//Mapping array we'll use to assign data to counties
 	//From example: https://bl.ocks.org/mbostock/3306362
 	var mapObject = {};
-	var mapData = function(d) { +d.rate; };
-	//Populate that array with your target set of values
-	data.forEach(function(d) {mapObject[d.id] = +d.med_inc;});
+	//Populate that array with your target set of data values
+	data.forEach(function(d) {
+		mapObject[d.id] = +d.med_inc;
+	});
 
 	//Color scale
 	var cScale = d3.scaleQuantile()
@@ -107,7 +108,7 @@ function ready(error, usa, data) {
 		.range(d3.schemeGnBu[9]);
 
 	//County boundaries
-	svg.append("g")
+	var counties = svg.append("g")
 			.attr("class","counties")
 		.selectAll("path")
 		//Taken from the d3 topojson library - see example: https://bl.ocks.org/mbostock/4060606
@@ -121,8 +122,21 @@ function ready(error, usa, data) {
 		.attr("class","county")
 		.attr("d",mapPath);
 
+	// Add county centroids to mapObject
+	//  // Got it from here, it's a bit over my head:http://bit.ly/2lRPA8k
+	// for(var i = 0; i < usa.objects.counties.geometries.length; i++) {
+	// 	var p = usa.objects.counties.geometries[i];
+	// 	var c = mapPath.centroid(p);
+	// 	usa.objects.counties.geometries.x = c[0];
+	// 	usa.objects.counties.geometries.y = c[1];
+	// 	console.log(usa);
+	// }
+
+	// //var c = d3.selectAll("path.county")
+	
+
 	//County markup
-	d3.selectAll("path")
+	d3.selectAll(".county")
 	.attr("fill", function(d) { return cScale(mapObject[d.id]); })
 	.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
 
@@ -141,21 +155,20 @@ function ready(error, usa, data) {
 	//Set nav div width based on BBox
 	d3.select("#nav").style("width",mapExtent.width);
 
-	//Info div
+	//Size info div based on map extent
 	d3.select("#info-div")
 		.style("height",d3.select("#nav").style("height"))
 		.style("width",(mapWidth * 0.6));
 
-	//Size buttons
+	//Size buttons based on map extent
 	d3.select("#button-div")
 		.style("width",(mapWidth * 0.2));
 
-	
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
 		.attr("class","legendQuant")
 		.attr("opacity",1)
-		.attr("transform","translate("+ (0.9 * mapWidth) +"," + (0.33 * h) + ")")
+		.attr("transform","translate("+ (0.9 * mapWidth) +"," + (0.33 * h) + ")");
 
 	var legend = d3.legendColor()
 		.labelFormat(d3.format(legendFormat))
@@ -171,11 +184,36 @@ function ready(error, usa, data) {
 	svg.select("g.legendQuant")
 		.call(legend);
 
-	//Map hover action
-	d3.selectAll('.county').on('mouseover',function(d) {
-		d3.select(this)
-			//SVG order
-			.moveToFront()
+	//Define tooltip
+	var mapTip = d3.select("body").append("div")
+		.attr("id","map-tip")
+		.style("opacity",0);
+
+	//Put together a toolTip data object
+	var tipObject = {};
+	//Populate that array with 
+	data.forEach(function(d) {
+		tipObject[d.id] = d;
+	});
+
+	console.log(tipObject);
+
+	//County hover action
+	d3.selectAll(".county").on('mouseover',function(d) {
+
+		d3.select(this).moveToFront()
+			.attr("filter","url(#county-filter)");
+		
+		//Tooltip
+		mapTip.style("left",(d3.event.pageX) + "px") 
+			  .style("top",(d3.event.pageY - 40) + "px")
+			.transition()
+			.duration(500)
+			.style("opacity",1);
+
+		mapTip.html("<p>fuckyou!" + tipObject[d.id] + "</p>");
+
+		//Deprecated code
 			// .transition()
 			// .attrTween("transform", function(d, i, a) {
      		//	return d3.interpolateString(a, 'scale(1)')
@@ -183,14 +221,13 @@ function ready(error, usa, data) {
 			// .attr("stroke","green")
 			//.attr("stroke-width","4px")
 			//Drop shadow
-			.attr("filter","url(#county-filter)");
 			//Size (start by translating it to origin otherwise it will appear to change position)
 			//Source: http://stackoverflow.com/questions/16945951/how-to-scale-the-element-by-keeping-the-fixed-position-in-svg
 			//.classed("target-county",true) //transform-origin appears only to be a css property
 			//.attr("transform","scale(2)");
 		
 		//d3.select(".states").moveToBack();
-		d3.select(this).append("svg")
+		//d3.select(this).append("svg")
 			
 	}).on('mouseout',function(d) {
 		d3.select(this)
@@ -266,7 +303,7 @@ function ready(error, usa, data) {
 			.style("opacity",0)
 			.on("end",function() {
 				chartTitle.text(titleText);
-			})
+			});
 
 		d3.select("g.legendQuant")
 			.transition()
@@ -297,7 +334,7 @@ function ready(error, usa, data) {
 			
 	});
 
-};	
+}
 
 //Note on data:
 
