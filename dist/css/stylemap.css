@@ -26,13 +26,14 @@ div.chart-title {
 
 #button-div {
   display: inline-block;
-  margin-right: 1em;
+  margin-left: 1em;
   vertical-align: top; }
 
 a.choice {
-  display: block;
+  display: inline-block;
   color: #3e3e3e;
   background-color: #e0b524;
+  width: 10em;
   padding: 8px 20px;
   margin: 0px 0px 4px 0px;
   text-align: center;
@@ -67,5 +68,9 @@ text.label {
 /*Tooltips*/
 #map-tip {
   position: absolute;
-  width: 10em;
-  background-color: #464646; }
+  background-color: #464646;
+  padding: 0px 10px 0px 10px; }
+
+.tip-val {
+  font-size: 2em;
+  margin-bottom: 0px; }

@@ -95,15 +95,16 @@ function ready(error, usa, data) {
 	//Mapping array we'll use to assign data to counties
 	//From example: https://bl.ocks.org/mbostock/3306362
 	var mapObject = {};
+	var mapData = function(d) { return +d.med_inc };
 	//Populate that array with your target set of data values
 	data.forEach(function(d) {
-		mapObject[d.id] = +d.med_inc;
+		mapObject[d.id] = mapData(d);
 	});
 
 	//Color scale
 	var cScale = d3.scaleQuantile()
 		//.domain([d3.min(function(d) { +d.rate; }),d3.max(function(d) { +d.rate} )])
-		.domain(d3.values(mapObject))
+		.domain(d3.values(mapObject)) //need an array to make quantile scale work
 		//.domain( function(d) { unemployment.set(d.id, +d.rate).values(); })
 		.range(d3.schemeGnBu[9]);
 
@@ -155,14 +156,15 @@ function ready(error, usa, data) {
 	//Set nav div width based on BBox
 	d3.select("#nav").style("width",mapExtent.width);
 
-	//Size info div based on map extent
-	d3.select("#info-div")
-		.style("height",d3.select("#nav").style("height"))
-		.style("width",(mapWidth * 0.6));
+	//Size info div based on map extent - INFODIV NOT CURRENTLY IN USE 
+	// d3.select("#info-div")
+	// 	.style("height",d3.select("#nav").style("height"))
+	// 	.style("width",(mapWidth * 0.6));
 
 	//Size buttons based on map extent
 	d3.select("#button-div")
-		.style("width",(mapWidth * 0.2));
+		.style("width",(mapWidth));
+		//.style("width",(mapWidth * 0.2)); -to fit with infodiv
 
 	//Map legend, based on Susie Lu's legend libary: http://d3-legend.susielu.com
 	svg.append("g")
@@ -184,19 +186,25 @@ function ready(error, usa, data) {
 	svg.select("g.legendQuant")
 		.call(legend);
 
-	//Define tooltip
+	// //Define tooltip
 	var mapTip = d3.select("body").append("div")
 		.attr("id","map-tip")
 		.style("opacity",0);
 
 	//Put together a toolTip data object
 	var tipObject = {};
-	//Populate that array with 
+	//Populate that object  with an array of values
 	data.forEach(function(d) {
-		tipObject = d;
+		//for each item in the tipObject array (using id field simply as array index)
+		tipObject[d.id] = d; // assign an array of data objects, one for each county
 	});
 
 	console.log(tipObject);
+
+	var tipData = function(d) { return tipObject[d.id].med_inc }
+
+	//for shifting tip position
+	tipPosShift = {x: 20, y: -100}
 
 	//County hover action
 	d3.selectAll(".county").on('mouseover',function(d) {
@@ -204,16 +212,17 @@ function ready(error, usa, data) {
 		d3.select(this).moveToFront()
 			.attr("filter","url(#county-filter)");
 		
-		//Tooltip
-		mapTip.style("left",(d3.event.pageX) + "px") 
-			  .style("top",(d3.event.pageY - 40) + "px")
+		// Tooltip
+		mapTip.style("left",(d3.event.pageX + tipPosShift.x) + "px") 
+			  .style("top",(d3.event.pageY + tipPosShift.y) + "px")
 			.transition()
 			.duration(500)
-			.style("opacity",1);
+			.style("opacity",0.8);
 
 		mapTip.html(
-			"<p class='tip-val'>" + mapData + "</p><br />" +
-			"<p class='tip-loc'>" + tipObject.county + ", " + tipObject.state + "</p>"
+			//notice we need [d.id] in here to reference not really the id field but, the index of the array with the same # as the id field
+			"<p class='tip-val'>" + d3.format(legendFormat)(tipData(d)) + "</p>" +
+			"<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>"
 		);
 
 		//Deprecated code
@@ -241,6 +250,10 @@ function ready(error, usa, data) {
 			.moveToBack();
 
 		//d3.select(".states").moveToFront();
+
+		mapTip.transition()
+			.duration(500)
+			.style("opacity",0);
 	});
 
 
@@ -252,9 +265,10 @@ function ready(error, usa, data) {
 
 		//Update target data
 		var mapData = d3.select(this).attr('value');
+		var tipData = function(d) { return eval("tipObject[d.id]." + mapData); }
 
-		//Populate that array with your target set of values
-		data.forEach(function(d) {mapObject[d.id] = eval(mapData);});
+		//Populate the mapObject array with your target set of values
+		data.forEach(function(d) {mapObject[d.id] = eval("+d." + mapData);});
 
 		//Update color scale
 		cScale.domain(d3.values(mapObject))
@@ -262,26 +276,26 @@ function ready(error, usa, data) {
 
 		//Title values
 		switch (mapData) {
-			case "+d.rate":
+			case "rate":
 				legendTitle = "Unemployment Rate";
 				break;
-			case "+d.edu":
+			case "edu":
 				legendTitle = "% Adults with High School Diploma";
 				break;
-			case "+d.med_inc":
+			case "med_inc":
 				legendTitle = "Median household income";
 				break;
 		}
 
-		//Legend formatting
+	//Legend formatting
 		switch (mapData) {
-			case "+d.rate":
-				legendFormat= '.0%';
+			case "rate":
+				legendFormat= '.1%';
 				break;
-			case "+d.edu":
+			case "edu":
 				legendFormat = '.0%';
 				break;
-			case "+d.med_inc":
+			case "med_inc":
 				legendFormat = '.2s';
 				break;
 		}
@@ -310,7 +324,7 @@ function ready(error, usa, data) {
 
 		d3.select("g.legendQuant")
 			.transition()
-			.duration(200)
+			.duration(500)
 			.attr("opacity",0)
 			.on("end", function(){
 				legend.labelFormat(d3.format(legendFormat))
@@ -333,8 +347,24 @@ function ready(error, usa, data) {
 			.duration(500)
 			.attr("opacity",1);
 
+		//Tooltip
+		d3.selectAll(".county").on('mouseover',function(d) {
+			d3.select(this).moveToFront()
+			.attr("filter","url(#county-filter)");
+		
+			mapTip.style("left",(d3.event.pageX + tipPosShift.x) + "px") 
+			      .style("top",(d3.event.pageY + tipPosShift.y) + "px")
+				.transition()
+				.duration(500)
+				.style("opacity",0.8);
 
-			
+			mapTip.html(
+				//notice we need [d.id] in here to reference not really the id field but, the index of the array with the same # as the id field
+				"<p class='tip-val'>" + d3.format(legendFormat)(tipData(d)) + "</p>" +
+				"<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>"
+			);
+		});
+
 	});
 
 }
