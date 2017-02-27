@@ -193,7 +193,7 @@ function ready(error, usa, data) {
 	var tipObject = {};
 	//Populate that array with 
 	data.forEach(function(d) {
-		tipObject[d.id] = d;
+		tipObject = d;
 	});
 
 	console.log(tipObject);
@@ -211,7 +211,10 @@ function ready(error, usa, data) {
 			.duration(500)
 			.style("opacity",1);
 
-		mapTip.html("<p>fuckyou!" + tipObject[d.id] + "</p>");
+		mapTip.html(
+			"<p class='tip-val'>" + mapData + "</p><br />" +
+			"<p class='tip-loc'>" + tipObject.county + ", " + tipObject.state + "</p>"
+		);
 
 		//Deprecated code
 			// .transition()

@@ -69,13 +69,13 @@ function ready(error, usa, data) {
   var mapTip = d3.select("body").append("div").attr("id", "map-tip").style("opacity", 0);
   var tipObject = {};
   data.forEach(function(d) {
-    tipObject[d.id] = d;
+    tipObject = d;
   });
   console.log(tipObject);
   d3.selectAll(".county").on('mouseover', function(d) {
     d3.select(this).moveToFront().attr("filter", "url(#county-filter)");
     mapTip.style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 40) + "px").transition().duration(500).style("opacity", 1);
-    mapTip.html("<p>fuckyou!" + tipObject[d.id] + "</p>");
+    mapTip.html("<p class='tip-val'>" + mapData + "</p><br />" + "<p class='tip-loc'>" + tipObject.county + ", " + tipObject.state + "</p>");
   }).on('mouseout', function(d) {
     d3.select(this).attr("filter", "none").moveToBack();
   });
