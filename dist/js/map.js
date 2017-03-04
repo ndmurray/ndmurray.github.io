@@ -9,8 +9,8 @@ var margin = {
     w = w - margin.left - margin.right,
     h = parseInt(d3.select('#map-div').style('height'), 10),
     h = h - margin.top - margin.bottom;
-var legendTitle = "Median Household Income";
-var legendFormat = '.2s';
+var legendTitle = "Median Household Income ($)";
+var legendFormat = d3.format('.2s');
 var svg = d3.select("#map-div").append("svg").attr("class", "svg").attr("width", w + margin.left + margin.right).attr("height", h + margin.top + margin.bottom).attr("id", "map-canvas").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 var titleText = legendTitle + ", USDA, 2015";
 var chartTitle = d3.select("#header-row").append("div").attr("class", "chart-title").style("opacity", 1).text(titleText);
@@ -51,6 +51,7 @@ function ready(error, usa, data) {
   data.forEach(function(d) {
     mapObject[d.id] = mapData(d);
   });
+  console.log(mapData);
   var cScale = d3.scaleQuantile().domain(d3.values(mapObject)).range(d3.schemeGnBu[9]);
   var counties = svg.append("g").attr("class", "counties").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("class", "county").attr("d", mapPath);
   d3.selectAll(".county").attr("fill", function(d) {
@@ -66,7 +67,7 @@ function ready(error, usa, data) {
   d3.select("#nav").style("width", mapExtent.width);
   d3.select("#button-div").style("width", (mapWidth));
   svg.append("g").attr("class", "legendQuant").attr("opacity", 1).attr("transform", "translate(" + (0.9 * mapWidth) + "," + (0.33 * h) + ")");
-  var legend = d3.legendColor().labelFormat(d3.format(legendFormat)).shape('circle').useClass(false).title(legendTitle).titleWidth(200).scale(cScale);
+  var legend = d3.legendColor().labelFormat(legendFormat).shape('circle').useClass(false).title(legendTitle).titleWidth(220).scale(cScale);
   svg.select("g.legendQuant").call(legend);
   var mapTip = d3.select("body").append("div").attr("id", "map-tip").style("opacity", 0);
   var tipObject = {};
@@ -84,7 +85,8 @@ function ready(error, usa, data) {
   d3.selectAll(".county").on('mouseover', function(d) {
     d3.select(this).moveToFront().attr("filter", "url(#county-filter)");
     mapTip.style("left", (d3.event.pageX + tipPosShift.x) + "px").style("top", (d3.event.pageY + tipPosShift.y) + "px").transition().duration(500).style("opacity", 0.8);
-    mapTip.html("<p class='tip-val'>" + d3.format(legendFormat)(tipData(d)) + "</p>" + "<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>");
+    var dolla = "$";
+    mapTip.html("<p class='tip-val'>" + dolla + "" + (legendFormat)(tipData(d)) + "</p>" + "<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>");
   }).on('mouseout', function(d) {
     d3.select(this).attr("filter", "none").moveToBack();
     mapTip.transition().duration(500).style("opacity", 0);
@@ -94,30 +96,31 @@ function ready(error, usa, data) {
     var tipData = function(d) {
       return eval("tipObject[d.id]." + mapData);
     };
+    console.log(mapData);
     data.forEach(function(d) {
       mapObject[d.id] = eval("+d." + mapData);
     });
     cScale.domain(d3.values(mapObject)).range(d3.schemeGnBu[9]);
     switch (mapData) {
       case "rate":
-        legendTitle = "Unemployment Rate";
+        legendTitle = "Unemployment Rate (%)";
         break;
       case "edu":
-        legendTitle = "% Adults with High School Diploma";
+        legendTitle = "Adults with High School Diploma (%)";
         break;
       case "med_inc":
-        legendTitle = "Median household income";
+        legendTitle = "Median household income ($)";
         break;
     }
     switch (mapData) {
       case "rate":
-        legendFormat = '.1%';
+        legendFormat = d3.format('.1%');
         break;
       case "edu":
-        legendFormat = '.0%';
+        legendFormat = d3.format('.0%');
         break;
       case "med_inc":
-        legendFormat = '.2s';
+        legendFormat = d3.format('.2s');
         break;
     }
     var titleText = legendTitle + ", USDA, 2015";
@@ -130,7 +133,7 @@ function ready(error, usa, data) {
       chartTitle.text(titleText);
     });
     d3.select("g.legendQuant").transition().duration(500).attr("opacity", 0).on("end", function() {
-      legend.labelFormat(d3.format(legendFormat)).title(legendTitle);
+      legend.labelFormat(legendFormat).title(legendTitle);
       svg.call(legend);
     });
     d3.select("div.chart-title").transition().delay(1000).duration(500).style("opacity", 1);
@@ -138,7 +141,12 @@ function ready(error, usa, data) {
     d3.selectAll(".county").on('mouseover', function(d) {
       d3.select(this).moveToFront().attr("filter", "url(#county-filter)");
       mapTip.style("left", (d3.event.pageX + tipPosShift.x) + "px").style("top", (d3.event.pageY + tipPosShift.y) + "px").transition().duration(500).style("opacity", 0.8);
-      mapTip.html("<p class='tip-val'>" + d3.format(legendFormat)(tipData(d)) + "</p>" + "<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>");
+      if (mapData == "med_inc") {
+        dolla = "$";
+      } else {
+        dolla = "";
+      }
+      mapTip.html("<p class='tip-val'>" + dolla + (legendFormat)(tipData(d)) + "</p>" + "<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>");
     });
   });
 }

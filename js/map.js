@@ -8,8 +8,8 @@
 		h = h - margin.top - margin.bottom;
 
 	//Default values
-	var legendTitle = "Median Household Income";
-	var legendFormat = '.2s';
+	var legendTitle = "Median Household Income ($)";
+	var legendFormat = d3.format('.2s');
 
 	//Draw the canvas
 	var svg = d3.select("#map-div").append("svg")
@@ -100,6 +100,7 @@ function ready(error, usa, data) {
 	data.forEach(function(d) {
 		mapObject[d.id] = mapData(d);
 	});
+	console.log(mapData)
 
 	//Color scale
 	var cScale = d3.scaleQuantile()
@@ -173,14 +174,14 @@ function ready(error, usa, data) {
 		.attr("transform","translate("+ (0.9 * mapWidth) +"," + (0.33 * h) + ")");
 
 	var legend = d3.legendColor()
-		.labelFormat(d3.format(legendFormat))
+		.labelFormat(legendFormat)
 		// .shapeWidth(20)
 		.shape('circle')
 		// .shapePadding(60)
 		.useClass(false)
 		//.orient('horizontal')
 		.title(legendTitle)
-		.titleWidth(200)
+		.titleWidth(220)
 		.scale(cScale);
 
 	svg.select("g.legendQuant")
@@ -219,9 +220,13 @@ function ready(error, usa, data) {
 			.duration(500)
 			.style("opacity",0.8);
 
+		//for Tooltip label
+		var dolla = "$"; 
+		
+
 		mapTip.html(
 			//notice we need [d.id] in here to reference not really the id field but, the index of the array with the same # as the id field
-			"<p class='tip-val'>" + d3.format(legendFormat)(tipData(d)) + "</p>" +
+			"<p class='tip-val'>" + dolla + "" + (legendFormat)(tipData(d)) + "</p>" +
 			"<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>"
 		);
 
@@ -266,6 +271,7 @@ function ready(error, usa, data) {
 		//Update target data
 		var mapData = d3.select(this).attr('value');
 		var tipData = function(d) { return eval("tipObject[d.id]." + mapData); }
+		console.log(mapData)
 
 		//Populate the mapObject array with your target set of values
 		data.forEach(function(d) {mapObject[d.id] = eval("+d." + mapData);});
@@ -277,26 +283,26 @@ function ready(error, usa, data) {
 		//Title values
 		switch (mapData) {
 			case "rate":
-				legendTitle = "Unemployment Rate";
+				legendTitle = "Unemployment Rate (%)";
 				break;
 			case "edu":
-				legendTitle = "% Adults with High School Diploma";
+				legendTitle = "Adults with High School Diploma (%)";
 				break;
 			case "med_inc":
-				legendTitle = "Median household income";
+				legendTitle = "Median household income ($)";
 				break;
 		}
 
 	//Legend formatting
 		switch (mapData) {
 			case "rate":
-				legendFormat= '.1%';
+				legendFormat= d3.format('.1%');
 				break;
 			case "edu":
-				legendFormat = '.0%';
+				legendFormat = d3.format('.0%');
 				break;
 			case "med_inc":
-				legendFormat = '.2s';
+				legendFormat = d3.format('.2s');
 				break;
 		}
 
@@ -327,7 +333,7 @@ function ready(error, usa, data) {
 			.duration(500)
 			.attr("opacity",0)
 			.on("end", function(){
-				legend.labelFormat(d3.format(legendFormat))
+				legend.labelFormat(legendFormat)
 					.title(legendTitle);
 					svg.call(legend);
 				
@@ -358,9 +364,12 @@ function ready(error, usa, data) {
 				.duration(500)
 				.style("opacity",0.8);
 
+		if (mapData == "med_inc") { 
+			dolla = "$" } else { dolla = "" }
+
 			mapTip.html(
 				//notice we need [d.id] in here to reference not really the id field but, the index of the array with the same # as the id field
-				"<p class='tip-val'>" + d3.format(legendFormat)(tipData(d)) + "</p>" +
+				"<p class='tip-val'>" + dolla + (legendFormat)(tipData(d)) + "</p>" +
 				"<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>"
 			);
 		});

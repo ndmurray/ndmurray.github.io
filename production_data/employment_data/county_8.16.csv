@@ -80,7 +80,7 @@ id,county,state,rate,edu,med_inc
 02122,Kenai Peninsula Borough, AK,0.069,0.669,62025
 02130,Ketchikan Gateway Borough, AK,0.044,0.672,65314
 02150,Kodiak Island Borough, AK,0.048,0.727,67515
-02158,#N/A,0.217,0.51,33511
+02158,Kusilvak Census Area, AK,0.217,0.51,33511
 02164,Lake and Peninsula Borough, AK,0.092,0.571,42120
 02170,Matanuska-Susitna Borough, AK,0.074,0.684,76601
 02180,Nome Census Area, AK,0.136,0.587,52952
@@ -2410,7 +2410,7 @@ id,county,state,rate,edu,med_inc
 46097,Miner County, SD,0.024,0.609,47970
 46099,Minnehaha County, SD,0.022,0.707,55605
 46101,Moody County, SD,0.036,0.662,54729
-46102,#N/A,0.132,0.718,30391
+46102,Ogalala Lakota County, SD,0.132,0.718,30391
 46103,Pennington County, SD,0.026,0.719,52217
 46105,Perkins County, SD,0.028,0.624,44132
 46107,Potter County, SD,0.023,0.593,54655
