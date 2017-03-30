@@ -51,7 +51,7 @@ function ready(error, usa, data) {
   data.forEach(function(d) {
     mapObject[d.id] = mapData(d);
   });
-  console.log(mapData);
+  console.log(mapObject);
   var cScale = d3.scaleQuantile().domain(d3.values(mapObject)).range(d3.schemeGnBu[9]);
   var counties = svg.append("g").attr("class", "counties").selectAll("path").data(topojson.feature(usa, usa.objects.counties).features).enter().append("path").attr("class", "county").attr("d", mapPath);
   d3.selectAll(".county").attr("fill", function(d) {
@@ -67,7 +67,7 @@ function ready(error, usa, data) {
   d3.select("#nav").style("width", mapExtent.width);
   d3.select("#button-div").style("width", (mapWidth));
   svg.append("g").attr("class", "legendQuant").attr("opacity", 1).attr("transform", "translate(" + (0.9 * mapWidth) + "," + (0.33 * h) + ")");
-  var legend = d3.legendColor().labelFormat(legendFormat).shape('circle').useClass(false).title(legendTitle).titleWidth(220).scale(cScale);
+  var legend = d3.legendColor().labelFormat(legendFormat).shape('circle').useClass(false).title(legendTitle).titleWidth(240).scale(cScale);
   svg.select("g.legendQuant").call(legend);
   var mapTip = d3.select("body").append("div").attr("id", "map-tip").style("opacity", 0);
   var tipObject = {};

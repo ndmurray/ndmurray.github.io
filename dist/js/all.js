@@ -1082,7 +1082,7 @@ function(d) {
 		h = h - margin.top - margin.bottom;
 
 	//Default values
-	var legendTitle = "Median Household Income";
+	var legendTitle = "Median Household Income ($)";
 	var legendFormat = d3.format('.2s');
 
 	//Draw the canvas
@@ -1103,6 +1103,7 @@ function(d) {
 
 	//Define constructor functions - special functions avaialble to the elements we define below
 	//See introduction to constructor functions here: https://ejb.github.io/2016/05/23/a-better-way-to-structure-d3-code.html
+	//We use these to define the 'moveToFront' and 'moveToBack' functions
 
 		//SVG element order - http://bl.ocks.org/eesur/4e0a69d57d3bfc8a82c2
 		d3.selection.prototype.moveToFront = function() {  
@@ -1122,9 +1123,10 @@ function(d) {
 
 	//Special elements
 	svg.append("defs");
-		// Drop shadow for county hover - inspired by http://bl.ocks.org/cpbotha/5200394
+	
+	//Custom filter defining drop shadow, for county hover - inspired by http://bl.ocks.org/cpbotha/5200394
 	var countyFilter = d3.select("defs").append("filter").attr("id","county-filter")
-			.attr("height","400%").attr("width","400%").attr("y","-80%").attr("x","-80%"); //These dimensions keep the shadow getting clipped by the filter area
+			.attr("height","400%").attr("width","400%").attr("y","-80%").attr("x","-80%"); //These filter dimensions keep the shadow getting clipped by the filter area
 		countyFilter.append("feOffset") //offset the shape area, call it "offOut"
 				.attr("result","offOut").attr("in","SourceGraphic")
 				.attr("dx","4").attr("dy","4");
@@ -1132,13 +1134,13 @@ function(d) {
 				.attr("result","bigOut").attr("in","SourceGraphic").attr("operator","dilate")
 				.attr("radius","3");
 		countyFilter.append("feColorMatrix") //Bring the offset image (shadow) color closer to black, call it "matrixOut" 
-				.attr("result","matrixOut").attr("in","bigOut").attr("type","matrix")
+				.attr("result","matrixOut").attr("in","bigOut").attr("type","matrix")//Notice we're taking "bigOut" as input
 				.attr("values","0.1 0 0 0 0 0 0.1 0 0 0 0 0 0.1 0 0 0 0 0 1 0");
 		countyFilter.append("feGaussianBlur") //Blur the offset image, call it "blurOut"
-				.attr("result","blurOut").attr("in","matrixOut")
+				.attr("result","blurOut").attr("in","matrixOut")//Notice we're taking "matrixOut" as input
 				.attr("stdDeviation","1");
 		countyFilter.append("feBlend") //fill the shape area with the county shpae (SourceGraphic)
-				.attr("in","SourceGraphic").attr("in2","blurOut")
+				.attr("in","SourceGraphic").attr("in2","blurOut")//Notice we're taking "blurOut" as input, in addition to SoureGraphic. The alternative is sourceAlpha, the blacked out version
 				.attr("mode","normal");
 
 		//state boundaries filter
@@ -1156,11 +1158,18 @@ function(d) {
 		//.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv", function(d) { unemployment.set(d.id, +d.rate) })
 		.await(ready);
 
+
+	//Map zoom with projection - https://bl.ocks.org/mbostock/2206340
+	// var projection = null //defing up front so we can modify on click/zoom, projection is already built in as null so we don't change it
+	// 	.scale(10); //scale value
+	// 	//.translate([0,0]);
+
 	//Map boundary path
 	var mapPath = d3.geoPath();
+		// .projection(projection);
 
 //Map data and its dependent elements
-function ready(error, usa, data) {
+function ready(error, usa, data) {// my understanding is that we list usa, data in the order they appear above under d3.queue()
 	
 	if (error) { console.log(error); }
 	else { console.log(usa);
@@ -1172,13 +1181,14 @@ function ready(error, usa, data) {
 	var mapData = function(d) { return +d.med_inc };
 	//Populate that array with your target set of data values
 	data.forEach(function(d) {
-		mapObject[d.id] = mapData(d);
+		mapObject[d.id] = mapData(d); //set key values equal to id in data, and store within each key the entire object associated with that id 
 	});
+	console.log(mapData);
 
 	//Color scale
 	var cScale = d3.scaleQuantile()
 		//.domain([d3.min(function(d) { +d.rate; }),d3.max(function(d) { +d.rate} )])
-		.domain(d3.values(mapObject)) //need an array to make quantile scale work
+		.domain(d3.values(mapObject)) //****need an array to make quantile scale work
 		//.domain( function(d) { unemployment.set(d.id, +d.rate).values(); })
 		.range(d3.schemeGnBu[9]);
 
@@ -1197,7 +1207,7 @@ function ready(error, usa, data) {
 		.attr("class","county")
 		.attr("d",mapPath);
 
-	// Add county centroids to mapObject
+	// Not currently in use: Add county centroids to mapObject
 	//  // Got it from here, it's a bit over my head:http://bit.ly/2lRPA8k
 	// for(var i = 0; i < usa.objects.counties.geometries.length; i++) {
 	// 	var p = usa.objects.counties.geometries[i];
@@ -1212,7 +1222,7 @@ function ready(error, usa, data) {
 
 	//County markup
 	d3.selectAll(".county")
-	.attr("fill", function(d) { return cScale(mapObject[d.id]); })
+	.attr("fill", function(d) { return cScale(mapObject[d.id]); }) //mapObject maps id to the data in mapData, which currently is d.med_inc
 	.attr("stroke",function(d) { return cScale(mapObject[d.id]); });
 
 	//State boundaries
@@ -1254,7 +1264,7 @@ function ready(error, usa, data) {
 		.useClass(false)
 		//.orient('horizontal')
 		.title(legendTitle)
-		.titleWidth(200)
+		.titleWidth(240)
 		.scale(cScale);
 
 	svg.select("g.legendQuant")
@@ -1293,10 +1303,9 @@ function ready(error, usa, data) {
 			.duration(500)
 			.style("opacity",0.8);
 
-		//This dolla thing doesn't work yet
+		//for Tooltip label
 		var dolla = "$"; 
-		// if (mapData == "med_inc" || mapData == "+d.med_inc") { 
-		// 	var dolla = "$" }
+		
 
 		mapTip.html(
 			//notice we need [d.id] in here to reference not really the id field but, the index of the array with the same # as the id field
@@ -1345,6 +1354,7 @@ function ready(error, usa, data) {
 		//Update target data
 		var mapData = d3.select(this).attr('value');
 		var tipData = function(d) { return eval("tipObject[d.id]." + mapData); }
+		console.log(mapData)
 
 		//Populate the mapObject array with your target set of values
 		data.forEach(function(d) {mapObject[d.id] = eval("+d." + mapData);});
@@ -1356,13 +1366,13 @@ function ready(error, usa, data) {
 		//Title values
 		switch (mapData) {
 			case "rate":
-				legendTitle = "Unemployment Rate";
+				legendTitle = "Unemployment Rate (%)";
 				break;
 			case "edu":
-				legendTitle = "% Adults with High School Diploma";
+				legendTitle = "Adults with High School Diploma (%)";
 				break;
 			case "med_inc":
-				legendTitle = "Median household income";
+				legendTitle = "Median household income ($)";
 				break;
 		}
 
@@ -1437,9 +1447,12 @@ function ready(error, usa, data) {
 				.duration(500)
 				.style("opacity",0.8);
 
+		if (mapData == "med_inc") { 
+			dolla = "$" } else { dolla = "" }
+
 			mapTip.html(
 				//notice we need [d.id] in here to reference not really the id field but, the index of the array with the same # as the id field
-				"<p class='tip-val'>" + (legendFormat)(tipData(d)) + "</p>" +
+				"<p class='tip-val'>" + dolla + (legendFormat)(tipData(d)) + "</p>" +
 				"<p class='tip-loc'>" + tipObject[d.id].county + ", " + tipObject[d.id].state + "</p>"
 			);
 		});
