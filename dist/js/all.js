@@ -925,6 +925,64 @@ var arcData = function(d) { return +d.avg_revenue; };
 
 
 
+//General Use Variables
+
+//Canvas Margin and dimensions 
+var margin = {top: 20, right: 20, bottom: 20, left: 20}, 
+	w = parseInt(d3.select('#wrapper').style('width'), 10), //get dimensions of container
+	w = w - margin.left - margin.right,
+	h = parseInt(d3.select('#wrapper').style('height')),
+	h = h - margin.top - margin.bottom; 
+
+//Line chart margin and dimensinos
+var lineMargin = {top: 20, right: 20, bottom: 20, left: 20},
+	lineW = parseInt(d3.select('#line-div').style('width'),10),
+	lineW = lineW - lineMargin.left - lineMargin.right,
+	lineH = parseInt(d3.select('#line-div').style('height'),10),
+	lineH = lineH - lineMargin.top - lineMargin.bottom;
+
+//Parse dates
+var parseDate = d3.timeParse("%m-%Y"),
+    formatTimeMonth = d3.timeFormat("%b-%Y");
+
+//Range X
+var xScale = d3.scaleTime().range([0,lineW]);
+
+//Range Y 
+var yScale = d3.scaleTime().range([lineH,0]);
+
+//Dot Size
+var dotRadius = "0.25em"
+
+
+//Begin data function
+
+d3.queue()
+	.defer(d3.csv,"/8step.io/production_data/energy_data/energy_xstate.csv")
+	.await(ready);
+
+function ready(error, data) {
+	if (error) { console.log(error) } 
+		else { console.log(data) }
+
+	function set(d) {
+		d.date = parseDate(d.date);
+		d.mwh = +d.mwh;
+		return d;
+	}
+
+	
+
+
+}
+
+
+
+
+
+
+
+
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
@@ -1181,9 +1239,9 @@ function ready(error, usa, data) {// my understanding is that we list usa, data 
 	var mapData = function(d) { return +d.med_inc };
 	//Populate that array with your target set of data values
 	data.forEach(function(d) {
-		mapObject[d.id] = mapData(d); //set key values equal to id in data, and store within each key the entire object associated with that id 
+		mapObject[d.id] = mapData(d); 
 	});
-	console.log(mapData);
+	console.log(mapObject); //you'll see in console is this just an array of key value pairs, id:+med_inc, aka id: mapData(d)
 
 	//Color scale
 	var cScale = d3.scaleQuantile()
@@ -1280,7 +1338,7 @@ function ready(error, usa, data) {// my understanding is that we list usa, data 
 	//Populate that object  with an array of values
 	data.forEach(function(d) {
 		//for each item in the tipObject array (using id field simply as array index)
-		tipObject[d.id] = d; // assign an array of data objects, one for each county
+		tipObject[d.id] = d; // assign an array of data objects, one for each county. Because it's just d we've assigned it the entire data object for each id (you'll see in javascript console)
 	});
 
 	console.log(tipObject);
