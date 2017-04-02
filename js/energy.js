@@ -44,18 +44,34 @@ function ready(error, data) {
 		return d;
 	}
 
-	//Data functions - fill this in later, there may be a better way than what you have in ctc metrics
+//Data functions - fill this in later, there may be a better way than what you have in ctc metrics
 
 	var timeData = data;
 
-	//Add domains to scales
+//Add domains to scales
 
 	xScale.domain(d3.extent(timeData, function(d) { return d.date; }));
 	yScale.domain(d3.extent(timeData, function(d) { return d.mwh; })).nice();
 
-	//Define Axes
+//Define Axes
 	var xAxis = d3.axisBottom().scale(xScale).tickFormat(formatMonth),
 		yAxis = d3.axisLeft().scale(yScale);
+
+//Define the line function
+	var line = d3.line()
+		.curve(d3.curveLinear)
+		.x(function(d) { return xScale(d.date); })
+		.y(function(d) { return yScale(d.mwh); });
+
+//Set up the line canvas
+
+var svg = d3.select("body").append("svg")
+	.attr("width", lineW + lineMargin.left + lineMargin.right)
+	.attr("height", lineH + lineMargin.top + lineMargin.bottom)
+	.attr("id", "line-canvas")
+	.append("g")
+		.attr("transform","translate(" + lineMargin.left + "," + lineMargin.top + ")");
+
 
 }
 

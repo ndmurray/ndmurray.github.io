@@ -45,4 +45,10 @@ function ready(error, data) {
   })).nice();
   var xAxis = d3.axisBottom().scale(xScale).tickFormat(formatMonth),
       yAxis = d3.axisLeft().scale(yScale);
+  var line = d3.line().curve(d3.curveLinear).x(function(d) {
+    return xScale(d.date);
+  }).y(function(d) {
+    return yScale(d.mwh);
+  });
+  var svg = d3.select("body").append("svg").attr("width", lineW + lineMargin.left + lineMargin.right).attr("height", lineH + lineMargin.top + lineMargin.bottom).attr("id", "line-canvas").append("g").attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")");
 }
