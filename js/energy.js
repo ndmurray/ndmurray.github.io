@@ -40,18 +40,34 @@ d3.queue()
 
 function ready(error, data) {
 	if (error) { console.log(error); } 
-		else { console.log(data);}
-
+		else { console.log(data); }
 	
-
-//Data functions - fill this in later, there may be a better way than what you have in ctc metrics
+//Data functions
 
 	var timeData = data;
+	//data variable that aggregates up mwh (with sum) across energy sources, it's for fun
+	//Source - http://www.d3noob.org/2014/02/grouping-and-summing-data-using-d3nest.html
+	var rollupData = d3.nest()
+		.key(function(d) { return d.date; }) //Our new level of aggregation
+		.rollup(function(d) { return d3.sum(d, function(g) { return g.mwh; }); }) //Sum mwh 
+		.entries(timeData); //specify timeData as the source data
+
+	console.log(rollupData); //You'll see in console that rollupData is an array of objects, each with two properties
+	//"key" which will be date, and "value" which will be our summed mwh
+
+	//add copes of key and value to the rollupData array for easy reference later
+	rollupData.forEach(function(d) {
+		d.dateAgg = d.key;
+		d.dateAggParse = parseDate(d.dateAgg);
+		d.mwhAgg = d.value;
+	});
+
+	console.log(rollupData); //You'll see timeAgg and mwhAgg properties have been added to each Object in rollupData
 
 //Add domains to scales
 
-	xScale.domain(d3.extent(timeData, function(d) { return d.date; }));
-	yScale.domain(d3.extent(timeData, function(d) { return d.mwh; })).nice();
+	xScale.domain(d3.extent(rollupData, function(d) { return d.dateAgg; }));
+	yScale.domain(d3.extent(rollupData, function(d) { return d.mwhAgg; })).nice();
 
 //Define Axes
 	var xAxis = d3.axisBottom().scale(xScale).tickFormat(formatMonth),
@@ -60,8 +76,8 @@ function ready(error, data) {
 //Define the line function
 	var line = d3.line()
 		.curve(d3.curveLinear)
-		.x(function(d) { return xScale(d.date); })
-		.y(function(d) { return yScale(d.mwh); });
+		.x(function(d) { return xScale(d.dateAgg); })
+		.y(function(d) { return yScale(d.mwhAgg); });
 
 //Set up the line canvas
 
@@ -76,11 +92,10 @@ function ready(error, data) {
 
 	//Line path
 	var pathAll = svg.append("path")
-		.datum(timeData)
+		.datum(rollupData)
 		.attr("d", line)
 		.attr("fill","white")
 		.attr("stroke","white");
-
 
 //Call axes
 

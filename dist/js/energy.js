@@ -36,21 +36,35 @@ function ready(error, data) {
     console.log(data);
   }
   var timeData = data;
-  xScale.domain(d3.extent(timeData, function(d) {
+  var rollupData = d3.nest().key(function(d) {
     return d.date;
+  }).rollup(function(d) {
+    return d3.sum(d, function(g) {
+      return g.mwh;
+    });
+  }).entries(timeData);
+  console.log(rollupData);
+  rollupData.forEach(function(d) {
+    d.dateAgg = d.key;
+    d.dateAggParse = parseDate(d.dateAgg);
+    d.mwhAgg = d.value;
+  });
+  console.log(rollupData);
+  xScale.domain(d3.extent(rollupData, function(d) {
+    return d.dateAgg;
   }));
-  yScale.domain(d3.extent(timeData, function(d) {
-    return d.mwh;
+  yScale.domain(d3.extent(rollupData, function(d) {
+    return d.mwhAgg;
   })).nice();
   var xAxis = d3.axisBottom().scale(xScale).tickFormat(formatMonth),
       yAxis = d3.axisLeft().scale(yScale);
   var line = d3.line().curve(d3.curveLinear).x(function(d) {
-    return xScale(d.date);
+    return xScale(d.dateAgg);
   }).y(function(d) {
-    return yScale(d.mwh);
+    return yScale(d.mwhAgg);
   });
   var svg = d3.select("#line-div").append("svg").attr("width", lineW + lineMargin.left + lineMargin.right).attr("height", lineH + lineMargin.top + lineMargin.bottom).attr("id", "line-canvas").append("g").attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top + ")");
-  var pathAll = svg.append("path").datum(timeData).attr("d", line).attr("fill", "white").attr("stroke", "white");
+  var pathAll = svg.append("path").datum(rollupData).attr("d", line).attr("fill", "white").attr("stroke", "white");
   svg.append("g").attr("class", "axis x-axis").attr("transform", "translate(0," + lineH + ")").call(xAxis);
   svg.append("g").attr("class", "axis y-axis").call(yAxis);
 }
