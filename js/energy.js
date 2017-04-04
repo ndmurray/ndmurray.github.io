@@ -8,41 +8,41 @@ var margin = {top: 20, right: 20, bottom: 20, left: 20},
 	h = h - margin.top - margin.bottom; 
 
 //Line chart margin and dimensinos
-var lineMargin = {top: 20, right: 20, bottom: 20, left: 20},
+var lineMargin = {top: 20, right: 20, bottom: 20, left: 80},
 	lineW = parseInt(d3.select('#line-div').style('width'),10),
 	lineW = lineW - lineMargin.left - lineMargin.right,
 	lineH = parseInt(d3.select('#line-div').style('height'),10),
 	lineH = lineH - lineMargin.top - lineMargin.bottom;
 
 //Parse dates
-var parseDate = d3.timeParse("%m-%Y"),
-    formatMonth = d3.timeFormat("%b-%Y");
+var parseDate = d3.timeParse("%b-%y"),
+    formatMonth = d3.timeFormat("%b-%y");
 
 //Range X
 var xScale = d3.scaleTime().range([0,lineW]);
 
 //Range Y 
-var yScale = d3.scaleTime().range([lineH,0]);
+var yScale = d3.scaleLinear().range([lineH,0]);
 
 //Dot Size
-var dotRadius = "0.25em"
-
+var dotRadius = "0.25em";
 
 //Begin data function
 
 d3.queue()
-	.defer(d3.csv,"/8step.io/production_data/energy_data/energy_xstate.csv")
-	.await(ready);
-
-function ready(error, data) {
-	if (error) { console.log(error) } 
-		else { console.log(data) }
-
-	function set(d) {
+	.defer(d3.csv,"/8step.io/production_data/energy_data/energy_xstate.csv",
+		function(d) {
 		d.date = parseDate(d.date);
 		d.mwh = +d.mwh;
 		return d;
-	}
+	})
+	.await(ready);
+
+function ready(error, data) {
+	if (error) { console.log(error); } 
+		else { console.log(data);}
+
+	
 
 //Data functions - fill this in later, there may be a better way than what you have in ctc metrics
 
@@ -65,13 +65,35 @@ function ready(error, data) {
 
 //Set up the line canvas
 
-var svg = d3.select("body").append("svg")
-	.attr("width", lineW + lineMargin.left + lineMargin.right)
-	.attr("height", lineH + lineMargin.top + lineMargin.bottom)
-	.attr("id", "line-canvas")
-	.append("g")
-		.attr("transform","translate(" + lineMargin.left + "," + lineMargin.top + ")");
+	var svg = d3.select("#line-div").append("svg")
+		.attr("width", lineW + lineMargin.left + lineMargin.right)
+		.attr("height", lineH + lineMargin.top + lineMargin.bottom)
+		.attr("id", "line-canvas")
+		.append("g")
+			.attr("transform","translate(" + lineMargin.left + "," + lineMargin.top + ")");
 
+//Default Chart elements
+
+	//Line path
+	var pathAll = svg.append("path")
+		.datum(timeData)
+		.attr("d", line)
+		.attr("fill","white")
+		.attr("stroke","white");
+
+
+//Call axes
+
+	//Xaxis
+	svg.append("g")
+		.attr("class","axis x-axis")
+		.attr("transform","translate(0," + lineH + ")")
+		.call(xAxis);
+
+	//Yaxis
+	svg.append("g")
+		.attr("class","axis y-axis")
+		.call(yAxis);
 
 }
 
