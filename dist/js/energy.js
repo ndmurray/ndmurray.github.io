@@ -27,6 +27,7 @@ var dotRadius = "0.25em";
 d3.queue().defer(d3.csv, "/8step.io/production_data/energy_data/energy_xstate.csv", function(d) {
   d.date = parseDate(d.date);
   d.mwh = +d.mwh;
+  d.id = d.id;
   return d;
 }).await(ready);
 function ready(error, data) {
@@ -37,18 +38,12 @@ function ready(error, data) {
   }
   var timeData = data;
   var rollupData = d3.nest().key(function(d) {
-    return d.date;
+    return d.id;
   }).rollup(function(d) {
-    return d3.sum(d, function(g) {
-      return g.mwh;
-    });
+    return {mwhAgg: d3.sum(d, function(g) {
+        return g.mwh;
+      })};
   }).entries(timeData);
-  console.log(rollupData);
-  rollupData.forEach(function(d) {
-    d.dateAgg = d.key;
-    d.dateAggParse = parseDate(d.dateAgg);
-    d.mwhAgg = d.value;
-  });
   console.log(rollupData);
   xScale.domain(d3.extent(rollupData, function(d) {
     return d.dateAgg;

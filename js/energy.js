@@ -34,6 +34,7 @@ d3.queue()
 		function(d) {
 		d.date = parseDate(d.date);
 		d.mwh = +d.mwh;
+		d.id = d.id;
 		return d;
 	})
 	.await(ready);
@@ -48,21 +49,25 @@ function ready(error, data) {
 	//data variable that aggregates up mwh (with sum) across energy sources, it's for fun
 	//Source - http://www.d3noob.org/2014/02/grouping-and-summing-data-using-d3nest.html
 	var rollupData = d3.nest()
-		.key(function(d) { return d.date; }) //Our new level of aggregation
-		.rollup(function(d) { return d3.sum(d, function(g) { return g.mwh; }); }) //Sum mwh 
+		.key(function(d) { return d.id; }) //Our new level of aggregation
+		//key will coerce date to string, apparently no choice here: http://bit.ly/2oTTiQ0
+		.rollup(function(d) {
+			return	{ //method for aggregating multiple values: http://bit.ly/2pQOUT8
+				mwhAgg: d3.sum(d, function(g) { return g.mwh; }), //Sum mwh
+			};
+		})  
 		.entries(timeData); //specify timeData as the source data
 
 	console.log(rollupData); //You'll see in console that rollupData is an array of objects, each with two properties
 	//"key" which will be date, and "value" which will be our summed mwh
 
-	//add copes of key and value to the rollupData array for easy reference later
-	rollupData.forEach(function(d) {
-		d.dateAgg = d.key;
-		d.dateAggParse = parseDate(d.dateAgg);
-		d.mwhAgg = d.value;
-	});
+	//add copies of key and value to the rollupData array for easy reference later
+	// rollupData.forEach(function(d) {
+	// 	d.dateAgg = parseDate(d.date);
+	// 	d.mwhAgg = d.value;
+	// });
 
-	console.log(rollupData); //You'll see timeAgg and mwhAgg properties have been added to each Object in rollupData
+	//console.log(rollupData); //You'll see timeAgg and mwhAgg properties have been added to each Object in rollupData
 
 //Add domains to scales
 
