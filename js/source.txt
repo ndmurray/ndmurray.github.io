@@ -1,0 +1,1 @@
+"Craft Cans" dataset from Kaggle: https://www.kaggle.com/nickhould/craft-cans
