@@ -1,229 +1,69 @@
-@charset "UTF-8";
-/*Montserrat font*/
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-/*Theme*/
-/*Dropdown colors*/
-/*Division colors*/
-/*Toolip - line*/
-/*******************STYLES****************************************************************/
-body {
-  font-family: "Century Gothic";
-  color: #F7F7F7;
-  background-color: #1A1F1E; }
+/*
+Error: Undefined variable: "$button-color2".
+        on line 24 of ./8step.io/sass/styleEnergy.scss
 
-/*Header styling*/
-h2#chart-title {
-  font-size: 3em;
-  margin-left: 1em;
-  margin-bottom: 0em; }
+19: 
+20: a:focus, a:hover, a:active, a:visited {
+21:   /*Override bootstrap blue text decoration on a hover*\/
+22:   text-decoration:none !important;
+23:   /*default text styling*\/
+24:   color: $button-color2;
+25: }
+26: 
+27: 
+28: 
+29: 
 
-/*Dropdowns - http://cssdeck.com/labs/pure-css3-smooth-drop-down-menu*/
-#primary_nav_wrap {
-  margin-left: 3em; }
-
-nav ul {
-  -webkit-font-smoothing: antialiased;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 12%;
-  display: inline-block;
-  text-align: center; }
-
-nav li {
-  background-color: #035435;
-  color: white;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  min-width: 25%; }
-
-nav a {
-  display: block;
-  font: 16px/50px "Century Gothic";
-  padding: 0 25px;
-  color: #1A1F1E;
-  text-align: center;
-  text-decoration: none !important;
-  -webkit-transition: all .25s ease;
-  -moz-transition: all .25s ease;
-  -ms-transition: all .25s ease;
-  -o-transition: all .25s ease;
-  transition: all .25s ease; }
-
-a#dropdown-title {
-  color: white; }
-
-nav li ul {
-  left: 0;
-  opacity: 0;
-  width: 100%;
-  position: absolute;
-  top: 50px;
-  visibility: hidden;
-  z-index: 1;
-  -webkit-transition: all .25s ease;
-  -moz-transition: all .25s ease;
-  -ms-transition: all .25s ease;
-  -o-transition: all .25s ease;
-  transition: all .25s ease; }
-
-nav li:hover ul {
-  opacity: 1;
-  top: 50px;
-  visibility: visible;
-  border-top: 6px solid #1A1F1E; }
-
-nav li ul li {
-  float: none;
-  width: 100%;
-  background-color: rgba(247, 247, 247, 0.8);
-  color: #1A1F1E; }
-
-nav li ul a:hover {
-  background: rgba(187, 187, 187, 0.8); }
-
-/* Clearfix */
-.cf:after, .cf:before {
-  content: "";
-  display: table; }
-
-.cf:after {
-  clear: both; }
-
-.cf {
-  zoom: 1; }
-
-ΓÇï
-a:focus, a:hover, a:active, a:visited {
-  /*Override bootstrap blue text decoration on a hover*/
-  text-decoration: none !important;
-  /*default text styling*/
-  color: #1A1F1E; }
-
-/*Canvas container*/
-div#donut-div {
-  display: inline-block;
-  position: relative;
-  width: 33%;
-  height: 60%;
-  vertical-align: top;
-  overflow: hidden; }
-
-div#line-div {
-  display: inline-block;
-  position: relative;
-  width: 66%;
-  height: 60%;
-  vertical-align: top;
-  overflow: hidden; }
-
-/*Donut components*/
-.arc-path {
-  fill: none; }
-
-.path {
-  fill: none;
-  stroke-width: 0.2em; }
-
-#ush-path {
-  stroke: #fbaf43; }
-
-.ush-nodes {
-  fill: #fbaf43; }
-
-#sep-path {
-  stroke: #198f90; }
-
-.sep-nodes {
-  fill: #198f90; }
-
-#ihd-path {
-  stroke: #9bd19d; }
-
-.ihd-nodes {
-  fill: #9bd19d; }
-
-#ieg-path {
-  stroke: #f1594e; }
-
-.ieg-nodes {
-  fill: #f1594e; }
-
-#enr-path {
-  stroke: #9e004d; }
-
-.enr-nodes {
-  fill: #9e004d; }
-
-.value-display {
-  color: #F7F7F7;
-  font-size: 16px;
-  font-weight: bold; }
-
-.date-display {
-  color: #F7F7F7;
-  font-size: 14px; }
-
-.axis path, .axis line {
-  fill: none;
-  stroke: gray; }
-
-.axis text {
-  fill: gray;
-  font-size: 1.4em;
-  font-family: "Century Gothic"; }
-
-.title-display {
-  color: #F7F7F7;
-  font-size: 22px;
-  font-weight: bold; }
-
-.data-display {
-  color: #F7F7F7;
-  font-size: 18px;
-  line-height: 32px;
-  margin-top: -18px; }
-
-div.donut-tip {
-  text-align: center;
-  font-family: "Century Gothic";
-  height: auto;
-  padding: 20px;
-  margin: 6px;
-  font-size: 16px;
-  background: transparent;
-  border: 0px;
-  -webkit-transform: translate(-45%, -50%);
-  pointer-events: none; }
-
-div#line-tip {
-  position: absolute;
-  background-color: rgba(75, 75, 75, 0.8);
-  padding: 10px 10px 0px 10px;
-  margin-left: 56.5px;
-  margin-top: -19px; }
-
-div#line-tip:after {
-  border-top: 16px solid rgba(75, 75, 75, 0.8);
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 0px solid transparent;
-  content: "";
-  position: absolute;
-  left: 0%;
-  margin-left: 30px;
-  width: 0;
-  height: 0;
-  pointer-events: none; }
-
-@media (max-width: 600px) {
-  div#donut-div {
-    width: 100%;
-    /*overrides bootstrap forcing lines below donut */
-    height: 50%; }
-
-  div#line-div {
-    width: 100%;
-    /*overrides bootstrap forcing lines below donut */
-    height: 50%; } }
+Backtrace:
+./8step.io/sass/styleEnergy.scss:24
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/script/tree/variable.rb:49:in `_perform'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/script/tree/node.rb:50:in `perform'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:402:in `visit_prop'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/stack.rb:135:in `with_frame'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:162:in `visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:444:in `block (2 levels) in visit_rule'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:444:in `map'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:444:in `block in visit_rule'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:442:in `visit_rule'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/stack.rb:79:in `block in with_base'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/stack.rb:135:in `with_frame'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/stack.rb:79:in `with_base'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:162:in `visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:52:in `map'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:171:in `block in visit_children'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:170:in `visit_children'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:190:in `visit_root'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:161:in `visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:10:in `visit'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/root_node.rb:20:in `render'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/engine.rb:290:in `render'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:464:in `update_stylesheet'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `each'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/plugin.rb:82:in `update_stylesheets'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/exec/sass_scss.rb:340:in `watch_or_update'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/exec/sass_scss.rb:51:in `process_result'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/exec/base.rb:52:in `parse'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/exec/base.rb:19:in `parse!'
+C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/bin/sass:13:in `<top (required)>'
+C:/Ruby22-x64/bin/sass:23:in `load'
+C:/Ruby22-x64/bin/sass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$button-color2\".\A         on line 24 of ./8step.io/sass/styleEnergy.scss\A \A 19: \A 20: a:focus, a:hover, a:active, a:visited {\A 21:   /*Override bootstrap blue text decoration on a hover*/\A 22:   text-decoration:none !important;\A 23:   /*default text styling*/\A 24:   color: $button-color2;\A 25: }\A 26: \A 27: \A 28: \A 29: "; }

@@ -42,7 +42,9 @@ d3.queue()
 function ready(error, data) {
 	if (error) { console.log(error); } 
 		else { console.log(data); }
-	
+
+//BEGIN LINE
+
 //Data functions
 
 	var timeData = data,
@@ -67,8 +69,7 @@ function ready(error, data) {
 		yAxis = d3.axisLeft().scale(yScale);
 
 //Set up the line canvas
-
-	var svg = d3.select("#line-div").append("svg")
+	var svgLine = d3.select("#line-div").append("svg")
 		.attr("width", lineW + lineMargin.left + lineMargin.right)
 		.attr("height", lineH + lineMargin.top + lineMargin.bottom)
 		.attr("id", "line-canvas")
@@ -84,7 +85,7 @@ function ready(error, data) {
 		.y(function(d) { return yScale(+d.mwh); });
 
 	//Line path
-	svg.selectAll(".line")
+	svgLine.selectAll(".line")
 		.data(annualData)
 		.enter()
 		.append("path")
@@ -110,6 +111,31 @@ function ready(error, data) {
 	svg.append("g")
 		.attr("class","axis y-axis")
 		.call(yAxis);
+
+//Begin Donut.
+
+	//General use variables
+
+	//Margins
+	var nutMargin = { top: 20, right: 20, bottom: 20, left: 20 },
+		nutW = parseInt(d3.select('#donut-div').style('width'),10),
+		nutW = nutW + nutMargin.left + nutMargin.right,
+		nutH = parseInt(d3.select('#donut-div').style('width'),10),
+		nutH = nutH + nutMargin.top + nutMargin.bottom,
+	//Radius
+		outRadius = (nutW/2 * 0.88), //88% of the way from center to edge
+		inRadius = (nutW/2 * 0.64);
+
+//Set up the canvas
+
+	var svgNut = d3.select("#donut-div")
+		.append("svg")
+		.attr("width", nutW + nutMargin.left + nutMargin.right)
+		.attr("height", nutH + nutMargin.top + nutMargin.bottom)
+		.attr("id","donut-canvas")
+		.append("g")
+			.attr("transform","translate(" + ((nutW/2) + nutMargin.left) + "," + ((nutH/2) + nutMargin.top) + ")");
+
 
 }
 
