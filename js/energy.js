@@ -16,6 +16,7 @@ var lineMargin = {top: 20, right: 20, bottom: 60, left: 100},
 
 //Parse dates
 var parseDate = d3.timeParse("%m-%Y"),
+	parseYear = d3.timeParse("%Y"),
     formatMonth = d3.timeFormat("%Y"); //Format at the year level, as we'll roll up to it later
 
 //Range X
@@ -28,7 +29,6 @@ var yScale = d3.scaleLinear().range([lineH,0]);
 var dotRadius = "0.25em";
 
 //Begin data function
-
 d3.queue()
 	.defer(d3.csv,"/8step.io/production_data/energy_data/energy_xstate.csv",
 		function(d) {
@@ -47,43 +47,15 @@ function ready(error, data) {
 
 	var timeData = data,
 		filterVal = "US-TOTAL",
-		filteredData = data.filter(function(d) { return d.state == filterVal && d.source == "Coal"; });
+		filteredData = data.filter(function(d) { return d.state == filterVal ; });
 
 	//Roll up data from month to year
 	//Great resource on nesting - https://proquestionasker.github.io/blog/d3Nest/
 	var annualData = d3.nest()
-		.key(function(d) { return d.year; })
+		.key(function(d) { return d.source; })
 		.entries(filteredData);
 
-		// .rollup(function(d) { return {
-		// 	mwhAgg: d3.sum(d, function(g) { return +g.mwh;})
-		// 	}	
-		// })
-		// .entries(filteredData);
-
 	console.log(annualData);
-	//data variable that aggregates up mwh (with sum) across energy sources, it's for fun
-	//Source - http://www.d3noob.org/2014/02/grouping-and-summing-data-using-d3nest.html
-	//var rollupData = d3.nest()
-	//	.key(function(d) { return d.id; }) //Our new level of aggregation
-		//key will coerce date to string, apparently no choice here: http://bit.ly/2oTTiQ0
-	//	.rollup(function(d) {
-		//	return	{ //method for aggregating multiple values: http://bit.ly/2pQOUT8
-		//		mwhAgg: d3.sum(d, function(g) { return g.mwh; }), //Sum mwh
-	//		};
-	//	})  
-	//	.entries(timeData); //specify timeData as the source data
-
-//	console.log(rollupData); //You'll see in console that rollupData is an array of objects, each with two properties
-	//"key" which will be date, and "value" which will be our summed mwh
-
-	//add copies of key and value to the rollupData array for easy reference later
-	// rollupData.forEach(function(d) {
-	// 	d.dateAgg = parseDate(d.date);
-	// 	d.mwhAgg = d.value;
-	// });
-
-	//console.log(rollupData); //You'll see timeAgg and mwhAgg properties have been added to each Object in rollupData
 
 //Add domains to scales
 
@@ -103,10 +75,9 @@ function ready(error, data) {
 		.append("g")
 			.attr("transform","translate(" + lineMargin.left + "," + lineMargin.top + ")");
 
-//Default Chart elements
+//Default Line Chart elements
 
-
-//Line and line path, inspired by - https://proquestionasker.github.io/blog/d3Nest/
+	//Line and line path, inspired by - https://proquestionasker.github.io/blog/d3Nest/
 	var line = d3.line()
 		.curve(d3.curveLinear)
 		.x(function(d) { return xScale(d.date); })
@@ -118,6 +89,7 @@ function ready(error, data) {
 		.enter()
 		.append("path")
 			.attr("class","line")
+			.attr("class", function(d) { return "line-" + d.key; })//B/c energy source is our key
 			.attr("d", function(d) { return line(d.values); }) //B/c annualData is nested, need to specify 'values' within the data object
 			.attr("fill","none")
 			.attr("stroke","white");
