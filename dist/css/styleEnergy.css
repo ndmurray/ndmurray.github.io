@@ -11,8 +11,8 @@ Error: Undefined variable: "$button-color2".
 25: }
 26: 
 27: 
-28: 
-29: 
+28: /*Canvas container*\/
+29:  
 
 Backtrace:
 ./8step.io/sass/styleEnergy.scss:24
@@ -66,4 +66,4 @@ C:/Ruby22-x64/bin/sass:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$button-color2\".\A         on line 24 of ./8step.io/sass/styleEnergy.scss\A \A 19: \A 20: a:focus, a:hover, a:active, a:visited {\A 21:   /*Override bootstrap blue text decoration on a hover*/\A 22:   text-decoration:none !important;\A 23:   /*default text styling*/\A 24:   color: $button-color2;\A 25: }\A 26: \A 27: \A 28: \A 29: "; }
+  content: "Error: Undefined variable: \"$button-color2\".\A         on line 24 of ./8step.io/sass/styleEnergy.scss\A \A 19: \A 20: a:focus, a:hover, a:active, a:visited {\A 21:   /*Override bootstrap blue text decoration on a hover*/\A 22:   text-decoration:none !important;\A 23:   /*default text styling*/\A 24:   color: $button-color2;\A 25: }\A 26: \A 27: \A 28: /*Canvas container*/\A 29:  "; }

@@ -98,7 +98,7 @@ function ready(error, data) {
 //Call axes
 
 	//Xaxis
-	svg.append("g")
+	svgLine.append("g")
 		.attr("class","axis x-axis")
 		.attr("transform","translate(0," + lineH + ")")
 		.call(xAxis);
@@ -108,7 +108,7 @@ function ready(error, data) {
 
 
 	//Yaxis
-	svg.append("g")
+	svgLine.append("g")
 		.attr("class","axis y-axis")
 		.call(yAxis);
 
