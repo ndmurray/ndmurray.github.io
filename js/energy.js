@@ -16,7 +16,7 @@ var lineMargin = {top: 20, right: 20, bottom: 60, left: 100},
 
 //Parse dates
 var parseDate = d3.timeParse("%m-%Y"),
-    formatMonth = d3.timeFormat("%b-%y");
+    formatMonth = d3.timeFormat("%Y"); //Format at the year level, as we'll roll up to it later
 
 //Range X
 var xScale = d3.scaleTime().range([0,lineW]);
@@ -45,7 +45,23 @@ function ready(error, data) {
 	
 //Data functions
 
-	var timeData = data;
+	var timeData = data,
+		filterVal = "US-TOTAL",
+		filteredData = data.filter(function(d) { return d.state == filterVal && d.source == "Coal"; });
+
+	//Roll up data from month to year
+	//Great resource on nesting - https://proquestionasker.github.io/blog/d3Nest/
+	var annualData = d3.nest()
+		.key(function(d) { return d.year; })
+		.entries(filteredData);
+
+		// .rollup(function(d) { return {
+		// 	mwhAgg: d3.sum(d, function(g) { return +g.mwh;})
+		// 	}	
+		// })
+		// .entries(filteredData);
+
+	console.log(annualData);
 	//data variable that aggregates up mwh (with sum) across energy sources, it's for fun
 	//Source - http://www.d3noob.org/2014/02/grouping-and-summing-data-using-d3nest.html
 	//var rollupData = d3.nest()
@@ -71,18 +87,12 @@ function ready(error, data) {
 
 //Add domains to scales
 
-	xScale.domain(d3.extent(timeData, function(d) { return d.date; }));
-	yScale.domain(d3.extent(timeData, function(d) { return d.mwh; })).nice();
+	xScale.domain(d3.extent(filteredData, function(d) { return d.date; }));
+	yScale.domain(d3.extent(filteredData, function(d) { return d.mwh; })).nice();
 
 //Define Axes
-	var xAxis = d3.axisBottom().scale(xScale).tickFormat(formatMonth).ticks(20),
+	var xAxis = d3.axisBottom().scale(xScale).tickFormat(formatMonth),
 		yAxis = d3.axisLeft().scale(yScale);
-
-//Define the line function
-	var line = d3.line()
-		.curve(d3.curveLinear)
-		.x(function(d) { return xScale(d.date); })
-		.y(function(d) { return yScale(d.mwh); });
 
 //Set up the line canvas
 
@@ -95,12 +105,22 @@ function ready(error, data) {
 
 //Default Chart elements
 
+
+//Line and line path, inspired by - https://proquestionasker.github.io/blog/d3Nest/
+	var line = d3.line()
+		.curve(d3.curveLinear)
+		.x(function(d) { return xScale(d.date); })
+		.y(function(d) { return yScale(+d.mwh); });
+
 	//Line path
-	var pathAll = svg.append("path")
-		.datum(timeData)
-		.attr("d", line)
-		.attr("fill","white")
-		.attr("stroke","white");
+	svg.selectAll(".line")
+		.data(annualData)
+		.enter()
+		.append("path")
+			.attr("class","line")
+			.attr("d", function(d) { return line(d.values); }) //B/c annualData is nested, need to specify 'values' within the data object
+			.attr("fill","none")
+			.attr("stroke","white");
 
 //Call axes
 
