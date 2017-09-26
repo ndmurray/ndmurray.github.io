@@ -1,7 +1,7 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 80, right: 140, bottom: 40, left: 60},
+	var	margin = {top: 40, right: 140, bottom: 40, left: 60},
 		w = parseInt(d3.select('#scatter-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#scatter-div').style('height'),10),

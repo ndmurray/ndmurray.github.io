@@ -15,7 +15,7 @@ body {
 h2#chart-title {
   font-size: 32px;
   margin-left: 1em;
-  margin-bottom: 1em; }
+  margin-bottom: 0.4em; }
 
 /*Canvas container*/
 div#scatter-div {
@@ -65,6 +65,7 @@ ul li {
 .dropdown {
   padding: 7px 10px;
   width: 10em;
+  position: relative;
   background-color: #791636;
   text-align: center;
   float: left; }
@@ -118,7 +119,7 @@ ul li {
   from {
     height: 0; }
   to {
-    height: 285; } }
+    height: 261; } }
 /*Sidebar made from a d3-tips*/
 /******************************************Tooltip Styling. Edited from the original 
 http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css*************************************/
