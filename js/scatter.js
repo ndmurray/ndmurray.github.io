@@ -277,7 +277,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		.attr({
 			class:"y-label",
 			"text-anchor": "middle",
-			transform: function(d) { return "translate(" + 0 + "," + (h + xaxisShiftY)/2 + ") rotate(-90)"; }
+			transform: function(d) { return "translate(" + 10 + "," + (h + xaxisShiftY)/2 + ") rotate(-90)"; }
 		})
 		.text(titleY);	
 

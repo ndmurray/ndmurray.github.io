@@ -1,5 +1,14 @@
 /*NM Added Styles*/
 
+
+/*Datviz iframes*/
+iframe.viz-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/*About me page*/
 h2#port-title {
 	color: black;
 }
@@ -30,8 +39,9 @@ div#progress-div {
  * Designed and built based on Twitter Bootstrap.
  * Tags: multipurpose, agency theme, one page, single page, responsive, flat */
 
-
+/*Fonts*/
 @import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
 
 @font-face {
 	font-family: 'icomoon';
@@ -55,7 +65,8 @@ body, html { font-size: 100%; padding: 0; margin: 0; height: 100%;}
 }
 
 body {
-    font-family: 'Lato', Calibri, Arial, sans-serif;
+   /*font-family: 'Lato', Calibri, Arial, sans-serif;*/
+    font-family: 'Century Gothic';
     color: #f2ede3;
     background: #333;
     font-size: 0.9em;
@@ -168,10 +179,10 @@ a:hover {
 	margin: 0;
 	padding: 20px;
 	width: 100%;
-	font-size: 1.8em;
+	font-size: 3em;
 	letter-spacing: 2px;
 	font-weight: 700;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	text-shadow: 1px 1px 4px #2f2c2c;
 }
 
@@ -392,7 +403,7 @@ div.bl-panel-items nav {
 	position: absolute;
 	z-index: 9999;
 	width: 216px;
-	left: 50%;
+	left: 90%;
 	top: 0px;
 	margin-left: -108px;
 	opacity: 0;
@@ -407,10 +418,10 @@ div.bl-panel-items.bl-panel-items-show nav span {
 }
 
 div.bl-panel-items nav span.bl-next-work {
-	font-weight: 700;
+	/*font-weight: 700;*/
 	letter-spacing: 2px;
 	display: block;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	line-height: 2em;
 	cursor: pointer;
 	margin-right: 2em;

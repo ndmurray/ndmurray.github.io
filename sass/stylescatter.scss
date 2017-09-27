@@ -2,13 +2,13 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 /*Theme*/
-$default-font: 'Montserrat';
-$default-color: #F7F7F7; 
+$default-font: 'Century Gothic';
+$default-color: #f2ede3; 
 $page-background: #1A1F1E; //"night sweat"
 //#18071E;
 
 /*Dropdown colors*/
-$base : white; //text color for dropdown header
+$base : #f2ede3; //text color for dropdown header
 $flat: #791636; //backgound/highlight color
 $dark: gray; //dropdown text color
 
@@ -24,7 +24,6 @@ $dark: gray; //dropdown text color
 @mixin position{
   margin-left: -10px;
 }
-
 
 /*Dot colors*/
 $dot-color: rgb(132,22,6)/*#D63510*/; 
@@ -52,7 +51,10 @@ body {
 h2#chart-title {
 	font-size: 32px;
   margin-left: 1em;
+  margin-top: 0.5em;
   margin-bottom: 0.4em;
+  font-weight: normal;
+  letter-spacing: 2px;
 }
 
 /*Canvas container*/
@@ -82,7 +84,7 @@ div#scatter-div {
 .xaxis text, .yaxis text {
 	fill: $default-color;
 	font-family: $default-font;
-	font-size: 1em;
+	font-size: 0.7em;
 }
 
 //Axes labels
@@ -91,6 +93,8 @@ div#scatter-div {
   font-size: 1.2em; 
   fill: $default-color;
   font-family: $default-font;
+  letter-spacing: 2px;
+  font-size: 1em;
 }
 
 

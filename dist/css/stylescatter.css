@@ -7,15 +7,18 @@
 /*Tooltip colors*/
 /*******************STYLES****************************************************************/
 body {
-  font-family: "Montserrat";
-  color: #F7F7F7;
+  font-family: "Century Gothic";
+  color: #f2ede3;
   background-color: #1A1F1E; }
 
 /*Header styling*/
 h2#chart-title {
   font-size: 32px;
   margin-left: 1em;
-  margin-bottom: 0.4em; }
+  margin-top: 0.5em;
+  margin-bottom: 0.4em;
+  font-weight: normal;
+  letter-spacing: 2px; }
 
 /*Canvas container*/
 div#scatter-div {
@@ -30,18 +33,20 @@ div#scatter-div {
 .xaxis path, .xaxis line,
 .yaxis path, .yaxis line {
   fill: none;
-  stroke: #F7F7F7;
+  stroke: #f2ede3;
   shape-rendering: crispEdges; }
 
 .xaxis text, .yaxis text {
-  fill: #F7F7F7;
-  font-family: "Montserrat";
-  font-size: 1em; }
+  fill: #f2ede3;
+  font-family: "Century Gothic";
+  font-size: 0.7em; }
 
 .x-label, .y-label {
   font-size: 1.2em;
-  fill: #F7F7F7;
-  font-family: "Montserrat"; }
+  fill: #f2ede3;
+  font-family: "Century Gothic";
+  letter-spacing: 2px;
+  font-size: 1em; }
 
 /*Guidelines*/
 .guide line {
@@ -71,10 +76,10 @@ ul li {
   float: left; }
 
 .dropdown .top {
-  color: white; }
+  color: #f2ede3; }
 
 .dropdown li ul li:hover {
-  color: white;
+  color: #f2ede3;
   background-color: #63122c;
   padding: 7px 10px;
   width: 14em;
@@ -85,7 +90,7 @@ ul li {
   width: 14em;
   margin-left: -10px;
   color: gray;
-  border-bottom: 1px solid #f2f2f2; }
+  border-bottom: 1px solid #eae2d2; }
 
 .dropdown li ul li:first-child {
   margin-top: -7px; }
@@ -94,7 +99,7 @@ ul li {
   height: 0;
   overflow: hidden;
   display: none;
-  background-color: white;
+  background-color: #f2ede3;
   width: 100%;
   left: 0px;
   top: 34px;
@@ -108,7 +113,7 @@ ul li {
 .dropdown:hover .dropdown-box,
 .dropdown li:active .dropdown-box {
   display: inline-block;
-  background-color: white;
+  background-color: #f2ede3;
   position: absolute;
   animation: box 0.25s ease;
   animation-iteration-count: 1;
