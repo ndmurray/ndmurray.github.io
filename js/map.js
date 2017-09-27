@@ -5,7 +5,7 @@
 		w = parseInt(d3.select('#map-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#map-div').style('height'),10),
-		h = h - margin.top - margin.bottom;
+		h = h - margin.top - margin.bottom
 
 	//Default values
 	var legendTitle = "Median Household Income ($)";

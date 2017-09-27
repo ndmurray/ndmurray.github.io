@@ -102,7 +102,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			transform: "translate(" + margin.left + "," + margin.top + ")"
 		});
 
-//Define linear scales
+//Define scales
 
 	//X scale
 	var xScale = d3.scale.linear()
@@ -122,6 +122,12 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		.domain([0, d3.max(worldData,function(d) { return dataR(d); })])
 		.range([4, 40])
 		.nice();
+
+	//Ordinal scale for colors, should also be used for colors too although it isn't
+	var colorScale = d3.scale.ordinal()
+		 .domain(["Low", "Lower Middle", "Upper Middle", "High, Non-OECD", "High, OECD"])
+ 		 .range([ "#991766", "#D90F5A", "#F34739", "#FF6E27", "#FFB627"]);
+
 
 //Define axes
 
@@ -156,6 +162,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				.attr("stroke",d3.select(".a-dot").attr("fill"));
 
 	};
+
 
 
 //Mouseover events
