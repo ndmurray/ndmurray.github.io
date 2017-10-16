@@ -189,7 +189,7 @@ function ready(error, usa, data) {// my understanding is that we list usa, data 
 		// .shapePadding(60)
 		.useClass(false)
 		//.orient('horizontal')
-		.title(legendTitle)
+		//.title(legendTitle)
 		.titleWidth(240)
 		.scale(cScale);
 
@@ -342,8 +342,8 @@ function ready(error, usa, data) {// my understanding is that we list usa, data 
 			.duration(500)
 			.attr("opacity",0)
 			.on("end", function(){
-				legend.labelFormat(legendFormat)
-					.title(legendTitle);
+				legend.labelFormat(legendFormat);
+					//.title(legendTitle); 
 					svg.call(legend);
 				
 			});	
