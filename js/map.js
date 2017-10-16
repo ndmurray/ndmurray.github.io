@@ -1,7 +1,7 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 10, right: 10, bottom: 10, left: 80},
+	var	margin = {top: 10, right: 10, bottom: 10, left: 10},
 		w = parseInt(d3.select('#map-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#map-div').style('height'),10),
@@ -180,7 +180,7 @@ function ready(error, usa, data) {// my understanding is that we list usa, data 
 	svg.append("g")
 		.attr("class","legendQuant")
 		.attr("opacity",1)
-		.attr("transform","translate("+ (0.9 * mapWidth) +"," + (0.33 * h) + ")");
+		.attr("transform","translate("+ (0.9 * mapWidth) +"," + (0.4 * h) + ")");
 
 	var legend = d3.legendColor()
 		.labelFormat(legendFormat)

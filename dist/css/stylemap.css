@@ -14,19 +14,19 @@ body {
 /*Header styling*/
 div#header-row {
   height: 6em;
-  padding: 2em 4em 4em 6em; }
+  padding: 1em 4em 4em 6em; }
 
 div#nav {
   margin-left: 5em;
   margin-top: 1em;
-  margin-bottom: 1.5em; }
+  margin-bottom: 0.75em; }
 
 div.chart-title {
   font-size: 2.5em; }
 
 #button-div {
   display: inline-block;
-  margin-left: 1em;
+  margin-top: -1em;
   vertical-align: top; }
 
 a.choice {
@@ -49,7 +49,7 @@ a.choice {
 
 /*Canvas container*/
 div#map-div {
-  height: 100%; }
+  height: 80%; }
 
 /*Map elements*/
 .state-boundaries {
