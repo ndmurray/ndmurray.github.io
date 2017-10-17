@@ -1,11 +1,43 @@
 /*NM Added Styles*/
 
+/*Montserrat font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 /*Datviz iframes*/
 iframe.viz-frame {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/*Back button thing*/
+
+span.bl-icon-back {
+    left: 30px;
+    font-size: 1.3em;
+}
+
+.left-carrot:nth-child(2) {
+	border-right: 0.7em solid black;
+}
+
+
+.left-carrot {
+    border-right: 0.7em solid #f2ede3;
+    border-top: 0.5em solid transparent;
+    border-bottom: 0.5em solid transparent;
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    display: inline;
+    top: 0px;
+    left: -15px;
+}
+
+
+
+.bl-icon-back > p {
+    padding-left: 5px;
 }
 
 /*About me page*/
@@ -29,8 +61,8 @@ div#progress-div {
 }
 
 /*Override bootstrap on h elements*/
-h1,h2,h3,h4,h5,h6 {
-	font-family: "Montserrat" !important;
+h1,h2,h3,h4,h5,h6,p,span,div {
+	font-family: "Montserrat";
 }
 
 /*!
@@ -44,8 +76,7 @@ h1,h2,h3,h4,h5,h6 {
  * Designed and built based on Twitter Bootstrap.
  * Tags: multipurpose, agency theme, one page, single page, responsive, flat */
 
-/*Montserrat font*/
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
 
 /*Fonts*/
 /*@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);*/
@@ -74,7 +105,6 @@ body, html { font-size: 100%; padding: 0; margin: 0; height: 100%;}
 
 body {
    /*font-family: 'Lato', Calibri, Arial, sans-serif;*/
-    font-family: 'Montserrat';
     color: #f2ede3;
     background: #333;
     font-size: 0.9em;
@@ -215,7 +245,7 @@ a:hover {
 .bl-main > section .bl-icon-close {
 	position: absolute;
 	top: 20px;
-	left: 20px;
+	left: 32px;
 	cursor: pointer;
 	z-index: 100;
 	opacity: 0;
@@ -252,7 +282,7 @@ div.bl-panel-items > div > div {
 .bl-content h2 {
 	font-size: 3em;
 	font-weight: 300;
-	margin: 0 0 20px 0;
+	margin: 20px 0 20px 0;
 }
 
 .bl-content article {
@@ -489,12 +519,12 @@ div.bl-panel-items > div.bl-hide-current-work {
 .bl-main > section:first-child.bl-expand {
 	background: #f0c51c; /*yellow*/
 	color: black;
-}
+}#1f3c5e
 .bl-main > section:nth-child(2).bl-expand {
 	background: #35402d;/*Dark green*/
 }
 .bl-main > section:nth-child(3).bl-expand {
-	background: #43648c; /*Blue*/
+	background: #1f3c5e; /*Blue*/
 }
 .bl-main > section:nth-child(4).bl-expand {
 	background: #bfbfbf;
