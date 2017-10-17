@@ -7,7 +7,7 @@
 /*Tooltip colors*/
 /*******************STYLES****************************************************************/
 body {
-  font-family: "Century Gothic";
+  font-family: "Montserrat";
   color: #f2ede3;
   background-color: #1A1F1E; }
 
@@ -38,13 +38,13 @@ div#scatter-div {
 
 .xaxis text, .yaxis text {
   fill: #f2ede3;
-  font-family: "Century Gothic";
+  font-family: "Montserrat";
   font-size: 0.7em; }
 
 .x-label, .y-label {
   font-size: 1.2em;
   fill: #f2ede3;
-  font-family: "Century Gothic";
+  font-family: "Montserrat";
   letter-spacing: 2px;
   font-size: 1em; }
 

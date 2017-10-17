@@ -7,7 +7,7 @@
 /*Map elements*/
 /*******************STYLES****************************************************************/
 body {
-  font-family: "Century Gothic";
+  font-family: "Montserrat";
   color: white;
   background-color: #1A1F1E; }
 
@@ -47,11 +47,11 @@ a.choice {
   display: inline-block;
   width: 46em; }
 
+/*Map elements*/
 /*Canvas container*/
 div#map-div {
   height: 80%; }
 
-/*Map elements*/
 .state-boundaries {
   fill: none;
   stroke: transparent;

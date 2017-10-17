@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 /*Theme*/
-$default-font: 'Century Gothic';
+$default-font: 'Montserrat';
 $default-color: white; 
 $page-bkgd: #1A1F1E; //"night sweat"
 
@@ -77,13 +77,13 @@ a.choice {
   width: 46em;
 }
 
+
+/*Map elements*/
 /*Canvas container*/
 
 div#map-div {
   height: 80%;
 } 
-
-/*Map elements*/
 
 .state-boundaries {
   fill: none;
