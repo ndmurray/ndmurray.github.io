@@ -83,7 +83,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		.direction('e')
   		.html(function(d) {
   		  return "<p id='tiphead'>" + d.country  + "</p><p class='tip-subhead'>Income Group:</p><p class='tip-body'>" + (d.ig) + "</p>"
-  		   + "<p class='tip-subhead'>Region:</p><p class='tip-body'>" + (d.region) + "</p>";
+  		   + "<p class='tip-subhead'>Region:</p><p class='tip-body'>" + d.region + "</p>"
+  		   + dataX(d) + ", " + dataY(d) + ", " + dataR(d);
  		 });
 
 
@@ -250,7 +251,6 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.on('mouseover',mouseOn)
 			.on('mouseleave',dotTips.hide)
 			.on('mouseout',mouseOff);
-
 
 //Call axes
 
