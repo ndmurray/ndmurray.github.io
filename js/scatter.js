@@ -78,15 +78,19 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	var dotTips = d3.tip()
 		.attr("class", "d3-tip")
 		.style({top: infoTop, left: infoLeft,
-				width: infoWidth, height: infoHeight})
+				width: infoWidth, height: infoHeight, 'background-color'
+				:'transparent', 'opacity':0})
 		//size and positioning values in .style not .attr bc tooltip is a div, not svg.
 		.direction('e')
   		.html(function(d) {
-  		  return "<p id='tiphead'>" + d.country  + "</p><p class='tip-subhead'>Income Group:</p><p class='tip-body'>" + (d.ig) + "</p>"
+  		  return "<p id='tiphead'>" + d.country  + "</p><p class='tip-subhead'>Income Group:</p><p class='tip-body'>" + d.ig + "</p>"
   		   + "<p class='tip-subhead'>Region:</p><p class='tip-body'>" + d.region + "</p>"
-  		   + dataX(d) + ", " + dataY(d) + ", " + dataR(d);
+  		   + dataX(d) + ", " + dataY(d) + ", " + dataR(d) + d.color;
  		 });
 
+  	
+
+ 
 
 //Set up the canvas
 	var svg = d3.select("#scatter-div")
@@ -164,8 +168,6 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 	};
 
-
-
 //Mouseover events
 
 	var mouseOn = function() {
@@ -177,6 +179,10 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		guideLines();
 	
 		d3.selectAll("circle.dots").attr("opacity", 0.15);
+
+		d3.select('.d3-tip')
+		.style("background-color", d3.select(".a-dot").attr("fill"))
+		.style('opacity',0.5);
 
 	};
 	
