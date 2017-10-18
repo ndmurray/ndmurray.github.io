@@ -149,15 +149,15 @@ http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css***************
   box-shadow: 1px 1px 2px black; }
 
 p#tiphead {
-  color: white;
+  /*color: $tooltip-head-color;*/
   font-size: 1.5em;
   margin-top: 10px; }
 
 p.tip-body {
-  color: white; }
+  /*color: $tooltip-color;*/ }
 
 p.tip-subhead {
-  color: white;
+  /*color: $tooltip-head-color;*/
   margin-bottom: 10px; }
 
 /* Creates a small triangle extender for the tooltip */

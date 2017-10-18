@@ -43,7 +43,6 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		console.log(data);
 	}
 
-
 //Key dataset-dependent variables
 
 	//Data and key functions
@@ -87,10 +86,6 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
   		   + "<p class='tip-subhead'>Region:</p><p class='tip-body'>" + d.region + "</p>"
   		   + dataX(d) + ", " + dataY(d) + ", " + dataR(d) + d.color;
  		 });
-
-  	
-
- 
 
 //Set up the canvas
 	var svg = d3.select("#scatter-div")
@@ -180,8 +175,10 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	
 		d3.selectAll("circle.dots").attr("opacity", 0.15);
 
+		//Hover specific tip styling
 		d3.select('.d3-tip')
 		.style("background-color", d3.select(".a-dot").attr("fill"))
+		.style("color", d3.select(".a-dot").attr("stroke"))
 		.style('opacity',0.5);
 
 	};
@@ -245,6 +242,16 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 					else if (d.ig == "High income: OECD") { return "#FFB627"; } //light pink
 					else { return "black"; }
 					},
+				"stroke": function(d) {
+					//colors inspired by "irredescent sunset" palette: http://www.colourlovers.com/palette/765305/japan9
+					if (d.ig == "High income: nonOECD") { return "#1A1F1E"; } //night sweat
+					else if (d.ig == "Low income") { return "#f2ede3"; }// off white
+					else if (d.ig == "Upper middle income") { return "#1A1F1E"; } //night sweat
+					else if (d.ig == "Lower middle income") { return "#1A1F1E"; } //night sweat
+					else if (d.ig == "High income: OECD") { return "#1A1F1E"; } //night sweat
+					else { return "black"; }
+					},
+				"stroke-width": 0,
 				"opacity": 0.85
 			})
 			.style({
