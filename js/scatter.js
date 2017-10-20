@@ -232,7 +232,10 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				cx: function(d) { return xScale(dataX(d)); },
 				cy: function(d) { return yScale(dataY(d)); },
 				r: function(d) { return rScale(dataR(d)); },
-				"pointer-events": "all",
+				"pointer-events": function(d) { if(dataX(d) == NaN || dataY(d) == NaN) {
+									return "none"}
+								  else { return "all" }
+								}, 
 				"fill": function(d) {
 					//colors inspired by "irredescent sunset" palette: http://www.colourlovers.com/palette/765305/japan9
 					if (d.ig == "High income: nonOECD") { return "#FF6E27"; } //yelllow green
@@ -252,7 +255,10 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 					else { return "black"; }
 					},
 				"stroke-width": 0,
-				"opacity": 0.85
+				"opacity": function(d) { if(dataX(d) == NaN || dataY(d) == NaN) {
+									return 0}
+								  else { return 0.85 }
+								}
 			})
 			.style({
 				//filter: "url(#dots-filter)"
@@ -315,36 +321,42 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 		var dataX = function(d) { return eval(xValue); }; //eval to evaluate the string pulled from the HTML element
 
+
 		//Define X display values
 		switch (xValue) {
 			case "+d.gini":
 				titleX = "Gini Index";
+				citeX = "A measure of country level inequality, with 1 being the most unequal sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SI.POV.GINI' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.press":
 				titleX = "Press Freedom";
+				citeX = "An annual rating of press freedom at the country level, 1 being the most free, 100 being the least. Sourced from <a href='https://.org/en/ranking' target='_blank'>Reporters Without Borders</a>.";
 				break;
 			case "+d.mfr":
 				titleX = "Population, % Female";
+				citeX = "Sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SP.POP.TOTL.FE.ZS' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.life_exp":
 				titleX = "Life Expectancy";
+				citeX = "Life expectancy in years sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SP.DYN.LE00.IN' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.gre":
 				titleX = "Female enrollment ratio";
+				citeX = "Total enrollment as a percent of the female population, adjusted for age grou. Sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SE.SEC.ENRR.FE' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.corruption":
 				titleX = "Control of Corruption";
+				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/databases/control-of-corruption' target='_blank'>World development indicators</a>."
 				break;
 			case "+d.polistab":
 				titleX = "Political Stability";
+				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development indicators</a>."
 				break;
 			case "+d.gdphead":
 				titleX = "GDP per Capita";
+				citeX = "GDP / Total Population, sourced from the World Bank's <a href='https://data.worldbank.org/indicator/NY.GDP.PCAP.CD' target='_blank'>World Development Indicators</a>."
 				break;
-
-
-		}
-
+		};
 
 		//Update xScale
 		var xScale = d3.scale.linear()
@@ -370,7 +382,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		xLabel.text(titleX);
 
 		//Update title
-		titleText.text(titleX + " vs. " + titleY);
+		titleText.text(titleX + " vs. " + titleY + ", dots sized by GDP per capita.");
 
 		//Call x axis
 		d3.select(".xaxis")
@@ -398,29 +410,37 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		switch (yValue) {
 			case "+d.gini":
 				titleY = "Gini Index";
+				citeY = "A measure of country level inequality, with 1 being the most unequal sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SI.POV.GINI' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.press":
 				titleY = "Press Freedom";
+				citeY = "An annual rating of press freedom at the country level, 1 being the most free, 100 being the least. Sourced from <a href='https://.org/en/ranking' target='_blank'>Reporters Without Borders</a>.";
 				break;
 			case "+d.mfr":
 				titleY = "Population, % Female";
+				citeY = "Sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SP.POP.TOTL.FE.ZS' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.life_exp":
 				titleY = "Life Expectancy";
+				citeY = "Life expectancy in years sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SP.DYN.LE00.IN' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.gre":
 				titleY = "Female enrollment ratio";
+				citeY = "Total enrollment as a percent of the female population, adjusted for age grou. Sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SE.SEC.ENRR.FE' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.corruption":
 				titleY = "Control of Corruption";
+				citeY = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/databases/control-of-corruption' target='_blank'>World development indicators</a>."
 				break;
 			case "+d.polistab":
 				titleY = "Political Stability";
+				citeY = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development indicators</a>."
 				break;
 			case "+d.gdphead":
 				titleY = "GDP per Capita";
+				citeY = "GDP / Total Population, sourced from the World Bank's <a href='https://data.worldbank.org/indicator/NY.GDP.PCAP.CD' target='_blank'>World Development Indicators</a>."
 				break;
-		}
+		};
 
 		//Update yScale
 		var yScale = d3.scale.linear()
@@ -444,7 +464,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		yLabel.text(titleY);
 
 		//Update title
-		titleText.text(titleX + " vs. " + titleY);
+		titleText.text(titleX + " vs. " + titleY + ", dots sized by GDP per capita.");
 
 		//Call y axis
 		d3.select(".yaxis")
