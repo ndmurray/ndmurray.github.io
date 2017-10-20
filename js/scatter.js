@@ -1,7 +1,7 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 40, right: 140, bottom: 40, left: 60},
+	var	margin = {top: 40, right: 140, bottom: 60, left: 60},
 		w = parseInt(d3.select('#scatter-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#scatter-div').style('height'),10),
@@ -15,15 +15,15 @@
 	    dotsShiftX = 0,
 	    dotsShiftY = 0, 
 	    xaxisShiftX = 60,
-	    yaxisShiftX = 60,
-	    xaxisShiftY = -60,
+	    yaxisShiftX = 50,
+	    xaxisShiftY = -50,
 	    yaxisShiftY = 0;
 
 	//Positioning of hover information
 	var infoTop = 115,
 		infoLeft = w + margin.left,
-		infoWidth = 12 + "em",
-		infoHeight = 24 + "em"; 
+		infoWidth = 13 + "em",
+		infoHeight = 26.65 + "em"; 
 
 	//Transitions
 	// var maxDelay = 10000,
@@ -57,7 +57,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	var dataX = function(d) { return +d.polistab; };
 	//var dataX = function(d) { return 100 - +d.press; };
 	//var dataX = function(d) { return 1 - +d.gini/100; };
-	var dataY = function(d) { return 100 - +d.press; };
+	var dataY = function(d) { return +d.press; };
 	//var dataY = function(d) { return 100 - +d.press; };
 	var dataR = function(d) { return +d.gdphead; };
 	console.log(dataX.toString());
@@ -66,25 +66,26 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	var titleX = "Political Stabtility";
 	var titleY = "Press Freedom";
 	var titleR = "GDP per Capita";
+	var citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development indicators</a>.";
+	var citeY = "An annual rating of press freedom at the country level, 1 being the most free, 100 being the least. Sourced from <a href='https://.org/en/ranking' target='_blank'>Reporters Without Borders</a>.";
 
 //Chart title
 
-	var titleText = d3.select("h2#chart-title").append("text")
+	var titleText = d3.select("h3#chart-subhead").append("text")
 		.attr("class", "title-text")
-		.text(titleX + " vs. " + titleY);
+		.text(titleX + " vs. " + titleY + ", dots sized by GDP per capita.");
 
 //Tooltips - http://bit.ly/22HClnd
 	var dotTips = d3.tip()
 		.attr("class", "d3-tip")
 		.style({top: infoTop, left: infoLeft,
-				width: infoWidth, height: infoHeight, 'background-color'
+				width: infoWidth, 'background-color'
 				:'transparent', 'opacity':0})
 		//size and positioning values in .style not .attr bc tooltip is a div, not svg.
 		.direction('e')
   		.html(function(d) {
-  		  return "<p id='tiphead'>" + d.country  + "</p><p class='tip-subhead'>Income Group:</p><p class='tip-body'>" + d.ig + "</p>"
-  		   + "<p class='tip-subhead'>Region:</p><p class='tip-body'>" + d.region + "</p>"
-  		   + dataX(d) + ", " + dataY(d) + ", " + dataR(d) + d.color;
+  		  return "<p id='tiphead'>" + d.country  + "</p><p id='region'>" + d.region + "</span></p><p>" + titleX + "<p class='tip-value'>" + dataX(d) + "</p><p>" + titleY + "</p>"
+  		   + "<p class='tip-value'>" + dataY(d) + "</p><div id='citation'><div class='citation-title'>" + titleX + "</div><br />" + citeX + "<br /><br /><div class='citation-title'>" + titleY + "</div><br />" + citeY + "</div>";
  		 });
 
 //Set up the canvas
@@ -164,7 +165,6 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 	};
 
 //Mouseover events
-
 	var mouseOn = function() {
 		d3.select(this)
 			.attr("opacity",1.0)
@@ -245,7 +245,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				"stroke": function(d) {
 					//colors inspired by "irredescent sunset" palette: http://www.colourlovers.com/palette/765305/japan9
 					if (d.ig == "High income: nonOECD") { return "#1A1F1E"; } //night sweat
-					else if (d.ig == "Low income") { return "#f2ede3"; }// off white
+					else if (d.ig == "Low income") { return "#1A1F1E"; }// also night sweat...
 					else if (d.ig == "Upper middle income") { return "#1A1F1E"; } //night sweat
 					else if (d.ig == "Lower middle income") { return "#1A1F1E"; } //night sweat
 					else if (d.ig == "High income: OECD") { return "#1A1F1E"; } //night sweat
@@ -324,7 +324,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				titleX = "Press Freedom";
 				break;
 			case "+d.mfr":
-				titleX = "Male to female Ratio";
+				titleX = "Population, % Female";
 				break;
 			case "+d.life_exp":
 				titleX = "Life Expectancy";
@@ -341,6 +341,8 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			case "+d.gdphead":
 				titleX = "GDP per Capita";
 				break;
+
+
 		}
 
 
@@ -376,7 +378,11 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.duration(1000)
 			.call(xAxis);
 
-		
+		//Update tooltip
+		dotTips.html(function(d) {
+  		  return "<p id='tiphead'>" + d.country  + "</p><p id='region'>" + d.region + "</span></p><p>" + titleX + "<p class='tip-value'>" + dataX(d) + "</p><p>" + titleY + "</p>"
+  		   + "<p class='tip-value'>" + dataY(d) + "</p><div id='citation'><div class='citation-title'>" + titleX + "</div><br />" + citeX + "<br /><br /><div class='citation-title'>" + titleY + "</div><br />" + citeY + "</div>";
+ 		 });		
 	});
 
 //Update Y
@@ -397,7 +403,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				titleY = "Press Freedom";
 				break;
 			case "+d.mfr":
-				titleY = "Male to female Ratio";
+				titleY = "Population, % Female";
 				break;
 			case "+d.life_exp":
 				titleY = "Life Expectancy";
@@ -445,7 +451,11 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.transition()
 			.duration(1000)
 			.call(yAxis);
-		
+		//Update tooltip
+		dotTips.html(function(d) {
+  		  return "<p id='tiphead'>" + d.country  + "</p><p id='region'>" + d.region + "</span></p><p>" + titleX + "<p class='tip-value'>" + dataX(d) + "</p><p>" + titleY + "</p>"
+  		   + "<p class='tip-value'>" + dataY(d) + "</p><div id='citation'><div class='citation-title'>" + titleX + "</div><br />" + citeX + "<br /><br /><div class='citation-title'>" + titleY + "</div><br />" + citeY + "</div>";
+ 		 });
 	});
 
 

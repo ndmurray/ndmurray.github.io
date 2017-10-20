@@ -49,9 +49,16 @@ body {
 /*Header styling*/
 
 h2#chart-title {
-	font-size: 32px;
-  margin-left: 1em;
+  letter-spacing: 2px;
+  font-size: 36px;
+  margin-left: 1.2em;
   margin-top: 0.5em;
+}
+
+h3#chart-subhead {
+	font-size: 20px;
+  margin-left: 2.5em;
+  margin-top: -1em;
   margin-bottom: 0.4em;
   font-weight: normal;
   letter-spacing: 2px;
@@ -109,11 +116,11 @@ div#scatter-div {
 
 /*Legend image*/
 img#legend-still {
-    zoom: 25%;
+    zoom: 30%;
     margin-left: 300px;
     position: absolute;
-    left: 20%;
-    top: 92%;
+    left: 14%;
+    top: 94%;
 }
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
@@ -214,27 +221,42 @@ http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css***************
   font-weight: normal;
   padding-left: 10px;
   padding-right: 10px;
+  padding-bottom: 2em;
   /*background: $tooltip-background;*/
   /*color: $tooltip-color;*/
+  text-align: center;
   border-radius: 0px;
   pointer-events: none;
-  /*opacity: 0.9;*/
+  opacity: 0.5;
   box-shadow: 1px 1px 2px black;
 }
 
 p#tiphead {
 	/*color: $tooltip-head-color;*/
 	font-size: 1.5em;
-	margin-top: 10px;
+  font-weight: bold;
 }
 
-p.tip-body {
-	/*color: $tooltip-color;*/
+p#region {
+  font-style: italic;
+  margin-top: -1.2em;
 }
 
-p.tip-subhead {
-	/*color: $tooltip-head-color;*/
-	margin-bottom: 10px;
+div.citation-title {
+  font-weight: bold;
+  margin-bottom: -10px;
+}
+
+div#citation {
+  font-size: 0.85em;
+  text-align: left;
+  text-align: center;
+}
+
+p.tip-value {
+	font-weight: bold;
+  font-size: 1.2em;
+  margin-top: -10px;
 }
 
 /* Creates a small triangle extender for the tooltip */

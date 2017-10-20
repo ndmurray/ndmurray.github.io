@@ -117,23 +117,28 @@ div#progress-div {
 }
 
 div#res-div {
-    font-size: 36px;
-    right: 4%;
-    bottom: 11%;
-    height: 28%;
-    width: 20%;
-    margin: 0 auto;
-    border: 6px solid black;
-    position: absolute;
-    text-align: center;
-    padding-top: 17px;
+    margin-left: 0em;
+    margin-top: 1em;
+    font-size: 32px;
 }
 
-p.res-link {
+a.res-link {
 	color: black;
-	line-height: 1em;
+	line-height: 1.5em;
 }
 
+a.res-link:hover {
+	text-decoration: none;
+}
+
+a.res-link:hover:before,
+a.res-link:after ,
+a.res-link:before {
+	background: black;
+	height: 3px;
+	padding-top: 0px;
+	text-decoration: none;
+}
 
 
 /*Overriding bootstrap on progress bar*/

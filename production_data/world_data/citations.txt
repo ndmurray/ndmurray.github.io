@@ -1,0 +1,28 @@
+Political Stability (2016):
+
+An index from -2.5 to 2.5, sourced from the Word Bank's 
+<a href="http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators" target="_blank">World development indicators</a>.
+
+GDP per Capita (2016):
+
+GDP / Total Population, sourced from the World Bank's <a href="https://data.worldbank.org/indicator/NY.GDP.PCAP.CD" target="_blank">World Development Indicators</a>.
+
+Gini Index (2016):
+
+A measure of country level inequality, with 1 being the most unequal sourced from the World Bank's <a href="https://data.worldbank.org/indicator/SI.POV.GINI" target="_blank">World Development Indicators</a>.
+
+Press Freedom (2016):
+
+An annual rating of press freedom at the country level, 1 being the most free, 100 being the least. Sourced from <a href="https://.org/en/ranking" target="_blank">Reporters Without Borders</a>.
+
+Population, % Female (2016):
+
+Sourced from the World Bank's <a href="https://data.worldbank.org/indicator/SP.POP.TOTL.FE.ZS" target="_blank">World Development Indicators</a>.
+
+Life Expectancy (2016)
+
+Life expectancy in years sourced from the World Bank's <a href="https://data.worldbank.org/indicator/SP.DYN.LE00.IN" target="_blank">World Development Indicators</a>.
+
+Female Enrollment Ratio (2016)
+
+Total enrollment as a percent of the female population, adjusted for age grou. SOurced from the World Bank's <a href="https://data.worldbank.org/indicator/SE.SEC.ENRR.FE" target="_blank">World Development Indicators</a>.
