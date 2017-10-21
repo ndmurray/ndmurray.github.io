@@ -164,6 +164,26 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 	};
 
+//Function to hide dots if any data element is NaN
+//Here's how to do to for loops in ES6: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of
+	// var hideNulls = function() {
+	// 	let iterable = d3.selectAll('circle.dots');
+	// 	for (let dot in iterable) {
+	// 		if (typeof dataX == 'number' && dataY == 'number') {
+	// 			return dot.attr({
+	// 				'opacity': 0.85,
+	// 				'pointer-events': 'all'
+	// 			});
+	// 		} else {
+	// 			return dot.attr({
+	// 				'opacity': 0,
+	// 				'pointer-events': 'none'
+	// 			});
+	// 		}
+	// 	}
+	// };
+
+
 //Mouseover events
 	var mouseOn = function() {
 		d3.select(this)
@@ -223,7 +243,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.data(worldData,key)
 		  	.enter()
 			.append("circle")
-			.filter(function(d) { return dataX(d); }) //filters out nulls
+			.filter(function(d) {return dataX(d); })
 			.filter(function(d) { return dataY(d); }) 
 			.filter(function(d) { return dataR(d); }) 
 			.attr({
@@ -264,6 +284,9 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.on('mouseover',mouseOn)
 			.on('mouseleave',dotTips.hide)
 			.on('mouseout',mouseOff);
+
+			d3.selectAll('circle.dots').filter(function(d) { return typeof dataX(d) != 'number'; }).remove();//filters out nulls
+
 
 //Call axes
 
@@ -340,17 +363,17 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				break;
 			case "+d.corruption":
 				titleX = "Control of Corruption";
-				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/databases/control-of-corruption' target='_blank'>World development indicators</a>."
+				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/databases/control-of-corruption' target='_blank'>World development indicators</a>.";
 				break;
 			case "+d.polistab":
 				titleX = "Political Stability";
-				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development indicators</a>."
+				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development indicators</a>.";
 				break;
 			case "+d.gdphead":
 				titleX = "GDP per Capita";
-				citeX = "GDP / Total Population, sourced from the World Bank's <a href='https://data.worldbank.org/indicator/NY.GDP.PCAP.CD' target='_blank'>World Development Indicators</a>."
+				citeX = "GDP / Total Population, sourced from the World Bank's <a href='https://data.worldbank.org/indicator/NY.GDP.PCAP.CD' target='_blank'>World Development Indicators</a>.";
 				break;
-		};
+		}
 
 		//Update xScale
 		var xScale = d3.scale.linear()
@@ -365,9 +388,16 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.transition()
 			.duration(1000)
 			.attr({
-					cx: function(d) { return xScale(dataX(d)); }
+					cx: function(d) { return xScale(dataX(d)); },
+					"opacity": 0.85,
+					"pointer-events": "all"
 				});
 			
+		//Hide circles with null data
+		d3.selectAll('circle.dots').filter(function(d) { return isNaN(dataX(d)); })
+				.transition()
+				.duration(1000)
+				.attr({"opacity": 0, "pointer-events":"none"});
 
 		//Update x axis
 		var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
@@ -424,17 +454,17 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				break;
 			case "+d.corruption":
 				titleY = "Control of Corruption";
-				citeY = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/databases/control-of-corruption' target='_blank'>World development indicators</a>."
+				citeY = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/databases/control-of-corruption' target='_blank'>World development indicators</a>.";
 				break;
 			case "+d.polistab":
 				titleY = "Political Stability";
-				citeY = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development indicators</a>."
+				citeY = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development indicators</a>.";
 				break;
 			case "+d.gdphead":
 				titleY = "GDP per Capita";
-				citeY = "GDP / Total Population, sourced from the World Bank's <a href='https://data.worldbank.org/indicator/NY.GDP.PCAP.CD' target='_blank'>World Development Indicators</a>."
+				citeY = "GDP / Total Population, sourced from the World Bank's <a href='https://data.worldbank.org/indicator/NY.GDP.PCAP.CD' target='_blank'>World Development Indicators</a>.";
 				break;
-		};
+		}
 
 		//Update yScale
 		var yScale = d3.scale.linear()
@@ -448,8 +478,16 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.transition()
 			.duration(1000)
 			.attr({
-					cy: function(d) { return yScale(dataY(d)); }
+					cy: function(d) { return yScale(dataY(d)); },
+					"opacity": 0.85,
+					"pointer-events": "all"
 				});
+
+		//Hide circles with null data
+		d3.selectAll('circle.dots').filter(function(d) { return isNaN(dataY(d)); })
+				.transition()
+				.duration(1000)
+				.attr({"opacity": 0, "pointer-events":"none"});
 
 		//Update y axis
 		var yAxis = d3.svg.axis().scale(yScale).orient("left");
