@@ -22,7 +22,7 @@ h3#chart-subhead {
   font-size: 20px;
   margin-left: 2.5em;
   margin-top: -1em;
-  margin-bottom: 0.4em;
+  margin-bottom: 2em;
   font-weight: normal;
   letter-spacing: 2px; }
 
@@ -63,11 +63,11 @@ div#scatter-div {
 
 /*Legend image*/
 img#legend-still {
-  zoom: 30%;
+  zoom: 28%;
   margin-left: 300px;
   position: absolute;
-  left: 14%;
-  top: 94%; }
+  left: -2.2%;
+  top: 13.5%; }
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
 a, a:hover, a:focus {
@@ -138,7 +138,7 @@ ul li {
   from {
     height: 0; }
   to {
-    height: 261; } }
+    height: 227; } }
 /*Sidebar made from a d3-tips*/
 /******************************************Tooltip Styling. Edited from the original 
 http://rawgit.com/Caged/d3-tip/master/examples/example-styles.css*************************************/

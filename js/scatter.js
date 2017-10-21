@@ -1,7 +1,7 @@
 //General use variables
 	
 	//Canvas margin, height, and width by Bostock's margin convention http://bl.ocks.org/mbostock/3019563
-	var	margin = {top: 40, right: 140, bottom: 60, left: 60},
+	var	margin = {top: 20, right: 140, bottom: 60, left: 60},
 		w = parseInt(d3.select('#scatter-div').style('width'), 10),//Get width of containing div for responsiveness
 		w = w - margin.left - margin.right,
 		h = parseInt(d3.select('#scatter-div').style('height'),10),
@@ -265,9 +265,9 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				"stroke": function(d) {
 					//colors inspired by "irredescent sunset" palette: http://www.colourlovers.com/palette/765305/japan9
 					if (d.ig == "High income: nonOECD") { return "#1A1F1E"; } //night sweat
-					else if (d.ig == "Low income") { return "#1A1F1E"; }// also night sweat...
+					else if (d.ig == "Low income") { return "#c5c1b9"; }// also night sweat...
 					else if (d.ig == "Upper middle income") { return "#1A1F1E"; } //night sweat
-					else if (d.ig == "Lower middle income") { return "#1A1F1E"; } //night sweat
+					else if (d.ig == "Lower middle income") { return "#c5c1b9"; } //night sweat
 					else if (d.ig == "High income: OECD") { return "#1A1F1E"; } //night sweat
 					else { return "black"; }
 					},
