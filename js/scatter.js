@@ -232,10 +232,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 				cx: function(d) { return xScale(dataX(d)); },
 				cy: function(d) { return yScale(dataY(d)); },
 				r: function(d) { return rScale(dataR(d)); },
-				"pointer-events": function(d) { if(dataX(d) == NaN || dataY(d) == NaN) {
-									return "none"}
-								  else { return "all" }
-								}, 
+				"pointer-events": "all",
 				"fill": function(d) {
 					//colors inspired by "irredescent sunset" palette: http://www.colourlovers.com/palette/765305/japan9
 					if (d.ig == "High income: nonOECD") { return "#FF6E27"; } //yelllow green
@@ -255,10 +252,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 					else { return "black"; }
 					},
 				"stroke-width": 0,
-				"opacity": function(d) { if(dataX(d) == NaN || dataY(d) == NaN) {
-									return 0}
-								  else { return 0.85 }
-								}
+				"opacity": 0.85
 			})
 			.style({
 				//filter: "url(#dots-filter)"
@@ -382,7 +376,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		xLabel.text(titleX);
 
 		//Update title
-		titleText.text(titleX + " vs. " + titleY + ", dots sized by GDP per capita.");
+		titleText.text(titleX + " vs. " + titleY);
 
 		//Call x axis
 		d3.select(".xaxis")
@@ -464,7 +458,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 		yLabel.text(titleY);
 
 		//Update title
-		titleText.text(titleX + " vs. " + titleY + ", dots sized by GDP per capita.");
+		titleText.text(titleX + " vs. " + titleY);
 
 		//Call y axis
 		d3.select(".yaxis")
