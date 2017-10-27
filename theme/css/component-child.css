@@ -53,7 +53,7 @@ a {
 }
 
 a:hover {
-	color: #061582; /*dark blue for link*/
+	color: #161e5d; /*dark blue for link*/
 	text-decoration: none;
 }
 
@@ -81,12 +81,12 @@ a:hover {
     bottom: 0;
     height: 3px;
     width: 0;
-    background: #061582;
+    background: #161e5d;
     transition: width .5s ease;
 }
 .sliding-u-l-r-l:hover:before {
     width: 100%;
-    background: #061582;
+    background: #161e5d;
     transition: width .5s ease;
 }
 .sliding-u-l-r-l:hover:after {
@@ -216,8 +216,8 @@ body {
 	top: 0;
 	left: 0;
 	background: url('../images/nick_face_portfolio.jpg') no-repeat; 
-	background-position: -6em -6em;
-    background-size: 140% !important;
+	background-position: -1em -6em;
+    background-size: 106% !important;
 	  -webkit-background-size: cover;
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
@@ -227,7 +227,7 @@ body {
 .bl-main > section:nth-child(2) {
 	top: 0;
 	left: 50%;
-	background: url('../images/coffee.jpg') no-repeat; 
+	background: url('../images/branch.jpg') no-repeat; 
 	  -webkit-background-size: cover;
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
@@ -247,11 +247,12 @@ body {
 .bl-main > section:nth-child(4) {
 	top: 50%;
 	left: 50%;
-	background: url('../images/back5.jpg') no-repeat; 
+	background: url('../images/bee.png') no-repeat; 
 	  -webkit-background-size: cover;
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
 	  background-size: cover;
+    background-position: 0em -5.7em;
 }
 
 .bl-box {
@@ -589,11 +590,12 @@ div.bl-panel-items > div.bl-hide-current-work {
 /* Section background colors */
 
 .bl-main > section:first-child.bl-expand {
-	background: #e2bf3b; /*yellow*/
+	background: url(../images/nick_face_portfolio2.jpg) no-repeat;
+	background-position: 0em -18em;
 	color: black;
-}#1f3c5e
+}
 .bl-main > section:nth-child(2).bl-expand {
-	background: #35402d;/*Dark green*/
+	/*background: #35402d;/*Dark green*/*/
 }
 .bl-main > section:nth-child(3).bl-expand {
 	background: #1f3c5e; /*Blue*/
