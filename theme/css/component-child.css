@@ -17,7 +17,8 @@ span.bl-icon-back {
     font-size: 1.3em;
 }
 
-.left-carrot:nth-child(2) {
+.left-carrot:nth-child(2),
+.bl-icon-back:nth-child(2) {
 	border-right: 0.7em solid black;
 }
 
@@ -130,11 +131,41 @@ a.res-link:hover {
 }
 
 a.res-link:hover:before,
-a.res-link:after ,
+a.res-link:after,
 a.res-link:before {
 	background: black;
 	height: 3px;
 	padding-top: 0px;
+	text-decoration: none;
+}
+
+
+/*Embedded Resume*/
+img#resume {
+	width: 100%;
+	margin: 0 auto;
+	opacity: 0.8;
+}
+
+a.exp-download {
+    color: #f2ede3;
+    float: right;
+    font-size: 1.5em;
+    position: fixed;
+    right: 3em;
+    top: 1em;
+}
+
+a.exp-download:hover {
+	text-decoration: none;
+}
+
+a.exp-download:hover:before,
+a.exp-download:after,
+a.exp-download:before {
+	background: #f2ede3;
+	height: 3px;
+	padding-top: 3px;
 	text-decoration: none;
 }
 
@@ -148,6 +179,7 @@ a.res-link:before {
 /*Override bootstrap on h elements*/
 h1,h2,h3,h4,h5,h6,p,span,div {
 	font-family: "Montserrat";
+	color: #f2ede3;
 }
 
 /*!
@@ -252,7 +284,7 @@ body {
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
 	  background-size: cover;
-    background-position: 0em -5.7em;
+    background-position: 0em -6.7em;
 }
 
 .bl-box {
