@@ -139,6 +139,11 @@ a.res-link:before {
 	text-decoration: none;
 }
 
+/*Dataviz Page*/
+
+a#abt-download {
+	padding: 0px;
+}
 
 /*Embedded Resume*/
 img#resume {
@@ -165,7 +170,7 @@ a.exp-download:after,
 a.exp-download:before {
 	background: #f2ede3;
 	height: 3px;
-	padding-top: 3px;
+	top: 24px;
 	text-decoration: none;
 }
 
@@ -180,6 +185,12 @@ a.exp-download:before {
 h1,h2,h3,h4,h5,h6,p,span,div {
 	font-family: "Montserrat";
 	color: #f2ede3;
+}
+
+
+/*Contact section*/
+img.bee-png {
+	position: absolute;
 }
 
 /*!
@@ -248,8 +259,8 @@ body {
 	top: 0;
 	left: 0;
 	background: url('../images/nick_face_portfolio.jpg') no-repeat; 
-	background-position: -1em -6em;
-    background-size: 106% !important;
+	/*background-position: -1em -6em;*/
+    /*background-size: 106% !important;*/
 	  -webkit-background-size: cover;
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
@@ -284,7 +295,7 @@ body {
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
 	  background-size: cover;
-    background-position: 0em -6.7em;
+    /*background-position: 0em -5.7em;*/
 }
 
 .bl-box {
@@ -623,7 +634,8 @@ div.bl-panel-items > div.bl-hide-current-work {
 
 .bl-main > section:first-child.bl-expand {
 	background: url(../images/nick_face_portfolio2.jpg) no-repeat;
-	background-position: 0em -18em;
+	background-size: cover;
+	/*background-position: 0em -18em;*/
 	color: black;
 }
 .bl-main > section:nth-child(2).bl-expand {
@@ -633,7 +645,8 @@ div.bl-panel-items > div.bl-hide-current-work {
 	background: #1f3c5e; /*Blue*/
 }
 .bl-main > section:nth-child(4).bl-expand {
-	background: #bfbfbf;
+	background: url(../images/honey_bkgd.png) no-repeat;
+	background-size: 100%;
 }
 
 .bl-main.bl-expand-item > section:not(.bl-expand),
