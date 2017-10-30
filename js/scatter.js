@@ -193,14 +193,15 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 		guideLines();
 	
-		d3.selectAll("circle.dots").attr("opacity", 0.15);
-
 		//Hover specific tip styling
 		d3.select('.d3-tip')
 		.style("background-color", d3.select(".a-dot").attr("fill"))
 		.style("color", d3.select(".a-dot").attr("stroke"))
 		.style('opacity',0.5);
 
+		d3.selectAll('circle.dots').filter(function(d) { return isNaN(dataX(d)); })
+				.attr({"opacity": 0, "pointer-events":"none"})
+				.attr("opacity", 0.15);
 	};
 	
 	var mouseOff = function() {
@@ -212,7 +213,9 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.remove();
 			
 
-		d3.selectAll("circle.dots").attr("opacity", 0.85);
+		d3.selectAll("circle.dots").filter(function(d) { return isNaN(dataX(d)); })
+				.attr({"opacity": 0, "pointer-events":"none"})
+				.attr("opacity", 0.85);
 	};
 
 //Default chart elements
@@ -390,7 +393,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.attr({
 					cx: function(d) { return xScale(dataX(d)); },
 					"opacity": 0.85,
-					"pointer-events": "all"
+					"pointer-events":"all"
 				});
 			
 		//Hide circles with null data
@@ -480,7 +483,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 			.attr({
 					cy: function(d) { return yScale(dataY(d)); },
 					"opacity": 0.85,
-					"pointer-events": "all"
+					"pointer-events":"all"
 				});
 
 		//Hide circles with null data
