@@ -54,10 +54,11 @@ a {
 	font-size: 80%;*/
 }
 
-a:hover {
+a:hover, a:focus {
 	color: #161e5d; /*dark blue for link*/
 	text-decoration: none;
 }
+
 
 
 .sliding-u-l-r-l {
@@ -192,6 +193,13 @@ h1,h2,h3,h4,h5,h6,p,span,div {
 /*Contact section*/
 img.bee-png {
 	position: absolute;
+}
+
+img.bee-png-2 {
+	position: absolute;
+	bottom: 2em;
+	right: 2em;
+	width: 40%;
 }
 
 /*!
