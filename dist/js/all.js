@@ -185,7 +185,7 @@ d3.csv("datadev/crime.csv",function(error,data) {
 
 	
 //Begin data function 
-d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv",
+d3.csv("/nickm.io/production_data/ctc_data/ctc_lines.csv",
 //parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
 function(d) {
 		d.date = parseDate(d.date);
@@ -404,7 +404,7 @@ function(d) {
 		var donutDuration = 600;
 
 	//Begin data function 
-	d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
+	d3.csv("/nickm.io/production_data/ctc_data/divisions.csv",function(error,data) {
 				
 		if(error) {
 			console.log(error);
@@ -538,7 +538,7 @@ function(d) {
 	titleText.text(dataTitle + " by Division, CTC, FY17");
 
 
-	d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv",
+	d3.csv("/nickm.io/production_data/ctc_data/ctc_lines.csv",
 		//parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
 		function(d) {
 				d.date = parseDate(d.date);
@@ -773,7 +773,7 @@ d3.selectAll(".m-choice").on("click", function() {
 		var donutDuration = 600;
 
 //Begin data function 
-d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
+d3.csv("/nickm.io/production_data/ctc_data/divisions.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);
@@ -957,7 +957,7 @@ var dotRadius = "0.25em";
 //Begin data function
 
 d3.queue()
-	.defer(d3.csv,"/8step.io/production_data/energy_data/energy_xstate.csv",
+	.defer(d3.csv,"/nickm.io/production_data/energy_data/energy_xstate.csv",
 		function(d) {
 		d.date = parseDate(d.date);
 		d.mwh = +d.mwh;
@@ -1079,7 +1079,7 @@ function ready(error, data) {
 	var tipDuration = 100;
 
 //Begin data function 
-d3.csv("/8step.io/production_data/energy_data/solar.csv",
+d3.csv("/nickm.io/production_data/energy_data/solar.csv",
 //parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
 function(d) {
 		d.year = parseDate(d.year);
@@ -1280,8 +1280,8 @@ function(d) {
 	//Load geographic and descriptive data
 	d3.queue()
 		.defer(d3.json,"https://d3js.org/us-10m.v1.json")
-		.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv")
-		//.defer(d3.csv,"/8step.io/production_data/employment_data/county_8.16.csv", function(d) { unemployment.set(d.id, +d.rate) })
+		.defer(d3.csv,"/nickm.io/production_data/employment_data/county_8.16.csv")
+		//.defer(d3.csv,"/nickm.io/production_data/employment_data/county_8.16.csv", function(d) { unemployment.set(d.id, +d.rate) })
 		.await(ready);
 
 
@@ -1631,7 +1631,7 @@ function ready(error, usa, data) {// my understanding is that we list usa, data 
 
 
 //Begin data function 
-d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,data) {
+d3.csv("/nickm.io/production_data/world_data/datadev/world.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);
@@ -2066,7 +2066,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 
 //Begin data function 
-d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,data) {
+d3.csv("/nickm.io/production_data/world_data/datadev/world.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);
@@ -2504,7 +2504,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 
 
 //Begin Data!
-d3.csv("/8step.io/production_data/crime_data/datadev/crime.csv",function(error,data) {
+d3.csv("/nickm.io/production_data/crime_data/datadev/crime.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);

@@ -48,7 +48,7 @@
 
 	
 //Begin data function 
-d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv",
+d3.csv("/nickm.io/production_data/ctc_data/ctc_lines.csv",
 //parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
 function(d) {
 		d.date = parseDate(d.date);
@@ -267,7 +267,7 @@ function(d) {
 		var donutDuration = 600;
 
 	//Begin data function 
-	d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
+	d3.csv("/nickm.io/production_data/ctc_data/divisions.csv",function(error,data) {
 				
 		if(error) {
 			console.log(error);
@@ -401,7 +401,7 @@ function(d) {
 	titleText.text(dataTitle + " by Division, CTC, FY17");
 
 
-	d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv",
+	d3.csv("/nickm.io/production_data/ctc_data/ctc_lines.csv",
 		//parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
 		function(d) {
 				d.date = parseDate(d.date);

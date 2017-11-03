@@ -17,7 +17,7 @@
 		var donutDuration = 600;
 
 //Begin data function 
-d3.csv("/8step.io/production_data/ctc_data/divisions.csv",function(error,data) {
+d3.csv("/nickm.io/production_data/ctc_data/divisions.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);

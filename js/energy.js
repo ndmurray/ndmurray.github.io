@@ -30,7 +30,7 @@ var dotRadius = "0.25em";
 
 //Begin data function
 d3.queue()
-	.defer(d3.csv,"/8step.io/production_data/energy_data/energy_xstate.csv",
+	.defer(d3.csv,"/nickm.io/production_data/energy_data/energy_xstate.csv",
 		function(d) {
 		d.date = parseDate(d.date);
 		d.mwh = +d.mwh;

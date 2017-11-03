@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$button-color2".
-        on line 24 of ./8step.io/sass/styleEnergy.scss
+        on line 24 of ./nickm.io/sass/styleEnergy.scss
 
 19: 
 20: a:focus, a:hover, a:active, a:visited {
@@ -15,7 +15,7 @@ Error: Undefined variable: "$button-color2".
 29:  
 
 Backtrace:
-./8step.io/sass/styleEnergy.scss:24
+./nickm.io/sass/styleEnergy.scss:24
 C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/script/tree/variable.rb:49:in `_perform'
 C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/script/tree/node.rb:50:in `perform'
 C:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/sass-3.5.1/lib/sass/tree/visitors/perform.rb:402:in `visit_prop'
@@ -66,4 +66,4 @@ C:/Ruby22-x64/bin/sass:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$button-color2\".\A         on line 24 of ./8step.io/sass/styleEnergy.scss\A \A 19: \A 20: a:focus, a:hover, a:active, a:visited {\A 21:   /*Override bootstrap blue text decoration on a hover*/\A 22:   text-decoration:none !important;\A 23:   /*default text styling*/\A 24:   color: $button-color2;\A 25: }\A 26: \A 27: \A 28: /*Canvas container*/\A 29:  "; }
+  content: "Error: Undefined variable: \"$button-color2\".\A         on line 24 of ./nickm.io/sass/styleEnergy.scss\A \A 19: \A 20: a:focus, a:hover, a:active, a:visited {\A 21:   /*Override bootstrap blue text decoration on a hover*/\A 22:   text-decoration:none !important;\A 23:   /*default text styling*/\A 24:   color: $button-color2;\A 25: }\A 26: \A 27: \A 28: /*Canvas container*/\A 29:  "; }

@@ -39,7 +39,7 @@
 
 
 //Begin Data!
-d3.csv("/8step.io/production_data/crime_data/datadev/crime.csv",function(error,data) {
+d3.csv("/nickm.io/production_data/crime_data/datadev/crime.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);

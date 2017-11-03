@@ -13,7 +13,7 @@ var donutMargin = {
     labelRadius = w / 2 + 8;
 var tipDuration = 200;
 var donutDuration = 600;
-d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data) {
+d3.csv("/nickm.io/production_data/ctc_data/divisions.csv", function(error, data) {
   if (error) {
     console.log(error);
   } else {
@@ -69,7 +69,7 @@ var formatTimeMonth = d3.timeFormat("%b");
 var xScale = d3.scaleTime().range([0, lineW]);
 var yScale = d3.scaleLinear().range([lineH, 0]);
 var yLabelShift = -lineMargin.left / 2 - 20;
-d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
+d3.csv("/nickm.io/production_data/ctc_data/ctc_lines.csv", function(d) {
   d.date = parseDate(d.date);
   d.division_clean = d.division_clean;
   d.avg_revenue = +d.avg_revenue;
@@ -183,7 +183,7 @@ d3.csv("/8step.io/production_data/ctc_data/ctc_lines.csv", function(d) {
     nodesENR.transition().duration(lineDuration).attr("cy", function(d) {
       return yScale(lineData(d));
     });
-    d3.csv("/8step.io/production_data/ctc_data/divisions.csv", function(error, data) {
+    d3.csv("/nickm.io/production_data/ctc_data/divisions.csv", function(error, data) {
       if (error) {
         console.log(error);
       } else {

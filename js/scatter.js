@@ -35,7 +35,7 @@
 
 
 //Begin data function 
-d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,data) {
+d3.csv("/nickm.io/production_data/world_data/datadev/world.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);
@@ -270,7 +270,7 @@ d3.csv("/8step.io/production_data/world_data/datadev/world.csv",function(error,d
 					if (d.ig == "High income: nonOECD") { return "#1A1F1E"; } //night sweat
 					else if (d.ig == "Low income") { return "#c5c1b9"; }// also night sweat...
 					else if (d.ig == "Upper middle income") { return "#1A1F1E"; } //night sweat
-					else if (d.ig == "Lower middle income") { return "#c5c1b9"; } //night sweat
+					else if (d.ig == "Lower middle income") { return "#1A1F1E"; } //night sweat
 					else if (d.ig == "High income: OECD") { return "#1A1F1E"; } //night sweat
 					else { return "black"; }
 					},

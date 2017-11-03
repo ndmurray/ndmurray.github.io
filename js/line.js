@@ -26,7 +26,7 @@
 	var tipDuration = 100;
 
 //Begin data function 
-d3.csv("/8step.io/production_data/energy_data/solar.csv",
+d3.csv("/nickm.io/production_data/energy_data/solar.csv",
 //parsing data as an argument within the .csv method https://bl.ocks.org/mbostock/3883245
 function(d) {
 		d.year = parseDate(d.year);
