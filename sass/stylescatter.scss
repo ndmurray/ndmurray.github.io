@@ -53,6 +53,7 @@ h2#chart-title {
   font-size: 36px;
   margin-left: 1.2em;
   margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 h3#chart-subhead {
@@ -120,7 +121,7 @@ img#legend-still {
     margin-left: 300px;
     position: absolute;
     left: -2.2%;
-    top: 13.5%;
+    top: 12%;
 }
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
@@ -235,11 +236,12 @@ p#tiphead {
 	/*color: $tooltip-head-color;*/
 	font-size: 1.5em;
   font-weight: bold;
+  margin-top: 1em;
 }
 
 p#region {
   font-style: italic;
-  margin-top: -1.2em;
+  margin-top: -0.5em;
 }
 
 div.citation-title {
