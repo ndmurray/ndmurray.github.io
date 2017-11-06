@@ -35,7 +35,7 @@
 
 
 //Begin data function 
-d3.csv("/nickm.io/production_data/world_data/datadev/world.csv",function(error,data) {
+d3.csv("production_data/world_data/datadev/world.csv",function(error,data) {
 			
 	if(error) {
 		console.log(error);
