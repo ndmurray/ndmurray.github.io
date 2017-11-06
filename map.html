@@ -1,0 +1,67 @@
+<DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<!--Make viewport same as screen dimensions on mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Map</title>
+		<!--Bootstrap css-->
+			<!-- Latest compiled and minified CSS-->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+			<!--select element plugin http://bit.ly/1fXdaIa-->
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+
+			<!-- Optional theme
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
+
+		<!--Native styles-->
+		<link type="text/css" rel="stylesheet" href="/nickm.io/dist/css/stylemap.css"/>
+
+		<!--solar data from the open PV project https://openpv.nrel.gov/search-->
+			
+	</head>
+	<body>
+		
+		<div class="container-fluid">
+		<!--Header-->
+		<div id="header-row" id="title-div" class="row">
+		<!-- 	<h2 id="chart-title"></h2> -->
+		</div>
+
+		<!--Nav-->
+		<div id="nav" class="row">
+			<div id="button-div" >
+				<a type="a" class="choice" value="rate">Unemployment</a>
+				<a type="a" class="choice" value="edu">Education</a>
+				<a type="a" class="choice" value="med_inc">Income</a>
+			</div>
+			<div id="info-div">
+				
+			</div>
+		</div>
+		
+		<!--Canvas-->
+			<div class = "container-fluid">
+				
+				<div id="map-div" class="span12">
+				</div>
+			</div>
+		</div>
+		<!--Libaries-->
+		<script type="text/javascript" src="/nickm.io/bower_components/jQuery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="/nickm.io/bower_components/d3_4.0/d3.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<!--Add ons-->
+		<script src="https://d3js.org/topojson.v1.min.js"></script>
+		<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.21.0/d3-legend.js"></script>
+		<script type="text/javascript" src="theme/js/bootstrap.min.js"></script>
+		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>-->
+		<!--Native apps-->
+		<script type="text/javascript" src="/nickm.io/js/map.js"></script>
+	</body>
+</html>
+

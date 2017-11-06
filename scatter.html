@@ -1,0 +1,91 @@
+<DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<!--Make viewport same as screen dimensions on mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Scatter</title>
+		<!--Bootstrap css-->
+			<!-- Latest compiled and minified CSS 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+
+			<!--New static bootstrap to fit with vCard template-->
+			<link href="theme/css/bootstrap.css" rel="stylesheet">
+
+			<!--select element plugin http://bit.ly/1fXdaIa-->
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+
+
+			<!-- Optional theme
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
+
+		<!--Native styles-->
+		<link type="text/css" rel="stylesheet" href="/nickm.io/dist/css/stylescatter.css"/>
+
+			
+	</head>
+	<body>
+		<!--Header-->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="title-div">
+					<h2 id="chart-title">World Development Indicators by Country, 2017</h2>
+					<h3 id="chart-subhead"></h3>
+
+				</div>
+			</div>
+			
+		<!--Dropdowns  - http://codepen.io/keukenrolletje/pen/ILvze*/-->
+			<div class="row" id="dropdown-row">
+				<ul class='dropdown' id="dropdown-left">
+				     <li class="top">Select X Axis
+				        <ul class="dropdown-box" id="dropdown-x">
+				           <li class="x-choice" value="+d.gini"><a href="#">Gini index</a></li>
+					      <li class="x-choice" value="+d.press"><a href="#">Press freedom</a></li>
+					      <li class="x-choice" value="+d.mfr"><a href="#">Population, % Female</a></li>
+					      <li class="x-choice" value="+d.life_exp">L<a href="#">ife expectancy</a></li>
+					      <li class="x-choice" value="+d.gre"><a href="#">Female enrollment ratio</a></li>
+					      <li class="x-choice" value="+d.corruption"><a href="#">Control of corruption</a></li>
+					      <li class="x-choice" value="+d.polistab"><a href="#">Political stability</a></li>
+					      <!--<li class="x-choice" value="+d.gdphead"><a href="#">GDP per Capita</a></li>-->
+				        </ul>
+				     </li>
+				  </ul>
+				 <ul class='dropdown'>
+				     <li class="top">Select Y Axis
+				        <ul class="dropdown-box" id="dropdown-x">
+				           <li class="y-choice" value="+d.gini"><a href="#">Gini index</a></li>
+					      <li><a href="#" class="y-choice" value="+d.press">Press freedom</a></li>
+					      <li class="y-choice" value="+d.mfr"><a href="#">Population, % Female</a></li>
+					      <li class="y-choice" value="+d.life_exp"><a href="#">Life expectancy</a></li>
+					      <li class="y-choice" value="+d.gre"><a href="#">Female enrollment ratio</a></li>
+					      <li class="y-choice" value="+d.corruption"><a href="#" >Control of corruption</a></li>
+					      <li class="y-choice" value="+d.polistab"><a href="#"> Political stability</a></li>
+					     <!-- <li class="y-choice" value="+d.gdphead"><a href="#"> GDP per Capita</a></li>-->
+				        </ul>
+				     </li>
+				  </ul>
+			</div>
+		<!--Legend-->
+		<img id="legend-still" src="images/legend.jpg" />
+		<!--Canvas-->
+			<div class = "row">
+				<div id="scatter-div">
+				</div>
+			</div>
+		</div>
+		<!--Libaries-->
+		<!--<script type="text/javascript" src="/nickm.io/bower_components/jQuery/dist/jquery.min.js"></script>-->
+		
+		<script type="text/javascript" src="/nickm.io/bower_components/d3/d3.min.js"></script>
+		<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+		<script type="text/javascript" src="theme/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="theme/js/jquery-1.8.2.min.js"></script>
+		<!--Add ons (modified d3-tip)-->
+		<script type="text/javascript" src="/nickm.io/bower_components/d3-tip-modified/index.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.21.0/d3-legend.js"></script>
+		<!--Native apps-->
+		<script type="text/javascript" src="js/scatter.js"></script>
+	</body>
+</html>
+
