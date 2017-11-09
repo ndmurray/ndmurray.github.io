@@ -346,35 +346,35 @@ d3.csv("production_data/world_data/datadev/world.csv",function(error,data) {
 		switch (xValue) {
 			case "+d.gini":
 				titleX = "Gini Index";
-				citeX = "A measure of country level inequality, with 1 being the most unequal sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SI.POV.GINI' target='_blank'>World Development Indicators</a>.";
+				citeX = "A measure of country level inequality, with 1 being the most unequal, sourced from the World Bank's <a class='cite-link' href='https://data.worldbank.org/indicator/SI.POV.GINI' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.press":
 				titleX = "Press Freedom";
-				citeX = "An annual rating of press freedom at the country level, 1 being the most free, 100 being the least. Sourced from <a href='https://.org/en/ranking' target='_blank'>Reporters Without Borders</a>.";
+				citeX = "An annual rating of press freedom at the country level, 1 being the most free, 100 being the least. Sourced from <a class='cite-link' href='https://.org/en/ranking' target='_blank'>Reporters Without Borders</a>.";
 				break;
 			case "+d.mfr":
 				titleX = "Population, % Female";
-				citeX = "Sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SP.POP.TOTL.FE.ZS' target='_blank'>World Development Indicators</a>.";
+				citeX = "Sourced from the World Bank's <a class='cite-link' href='https://data.worldbank.org/indicator/SP.POP.TOTL.FE.ZS' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.life_exp":
 				titleX = "Life Expectancy";
-				citeX = "Life expectancy in years sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SP.DYN.LE00.IN' target='_blank'>World Development Indicators</a>.";
+				citeX = "Life expectancy in years, sourced from the World Bank's <a class='cite-link' href='https://data.worldbank.org/indicator/SP.DYN.LE00.IN' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.gre":
 				titleX = "Female enrollment ratio";
-				citeX = "Total enrollment as a percent of the female population, adjusted for age grou. Sourced from the World Bank's <a href='https://data.worldbank.org/indicator/SE.SEC.ENRR.FE' target='_blank'>World Development Indicators</a>.";
+				citeX = "Total enrollment as a percent of the female population, adjusted for age group. Sourced from the World Bank's <a class-'cite-link' href='https://data.worldbank.org/indicator/SE.SEC.ENRR.FE' target='_blank'>World Development Indicators</a>.";
 				break;
 			case "+d.corruption":
 				titleX = "Control of Corruption";
-				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/databases/control-of-corruption' target='_blank'>World development indicators</a>.";
+				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a class='cite-link' href='http://databank.worldbank.org/data/databases/control-of-corruption' target='_blank'>World development Indicators</a>.";
 				break;
 			case "+d.polistab":
 				titleX = "Political Stability";
-				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development indicators</a>.";
+				citeX = "An index from -2.5 to 2.5, 2.5 being the most stable, sourced from the Word Bank's <a class = 'cite-link' href='http://databank.worldbank.org/data/reports.aspx?source=world-development-indicators' target='_blank'>World development Indicators</a>.";
 				break;
 			case "+d.gdphead":
 				titleX = "GDP per Capita";
-				citeX = "GDP / Total Population, sourced from the World Bank's <a href='https://data.worldbank.org/indicator/NY.GDP.PCAP.CD' target='_blank'>World Development Indicators</a>.";
+				citeX = "GDP / Total Population, sourced from the World Bank's <a class='cite.link' href='https://data.worldbank.org/indicator/NY.GDP.PCAP.CD' target='_blank'>World Development Indicators</a>.";
 				break;
 		}
 

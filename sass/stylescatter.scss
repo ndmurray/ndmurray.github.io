@@ -118,10 +118,8 @@ div#scatter-div {
 /*Legend image*/
 img#legend-still {
     zoom: 28%;
-    margin-left: 300px;
-    position: absolute;
-    left: -2.2%;
-    top: 12%;
+    margin-top: -10em;
+    margin-left: 5em;
 }
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
@@ -253,6 +251,10 @@ div#citation {
   font-size: 0.85em;
   text-align: left;
   text-align: center;
+}
+
+a.cite-link {
+  text-decoration: underline;
 }
 
 p.tip-value {
