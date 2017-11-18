@@ -215,20 +215,19 @@ img.bee-png-2 {
 
    /*Shrink title size on mobile */
    .bl-box h2 {
-   		font-size: 2em;
-   } 
-
+   		font-size: 2em !important;
+   }
    /*Expand resume container on experience page*/
-   .bl-content:nth-child(2) {
-    padding: 0px;
+   div.res-container {
+        padding: 0px !important;
     /* width: 90%; */
     /* margin: 0 auto; */
 	}
 
-	/*Move download link to the bottom*/
+	/*Adjust download link on experience page*/
 	a.exp-download {
-		left: 2em;
-    	top: 32em;
+    	top: 2em;
+    	right: 1.5em;
 	}
 }
 
