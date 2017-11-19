@@ -116,8 +116,8 @@ div#scatter-div {
 
 /*Legend image*/
 div#legend-still {
-    background: url(images/legend.jpg);
-    background-size: cover;
+    background: url(images/legend.jpg) no-repeat;
+    background-size: 75%;
     height: 2em;
 }
 
