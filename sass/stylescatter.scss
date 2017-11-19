@@ -60,7 +60,6 @@ h3#chart-subhead {
 	font-size: 20px;
   margin-left: 2.5em;
   margin-top: -1em;
-  margin-bottom: 2em;
   font-weight: normal;
   letter-spacing: 2px;
 }
@@ -116,10 +115,10 @@ div#scatter-div {
 }
 
 /*Legend image*/
-img#legend-still {
-    zoom: 28%;
-    margin-top: -10em;
-    margin-left: 5em;
+div#legend-still {
+    background: url(images/legend.jpg);
+    background-size: cover;
+    height: 2em;
 }
 
 /*Dropdowns - http://codepen.io/keukenrolletje/pen/ILvze*/
