@@ -103,6 +103,13 @@ h2#port-title {
 	color: black;
 }
 
+h1.about-header {
+	color: black;
+	font-weight: normal;
+	font-size: 3em;
+	padding-bottom: 20px;
+}
+
 div.skills-row {
 	margin-top: 1em;
 	/*width: 60%;*/
@@ -117,16 +124,13 @@ div#progress-div {
 	padding-left: 2em;
 }
 
-div#res-div {
-    margin-left: 0em;
-    margin-top: 1em;
-    font-size: 2em;
-    padding: 0px;
-}
-
 a.res-link {
 	color: black;
 	line-height: 1.5em;
+	font-size: 2.5em;
+	font-weight: normal;
+	margin-top: 1em;
+	padding-left: 0px;
 }
 
 a.res-link:hover {
@@ -683,6 +687,8 @@ div.bl-panel-items > div.bl-hide-current-work {
 }
 .bl-main > section:nth-child(3).bl-expand {
 	background: #1f3c5e; /*Blue*/
+	/*background: url(../images/honey_bkgd.png) no-repeat;*/
+	/*background-size: cover;*/
 }
 .bl-main > section:nth-child(4).bl-expand {
 	background: url(../images/honey_bkgd.png) no-repeat;
