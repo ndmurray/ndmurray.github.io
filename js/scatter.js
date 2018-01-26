@@ -206,6 +206,7 @@ d3.csv("production_data/world_data/datadev/world.csv",function(error,data) {
 	
 	var mouseOff = function() {
 		d3.select(this)
+			.attr("opacity",0.85)
 			.classed("a-dot",false)
 			.classed("dots",true);
 
