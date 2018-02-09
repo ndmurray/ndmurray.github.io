@@ -162,7 +162,7 @@ p#tiphead {
 
 p#region {
   font-style: italic;
-  margin-top: -0.5em; }
+  margin-top: 0em; }
 
 div.citation-title {
   font-weight: bold;
@@ -179,7 +179,7 @@ a.cite-link {
 p.tip-value {
   font-weight: bold;
   font-size: 1.2em;
-  margin-top: -10px; }
+  margin-top: 0px; }
 
 /* Creates a small triangle extender for the tooltip */
 .d3-tip:after {
