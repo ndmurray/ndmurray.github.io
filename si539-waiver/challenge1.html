@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>JavaScript Challenges</title>
+    <!--jQuery CDN-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+    /*    YOUR CSS CODE HERE */ 
+    </style>
+    
+    <script>
+    /*Hide email field by default*/  
+    $(document).ready(function() { $('#emailfield').hide()})
+
+  	function toggleEmail(){
+  		/*    YOUR JavaScript/jQuery CODE HERE */ 
+        if($('#subscribe').is(":checked"))   
+            $("#emailfield").show();
+        else
+            $("#emailfield").hide();
+
+  	} 
+    </script>
+  </head>
+  <body>
+    <h1>Challenge One TEST</h1>
+    <form action="challenge2.html">
+      <fieldset>
+        <legend>Email subscriptions</legend>
+        <div id="check">
+          <label>
+            <input type="checkbox" name="subscribe" id="subscribe" onchange="toggleEmail()">
+            Check to toggle the email field.
+          </label>
+        </div>
+
+        <div id="emailfield">
+          <label>
+            Email Address: 
+            <input type="text" name="email" id="email">
+          </label>
+        </div>
+
+        <input type = "submit" value = "Go To Challenge 2">
+      </fieldset>
+    </form>
+
+  </body>
+</html>
