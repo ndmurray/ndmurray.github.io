@@ -22,10 +22,20 @@ span.bl-icon-back {
 	border-right: 0.7em solid black;
 }
 
+.back-p {
+	color: black !important;
+}
 
+.left-carrot-2{
+	border-right: 0.7em solid rgb(242, 237, 227);
+
+}
 
 .left-carrot {
-    border-right: 0.7em solid #f2ede3;
+    border-right: 0.7em solid black;
+}
+
+.left-carrot, .left-carrot-2 {
     border-top: 0.5em solid transparent;
     border-bottom: 0.5em solid transparent;
     width: 0px;
