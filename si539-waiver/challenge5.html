@@ -38,15 +38,20 @@
  	<!--jQuery CDN-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
+
 	function upDate(previewPic) {
 		// console.log($(this).attr('src'));
-		var source = "url('" + $(previewPic).attr("src") + "')"
-		console.log(source);
+		var source = "url('" + $(previewPic).attr('src') + "')";
+		var alt = $(previewPic).attr('alt');
 		$('#image').css('background-image', source);
+		$('#image').text(alt);
+
 	}
 
 	function unDo() {
+		defaultText = "Hover or tab over/into an image below."
 		$('#image').css('background-image','none');
+		$('#image').text(defaultText);
 	}
 	</script>
 </head>
