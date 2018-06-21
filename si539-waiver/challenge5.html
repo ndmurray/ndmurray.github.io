@@ -35,10 +35,19 @@
 		text-align: center;
 	}
 	</style>
-
+ 	<!--jQuery CDN-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
-	// I used Two functions here.  Starter idea at: 
-	// https://codepen.io/ColleenEMc/pen/XmZzWw
+	function upDate(previewPic) {
+		// console.log($(this).attr('src'));
+		var source = "url('" + $(previewPic).attr("src") + "')"
+		console.log(source);
+		$('#image').css('background-image', source);
+	}
+
+	function unDo() {
+		$('#image').css('background-image','none');
+	}
 	</script>
 </head>
 
@@ -51,18 +60,20 @@
 		<!-- Your code goes in the img tag below.  Make sure to react to "hovering" and "tabbing": -->
 		<img class = "preview" 
 			alt = "Styling with a Bandana" 
-			src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/389177/bacon.jpg">
-
+			src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/389177/bacon.jpg"
+			onmouseover = "upDate(this)" onmouseleave = "unDo()";>
 
 		<!-- Your code goes in the img tag below.  Make sure to react to "hovering" and "tabbing": -->	
 		<img class = "preview" 
 			alt = "With My Boy" 
-			src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/389177/bacon2.JPG">
+			src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/389177/bacon2.JPG"
+			onmouseover = "upDate(this)" onmouseleave = "unDo()";>
 	
 		<!-- Your code goes in the img tag below.  Make sure to react to "hovering" and "tabbing": -->
 		<img class = "preview" tabindex = "1" 
 			src = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/389177/bacon3.jpg" 
-			alt = "Young Puppy">
+			alt = "Young Puppy"
+			onmouseover = "upDate(this)" onmouseleave = "unDo()";>
 </body>
 </html>
 	
