@@ -40,8 +40,9 @@ a.nav-link {
 	font-size: 1.2em;
 }
 
-a.nav-link:hover, a.nav-link:focus {
-	color: #e28716;
+a.nav-link:hover, a.nav-link:focus,
+a.current-page {
+	color: #d4450d;
 }
 
 #menu-icon {

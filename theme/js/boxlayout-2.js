@@ -8,6 +8,13 @@
  * Copyright 2013, Codrops
  * http://www.codrops.com
  */
+
+
+//Home link default styling
+$( document ).ready(function() {
+	$('#home-nav').addClass('current-page');
+});
+		
 var Boxlayout = (function() {
 
 	var $el = $( '#bl-main' ),
@@ -78,6 +85,10 @@ var Boxlayout = (function() {
 		} );
 
 		//Nav link functionality
+
+		
+
+		//Navigation
 		$navLinks.each( function() {
 			
 			var $navLink = $( this );
@@ -109,21 +120,58 @@ var Boxlayout = (function() {
 
 				}
 
+				function goHome() {
+					$('section').data( 'open', false ).removeClass( 'bl-expand' ).on( transEndEventName, function( event ) {
+						if( !$( event.target ).is( 'section' ) ) return false;
+						$( this ).off( transEndEventName ).removeClass( 'bl-expand-top' );
+					} );
+
+					if( !supportTransitions ) {
+						$('section').removeClass( 'bl-expand-top' );
+					}
+
+					$el.removeClass( 'bl-expand-item' );
+					
+					return false;
+
+				}
+
 				if( $navLink.is('#about-nav')) {
 					navPop('#about-section');
+					$('#home-nav').removeClass('current-page');
 				}
 
 				if( $navLink.is('#work-nav')) {
 					navPop('#work-section');
+					$('#home-nav').removeClass('current-page');
+
 				}
 
 				if( $navLink.is('#exp-nav')) {
-					navPop('#exp-section')
+					navPop('#exp-section');
+					$('#home-nav').removeClass('current-page');
+
 				}
 
 				if( $navLink.is('#contact-nav')) {
-					navPop('#contact-section')
+					navPop('#contact-section');
+					$('#home-nav').removeClass('current-page');
+
 				}
+
+				if( $navLink.is('#home-nav')) {
+					goHome();
+					$('#home-nav').addClass('current-page');
+
+				}
+
+				$('#logo').on('click',function() {
+					goHome();
+					$('#home-nav').addClass('current-page');
+
+				})
+
+
 
 			} );
 
