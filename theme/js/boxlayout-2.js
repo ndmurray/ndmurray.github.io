@@ -85,16 +85,16 @@ var Boxlayout = (function() {
 			// expand the clicked section and scale down the others
 			$navLink.on( 'click', function() {
 
-				function closeOthers() {
+				function closeOut(currentSection) {
 
 					//Close other sections	
-					$section.data( 'open', false ).removeClass( 'bl-expand' ).on( transEndEventName, function( event ) {
+					$(currentSection).data( 'open', false ).removeClass( 'bl-expand' ).on( transEndEventName, function( event ) {
 						if( !$( event.target ).is( 'section' ) ) return false;
 						$( this ).off( transEndEventName ).removeClass( 'bl-expand-top' );
 					} );
 
 					if( !supportTransitions ) {
-						$section.removeClass( 'bl-expand-top' );
+						$(currentSection).removeClass( 'bl-expand-top' );
 					}
 
 					$el.removeClass( 'bl-expand-item' );
@@ -106,12 +106,24 @@ var Boxlayout = (function() {
 				if( $navLink.is('#about-nav')) {
 
 					if( !$('#about-section').data( 'open' ) ) {
+
+						$('section').not("#about-section").data( 'open', false ).removeClass( 'bl-expand' ).on( transEndEventName, function( event ) {
+							if( !$( event.target ).is( 'section' ) ) return false;
+							$( this ).off( transEndEventName ).removeClass( 'bl-expand-top' );
+						} );
+
+						if( !supportTransitions ) {
+							$('#about-section').removeClass( 'bl-expand-top' );
+						}
+
+						$el.removeClass( 'bl-expand-item' );
+
 						$('#about-section').data( 'open', true ).addClass( 'bl-expand bl-expand-top' );
 						$el.addClass( 'bl-expand-item' );
 
 					}
-
-					closeOthers();
+			
+					//return false;
 
 				}
 
@@ -122,7 +134,7 @@ var Boxlayout = (function() {
 						$el.addClass( 'bl-expand-item' );	
 					}
 
-					closeOthers();
+					closeOut('#work-section');
 				}
 
 				if( $navLink.is('#exp-nav')) {
@@ -132,7 +144,7 @@ var Boxlayout = (function() {
 						$el.addClass( 'bl-expand-item' );	
 					}
 
-					closeOthers();
+					closeOut('#exp-section');
 				}
 
 				if( $navLink.is('#contact-nav')) {
@@ -142,7 +154,7 @@ var Boxlayout = (function() {
 						$el.addClass( 'bl-expand-item' );	
 					}
 
-					closeOthers();
+					closeOut('#contact-section');
 				}
 
 			} );
