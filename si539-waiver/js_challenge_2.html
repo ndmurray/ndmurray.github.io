@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>JavaScript</title>
+ Change the color of the 3rd paragraph item to red or blue using the radio buttons below.
+ <!--jQuery CDN-->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script type="text/javascript">
+ // YOUR CODE HERE
+ $(document).ready(function() {
+        //Ensure only one button is checked 
+        $(".radio").change(function(){
+            $('.radio').not(this).prop('checked', false);
+        });		
+
+        //Blue!
+ 		$("#blue").change(function() {$("p:nth-of-type(3)").css("color","blue");});
+
+ 		//Red!
+ 		$("#red").change(function() {$("p:nth-of-type(3)").css("color","red");});
+    });
+
+ </script>
+</head>
+<body>
+ You may not change the structure of the paragraph elements in any way.
+ <p>Blah</p>
+ <p>Blah</p>
+ <p>Blah</p>
+ <p>Blah</p>
+ <p>Blah</p>
+ <p>Blah</p>
+ <p>Blah</p>
+ 
+ <label>
+ <input id="blue" class="radio" type="radio" value = "blue">
+ Blue
+ </label>
+
+ <label>
+ <input id="red" class="radio" type="radio" value = "red">
+ Red
+ </label>
+
+</fieldset>
+</body>
+</html>
