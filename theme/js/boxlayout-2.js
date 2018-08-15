@@ -85,40 +85,22 @@ var Boxlayout = (function() {
 			// expand the clicked section and scale down the others
 			$navLink.on( 'click', function() {
 
-				function closeOut(currentSection) {
+				function navPop(section) {
 
-					//Close other sections	
-					$(currentSection).data( 'open', false ).removeClass( 'bl-expand' ).on( transEndEventName, function( event ) {
-						if( !$( event.target ).is( 'section' ) ) return false;
-						$( this ).off( transEndEventName ).removeClass( 'bl-expand-top' );
-					} );
+					if( !$(section).data( 'open' ) ) {
 
-					if( !supportTransitions ) {
-						$(currentSection).removeClass( 'bl-expand-top' );
-					}
-
-					$el.removeClass( 'bl-expand-item' );
-			
-					return false;
-
-				}
-
-				if( $navLink.is('#about-nav')) {
-
-					if( !$('#about-section').data( 'open' ) ) {
-
-						$('section').not("#about-section").data( 'open', false ).removeClass( 'bl-expand' ).on( transEndEventName, function( event ) {
+						$('section').not(section).data( 'open', false ).removeClass( 'bl-expand' ).on( transEndEventName, function( event ) {
 							if( !$( event.target ).is( 'section' ) ) return false;
 							$( this ).off( transEndEventName ).removeClass( 'bl-expand-top' );
 						} );
 
 						if( !supportTransitions ) {
-							$('#about-section').removeClass( 'bl-expand-top' );
+							$(section).removeClass( 'bl-expand-top' );
 						}
 
 						$el.removeClass( 'bl-expand-item' );
 
-						$('#about-section').data( 'open', true ).addClass( 'bl-expand bl-expand-top' );
+						$(section).data( 'open', true ).addClass( 'bl-expand bl-expand-top' );
 						$el.addClass( 'bl-expand-item' );
 
 					}
@@ -127,34 +109,20 @@ var Boxlayout = (function() {
 
 				}
 
+				if( $navLink.is('#about-nav')) {
+					navPop('#about-section');
+				}
+
 				if( $navLink.is('#work-nav')) {
-
-					if( !$('#work-section').data( 'open' ) ) {
-						$('#work-section').data( 'open', true ).addClass( 'bl-expand bl-expand-top' );
-						$el.addClass( 'bl-expand-item' );	
-					}
-
-					closeOut('#work-section');
+					navPop('#work-section');
 				}
 
 				if( $navLink.is('#exp-nav')) {
-
-					if( !$('#exp-section').data( 'open' ) ) {
-						$('#exp-section').data( 'open', true ).addClass( 'bl-expand bl-expand-top' );
-						$el.addClass( 'bl-expand-item' );	
-					}
-
-					closeOut('#exp-section');
+					navPop('#exp-section')
 				}
 
 				if( $navLink.is('#contact-nav')) {
-
-					if( !$('#contact-section').data( 'open' ) ) {
-						$('#contact-section').data( 'open', true ).addClass( 'bl-expand bl-expand-top' );
-						$el.addClass( 'bl-expand-item' );	
-					}
-
-					closeOut('#contact-section');
+					navPop('#contact-section')
 				}
 
 			} );
