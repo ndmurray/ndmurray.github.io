@@ -315,15 +315,34 @@ body {
 /*scrollbar*/
 /*https://beautifulpixels.com/goodies/create-custom-webkit-scrollbar/*/
 ::-webkit-scrollbar {
-	width: 10px;
+	width: 4px;
 	height: 10px;
 }
 
+/*up and down buttons*/
 ::-webkit-scrollbar-button:start:decrement,
 ::-webkit-scrollbar-button:end:increment  {
-	height: 30px;
+	height: 5px;
 	display: block;
+	background-color: gray;
+}
+
+/*the track that the bar slides along*/
+::-webkit-scrollbar-track-piece  {
 	background-color: transparent;
+	-webkit-border-radius: 6px;
+}  
+
+/*the scrollbar itself*/
+::-webkit-scrollbar-thumb:vertical {
+	height: 50px;
+	background-color: #3E4745;
+	opacity: 0.5;
+	/*border: 1px solid #eee;*/
+	/*-webkit-border-radius: 6px;*/
+	-webkit-border-radius: 0px;
+	box-shadow: 4px 1px 10px #161616;
+
 }
 
 
@@ -415,7 +434,11 @@ body {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    /*scrollbar*/
+    
+}
+
+/*scrollbar*/
+section.bl-expand > .bl-box {
     position: absolute;
     top: 0;
 	left: 0;
