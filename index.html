@@ -151,26 +151,36 @@
 						<p></p>
 						<p></p>
 						<div class="row-fluid">
-							<div class="span4">
+							<div class="span4 thumb">
+								<p>America's New Jim Crow</p>	
 								<ul class="bl-work-items" style="list-style: none;">
-									<li data-panel="panel-1" class="item"><a href="#"><img src="theme/images/scatter_ss3.jpg" alt="scatter plot thumbnail" /></a></li>
+									<li data-panel="panel-1" class="item"><a href="#"><img class='viz-thumbnail' src="theme/images/njc_thumb_2.png" alt="new jim crow thumbnail" /></a></li>
 								</ul><!---->
-								<p>World Development Indicators</p>							
 							</div><!-- /span4 -->
-							<div class="span4">
-								<ul class="bl-work-items">
-									<li class="item" data-panel="panel-2"><a href="#"><img src="theme/images/map_ss2.jpg" alt="map-thumbnail"/></a></li>
-								</ul>
-								<p>County Level US Map</p>							
+							<div class="span4 thumb">
+								<p>World Development Indicators</p>	<ul class="bl-work-items" style="list-style: none;">
+									<li data-panel="panel-2" class="item"><a href="#"><img class='viz-thumbnail'src="theme/images/scatter_ss3.jpg" alt="scatter plot thumbnail" /></a></li>
+								</ul><!---->
 							</div><!-- /span4 -->
-							<div class="span4">
+							<div class="span4 thumb">
+								<p>County Level US Map</p>	
 								<ul class="bl-work-items">
-									<li><a href="for_download/MurrayN_Abt.pdf" target="_blank" id="abt-download"><img src="theme/images/pdfdown.jpg" alt="screenshot thumbnail"/></a></li>
+									<li class="item" data-panel="panel-3"><a href="#"><img class='viz-thumbnail'src="theme/images/map_ss2.jpg" alt="map-thumbnail"/></a></li>
 								</ul>
-								<p>Screenshots from Abt Associates</p>							
 							</div><!-- /span4 -->
 
+
 						</div><!-- /row-fluid -->
+						<div class="row-fluid">
+							<div class="span4 thumb">
+								<p>Screenshots from Abt Associates</p>							
+								
+								<ul class="bl-work-items">
+									<li><a href="for_download/MurrayN_Abt.pdf" target="_blank" id="abt-download"><img class='viz-thumbnail'src="theme/images/pdfdown.jpg" alt="screenshot thumbnail"/></a></li>
+								</ul>
+							</div><!-- /span4 -->
+						</div>
+
 					</div><!-- /bl-content -->
 					
 					<div class="bl-icon bl-icon-close bl-icon-back">
@@ -217,8 +227,23 @@
 				
 			<!--=========== PROJECTS DESCRIPTIONS SECTION ===========-->
 				<div class="bl-panel-items" id="bl-panel-work-items">
-					<!--SCATTER PLOT VIZ-->
+					<!--NEW JIM CROW VIZ-->
 					<div data-panel="panel-1">
+						<iframe src="njc.html" class="viz-frame"></iframe>
+						<!--<div class="row-fluid">
+							<div class="span8 offset2 tweak">
+								<img src="theme/images/project1.jpg" />
+								<br>
+								<br>
+								<h4>Project Overview</h4>
+								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+								<h4>Project Details</h4>
+								<p>When an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+							</div><span8 
+						</div><row-fluid -->	
+					</div><!-- /panel1 -->
+					<!--SCATTER PLOT VIZ-->
+					<div data-panel="panel-2">
 						<iframe src="scatter.html" class="viz-frame"></iframe>
 						<!--<div class="row-fluid">
 							<div class="span8 offset2 tweak">
@@ -234,7 +259,7 @@
 					</div><!-- /panel1 -->
 					
 					<!--MAP VIZ-->
-					<div data-panel="panel-2">
+					<div data-panel="panel-3">
 					<iframe src="map.html" class="viz-frame"></iframe>
 						<!--<div class="row-fluid">
 							<div class="span8 offset2 tweak">

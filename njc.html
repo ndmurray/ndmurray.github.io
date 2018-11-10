@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>"SI649 - iProjects"</title>
+		<!--Roboto slab-->
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!--Native Styles-->
+    	<link rel="stylesheet" href="dist/css/style_njc.css" />
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+	  <img  id='background' src="img/prison.jpg" />
+		<div class="container-fluid horizontal-center" id='viz-container'>
+			<h1 class="fade-initial text-center" id="heading">America's New Jim Crow</h1>
+			<h4 class="fade-initial text-center" id="sub-heading">To what extent is drug crime prosecution in the United States biased against black Americans? <strong>Let's take a look at the data</strong>.</h4>
+			<div class="row">
+				<h2 class="fade-initial text-center" id="bar-heading">Drug use prevalence by race, 2007</h2>
+				<h4 id="bar-subheading" class="fade-initial">Have you used any illicit or illegal drugs within the past 12 months?</h4>
+				<div id="bar-chart" class="load col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				</div>
+				<div id="text-annotation">(16% less than the white population)</div>
+				<div class='source-div'>Source: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2377408/" target="_blank">National Institutes of Health</a></div>
+			</div>
+			<div class="row">
+				<div id='text1' class="fade col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h3 id = 'text1-text' class = " readout-text-text">Granted this is just one study, although many have shown that <strong>white Americans are this country's biggest drug users</strong>, at least in terms of illegal drugs. </h3>
+				</div>
+			</div>
+			<h2 class="fade text-center" id="line-heading">Arrest and incarceration rate, non violent drug offenses, % of population by race, 1978 - 2011</h2>
+			<h4 class = "fade" id="line-subheading">Notice that the arrest and incarcertation rate is lower for whites than for the rest of the population as a whole. Can you guess where the line is for black Americans? <strong><em>Click and drag to draw where you think the line is on the chart to reveal the answer.</em></strong> </h4>
+			<div class="row" id="line-row">
+				<div id="line-chart" class="fade col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				</div>
+				<div class='source-div'>Source: <a href="https://www.icpsr.umich.edu/icpsrweb/NACJD/studies/34540/version/1" target="_blank">ICPSR</a></div>
+			</div>
+			<div class="row">
+				<div id = 'text2' class="fade col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h3 id="text2-text"><strong><span class='question'>Hard to believe?</span></strong><br />As a result, we have a prison and jail system <strong>heavily skewed towards incarcerating black Americans for non-violent drug offenses</strong>, despite relatively low drug use compared to other demographics.</h3>
+				</div>
+			</div>
+			<div class="row" id="sunburst-row">
+				<h2 class="fade text-center" id="sunburst-heading">Estimated relative number of sentenced prisoners by non-violent offense, 2011</h2>
+				<h4 class = "fade" id="sun-subheading">Black Americans make up about 12% of the U.S. Population, <strong>although almost 40% of America's incarcerated</strong>. This trend carries to non-violent offenses (see chart below).</h4>
+				<p id='inst'>(Hover to isolate segments)</p>
+				<div id="sunburst-chart" class="load col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				</div>
+				<div class='source-div'>Source: <a href="https://www.bjs.gov/content/pub/pdf/p12ac.pdf" target="_blank">US Bureau of Justice Statistics</a></div>
+			</div>
+			<div class="row">
+				<div id = 'text3' class="fade col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h3 id="text3-text"> Curious as to why this might be? <strong>Many have argued that this growing trend since the 1980s is largely a result of <a href='https://www.reimaginerpe.org/20years/alexander' target="_blank">America's War on Drugs</strong>.</a></h3>
+				</div>
+			</div>
+		
+			<div id="photo-credit" class='source-div'>Background photo courtesy of <a href="https://bit.ly/2JtET5A" target="_blank">Flickr Creative Commons</a></div>
+		</div>
+
+
+
+
+		<!-- jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<!--D3-->
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<!--D3 Jetpack-->
+		<script src="js/d3-jetpack.js"></script>
+		<!--D3 legend-->
+		<script src="js/d3-legend.js"></script>
+
+		<!--Viz-->
+		<script src="js/njc.js"></script>
+	</body>
+</html>

@@ -158,6 +158,15 @@ a.res-link:before {
 
 /*Dataviz Page*/
 
+img.viz-thumbnail {
+	box-shadow: 2px 2px 25px #161616;
+}
+
+.span4.thumb {
+    margin-bottom: 1.4em;
+}
+
+
 a#abt-download {
 	padding: 0px;
 }

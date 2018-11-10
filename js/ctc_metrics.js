@@ -392,7 +392,7 @@ function(d) {
 			case "d.revenue_total":
 				dataTitle = "Total Revenue ($US)";
 				break;
-			case "d.avg_revenue":
+			case "d.avg5_revenue":
 				dataTitle = "Avg. Revenue / Project ($US)";
 				break;
 		}
