@@ -298,14 +298,36 @@ body, html { font-size: 100%; padding: 0; margin: 0; height: 100%;}
 	box-sizing: border-box;
 }
 
+html {
+	overflow-y: auto;
+	background-color: transparent;
+}
+
 body {
    /*font-family: 'Lato', Calibri, Arial, sans-serif;*/
     color: #f2ede3;
     background: #333;
     font-size: 0.9em;
     font-weight: 300;
+    
 }
 
+/*scrollbar*/
+/*https://beautifulpixels.com/goodies/create-custom-webkit-scrollbar/*/
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment  {
+	height: 30px;
+	display: block;
+	background-color: transparent;
+}
+
+
+/*end scrollbar*/
 
 .container { height: 100%; }
 
@@ -393,6 +415,14 @@ body {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
+    /*scrollbar*/
+    position: absolute;
+    top: 0;
+	left: 0;
+	bottom: 0;
+	right: 10px;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .bl-box h2 {
@@ -450,7 +480,7 @@ div.bl-panel-items > div > div {
 	bottom: 30px;
 	padding: 0 20px;
 	overflow: hidden;
-	overflow-y: auto;
+	overflow-y: auto; 
 }
 
 /* Custom content */
