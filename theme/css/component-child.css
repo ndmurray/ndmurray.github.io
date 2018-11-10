@@ -162,6 +162,10 @@ img.viz-thumbnail {
 	box-shadow: 2px 2px 25px #161616;
 }
 
+.shadow-text {
+	text-shadow: 2px 2px 10px #161616;
+}
+
 .span4.thumb {
     margin-bottom: 1.4em;
 }
