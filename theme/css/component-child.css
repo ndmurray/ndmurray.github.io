@@ -50,6 +50,9 @@ span.bl-icon-back {
     padding-left: 5px;
 }
 
+
+
+
 /*Sliding Underlines*/
 /*http://bradsknutson.com/blog/css-sliding-underline/*/
 
@@ -157,6 +160,22 @@ a.res-link:before {
 }
 
 /*Dataviz Page*/
+
+div#viz-page-header {
+    display: block;
+    width: 100%;
+    padding: 3em 0em 1em 4em;
+    background-color: rgba(0,0,0,0.15);
+}
+
+div#viz-page-header > p {
+	font-size: 1.4em;
+}
+
+.viz-content {
+	margin-top: 6em;
+	padding-top: 2em !important;
+}
 
 img.viz-thumbnail {
 	box-shadow: 2px 2px 25px #161616;
@@ -765,6 +784,7 @@ div.bl-panel-items > div.bl-hide-current-work {
 }
 .bl-main > section:nth-child(3).bl-expand {
 	background: #1f3c5e; /*Blue*/
+	background: url(../images/blue_new.png);
 	/*background: url(../images/honey_bkgd.png) no-repeat;*/
 	/*background-size: cover;*/
 }

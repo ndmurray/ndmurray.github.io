@@ -187,6 +187,7 @@ d3.csv("production_data/world_data/datadev/world.csv",function(error,data) {
 //Mouseover events
 	var mouseOn = function() {
 		d3.select(this)
+			.delay(100)
 			.attr("opacity",1.0)
 			.classed("a-dot",true)
 			.classed("dots",false);
@@ -195,22 +196,25 @@ d3.csv("production_data/world_data/datadev/world.csv",function(error,data) {
 	
 		//Hover specific tip styling
 		d3.select('.d3-tip')
+		.delay(100)
 		.style("background-color", d3.select(".a-dot").attr("fill"))
 		.style("color", d3.select(".a-dot").attr("stroke"))
 		.style('opacity',0.5);
 
-		d3.selectAll('circle.dots').filter(function(d) { return isNaN(dataX(d)); })
+		d3.selectAll('circle.dots').delay(100).filter(function(d) { return isNaN(dataX(d)); })
 				.attr({"opacity": 0, "pointer-events":"none"})
 				.attr("opacity", 0.15);
 	};
 	
 	var mouseOff = function() {
 		d3.select(this)
+			.delay(100)
 			.attr("opacity",0.85)
 			.classed("a-dot",false)
 			.classed("dots",true);
 
 		d3.selectAll(".guide")
+			.delay(100)
 			.remove();
 			
 
