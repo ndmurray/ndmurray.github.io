@@ -1,260 +1,231 @@
 /*All charts*/
 body {
-	font-family: 'Roboto Slab', serif;
-}
+  font-family: 'Roboto Slab', serif; }
 
 /*image credit: https://bit.ly/2JtET5A*/
 img#background {
-    width: 100%;
-    opacity: 0.9;
-    position: fixed;
-    z-index: -1;
-}
+  width: 100%;
+  opacity: 0.9;
+  position: fixed;
+  z-index: -1; }
 
 .container-fluid {
-	opacity: 0.8;
-    background-color: #ffffff;
-    width: 60%;
-    padding-right: 50px;
-    padding-left: 50px;
-    margin-right: auto;
-    margin-left: auto;
-    box-shadow: 0px 7px 26px black;
-}
+  opacity: 1;
+  /* background-color: rgba(255,255,255,0.5); */
+  text-shadow: 2px 2px 2px black;
+  color: white;
+  width: 60%;
+  padding-right: 50px;
+  padding-left: 50px;
+  margin-right: auto;
+  margin-left: auto;
+  /* box-shadow: 0px 7px 26px black; */ }
+
+svg {
+  color: #FFF; }
+
+a {
+  color: #bcd6ec; }
 
 span.question {
-    font-size: 1.2em;
-    line-height: 1.6em;
-}
+  font-size: 2em;
+  line-height: 1.6em; }
 
 div.row {
-	margin-top: 4em;
-	margin-bottom: 4em;
-}
+  margin-top: 4em;
+  margin-bottom: 4em; }
 
 .fade, .fade-initial {
-	opacity: 0;
-}
+  opacity: 0; }
 
 .source-div {
-	float: right;
-}
+  float: right; }
 
 div#photo-credit {
-    margin-top: -5em;
-}
+  margin-top: -5em; }
 
 /*Text readouts*/
-
 h1#heading {
-	margin-top: 1em;
-	font-size: 4em;
-}
-
+  margin-top: 1em;
+  font-size: 4em; }
 
 h4#sub-heading {
-    margin: 0 auto;
-    margin-top: 3em;
-    line-height: 38px;
-    font-size: 2em;
-}
+  margin: 0 auto;
+  margin-top: 3em;
+  line-height: 38px;
+  font-size: 2em; }
 
 div#text1 {
-	height: 20em;
-	margin: 0px;
-	overflow: hidden;
-	margin-left: auto;
-	margin-right: auto;
-	float: none;
-}
+  height: 20em;
+  margin: 0px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  float: none; }
 
 h3#text1-text {
-   text-align: center;
-   line-height: 38px;
-   font-size: 2em;
-}
+  text-align: center;
+  line-height: 38px;
+  font-size: 2em; }
 
 div#text2 {
-	height: 20em;
-	margin: 0px;
-	overflow: hidden;
-	margin-left: auto;
-	margin-right: auto;
-	float: none;
-}
+  height: 20em;
+  margin: 0px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  float: none; }
 
 h3#text2-text {
-   text-align: center;
-   line-height: 38px;
-   font-size: 2em;
-}
+  text-align: center;
+  line-height: 38px;
+  font-size: 2em; }
 
 div#text3 {
-	height: 20em;
-	margin: 0px;
-	overflow: hidden;
-	margin-left: auto;
-	margin-right: auto;
-	float: none;
-}
+  height: 20em;
+  margin: 0px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  float: none; }
 
 h3#text3-text {
-   text-align: center;
-   line-height: 38px;
-   font-size: 2em;
-}
-
+  text-align: center;
+  line-height: 38px;
+  font-size: 2em; }
 
 /*Bar chart*/
-
 h2#bar-heading {
-	font-size: 2em;
-    font-weight: bold;
-}
+  font-size: 2em;
+  font-weight: bold; }
 
 h4#bar-subheading {
-    text-align: center;
-    margin: 0 auto;
-    font-style: italic;
-}
+  text-align: center;
+  margin: 0 auto; }
 
 div#bar-chart {
-	height: 20em;
-	margin-top: 1em;
-	overflow: hidden;
-	margin-left: auto;
-	margin-right: auto;
-	float: none;
-}
+  height: 20em;
+  margin-top: 1em;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  float: none; }
 
 div#text-annotation {
-    font-size: 20px;
-    position: relative;
-    top: -182.5px;
-    z-index: 999;
-    left: 185px;
-    color: white;
-}
+  font-size: 20px;
+  position: relative;
+  top: -182.5px;
+  z-index: 999;
+  left: 185px;
+  color: white; }
 
 text.bar-label {
-    font-size: 20px;
-}
+  font-size: 20px; }
 
 /*line chart*/
-
 #line-row {
-	margin-top: 0em;
-}
+  margin-top: 0em; }
 
 h2#line-heading {
-    font-size: 2em;
-    font-weight: bold;
-    margin-bottom: 1.5em;
-    margin-top: -4em;
-}
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 1.5em;
+  margin-top: 0em; }
 
 h4#line-subheading {
-    text-align: center;
-    margin: 0 auto;
-    font-style: italic;
-    margin-bottom: 1em;
-    line-height: 24px;
-}
-
+  font-size: 2em;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 1em;
+  line-height: 24px; }
 
 div#line-chart {
-	height: 32em;
-	margin: 0px;
- 	overflow: hidden;
- 	margin-left: auto;
-	margin-right: auto;
-	float: none;
-}
+  height: 32em;
+  margin: 0px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  float: none; }
 
 #line-svg {
-	overflow: visible;
-}
+  overflow: visible; }
 
 #background-rect {
-	fill: #E4E4E4;
-}
+  fill: #a2a1a154; }
 
-.black-line{
+.black-line {
   fill: none;
   stroke: #231D1E;
-  stroke-width: 3;
-}
+  stroke-width: 3; }
 
-.white-line{
+.white-line {
   fill: none;
   stroke: #880606;
-  stroke-width: 3;
-}
+  stroke-width: 3; }
 
-.total-line{
+.total-line {
   fill: none;
   stroke: #D53D0C;
-  stroke-width: 3;
-}
+  stroke-width: 3; }
 
-.your-line{
-	stroke: #FF8207;
-	stroke-width: 3;
-	/*stroke-dasharray: 2 1;*/
-}
+.your-line {
+  stroke: #FF8207;
+  stroke-width: 3;
+  /*stroke-dasharray: 2 1;*/ }
 
 .area {
-	fill: #B0B0B0;
-}
+  fill: #B0B0B0;
+  opacity: 0.25; }
+
+line {
+  stroke: #FFF; }
+
+path.domain {
+  stroke: #FFF; }
 
 .axis text {
-	font-size: 1.5em;
-}
+  stroke: none;
+  fill: #FFF;
+  font-size: 1.5em;
+  color: #FFF;
+  font-family: 'Roboto Slab', serif; }
+
+text.label {
+  fill: #FFF !important; }
 
 /*sunburst chart*/
-
 h2#sunburst-heading {
-    font-size: 2em;
-    font-weight: bold;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1.5em;
-    margin-top: 0em;
-}
+  font-size: 2em;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5em;
+  margin-top: 0em; }
 
 h4#sun-subheading {
-	text-align: center;
-    margin: 0 auto;
-    font-style: italic;
-    margin-bottom: 1em;
-    line-height: 24px;
-
-}
+  font-size: 2em;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 1em; }
 
 div#sunburst-row {
-	margin-top: 0em;
-}
+  margin-top: 0em; }
 
 div#sunburst-chart {
-	height: 35em;
-	margin: 0px;
- 	overflow: hidden;
- 	margin-left: auto;
-	margin-right: auto;
-	float: none;
-}
+  height: 35em;
+  margin: 0px;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  float: none; }
 
 path.arc-path {
-	stroke: #B2B2B2;
-
-}
+  stroke: #B2B2B2; }
 
 text.node-text {
-	font-size: 0.8em;
-	fill: #E6DDDD;
-}
+  font-size: 0.8em;
+  fill: #E6DDDD; }
 
 p#inst {
-    text-align: center;
-    margin: 20px 0 20px 0;
-}
+  text-align: center;
+  margin: 20px 0 20px 0; }
