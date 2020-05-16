@@ -836,7 +836,7 @@ section.bl-expand .bl-box {
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 1px;
+    height: 3px;
     width: 0;
     background: rgb(242, 237, 227);
     transition: width 0s ease, background .2s ease;
