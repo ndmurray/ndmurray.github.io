@@ -173,9 +173,34 @@ div#viz-page-header > p {
 }
 
 .viz-content {
-	 margin-top: 8em; 
+	 margin-top: 10em;
 	 /*padding-top: 4em !important; */
 }
+
+@media only screen and (max-width: 1031px) {
+  .viz-content {
+    margin-top: 10em;
+  }
+}
+
+@media only screen and (max-width: 744px) {
+  .viz-content {
+    margin-top: 14em;
+  }
+}
+
+@media only screen and (max-width: 582px) {
+  .viz-content {
+    margin-top: 16em;
+  }
+}
+
+@media only screen and (max-width: 491px) {
+  .viz-content {
+    margin-top: 20em;
+  }
+}
+
 
 img.viz-thumbnail {
 	box-shadow: 2px 2px 25px #161616;
