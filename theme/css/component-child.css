@@ -173,8 +173,8 @@ div#viz-page-header > p {
 }
 
 .viz-content {
-	margin-top: 6em;
-	padding-top: 4em !important;
+	 margin-top: 8em; 
+	 /*padding-top: 4em !important; */
 }
 
 img.viz-thumbnail {
