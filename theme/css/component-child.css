@@ -201,6 +201,11 @@ div#viz-page-header > p {
   }
 }
 
+@media only screen and (max-width: 394px) {
+  .viz-content {
+    margin-top: 22em;
+  }
+}
 
 img.viz-thumbnail {
 	box-shadow: 2px 2px 25px #161616;
