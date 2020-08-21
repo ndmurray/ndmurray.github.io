@@ -174,36 +174,45 @@ div#viz-page-header > p {
 
 .viz-content {
 	 margin-top: 10em;
-	 /*padding-top: 4em !important; */
+	 top: 2px !important;
+}
+
+.row-fluid.port-row {
+    padding-top: 2em;
+    margin-bottom: -1em;
 }
 
 @media only screen and (max-width: 1031px) {
   .viz-content {
-    margin-top: 10em;
+    margin-top: 12.2em;
   }
 }
 
 @media only screen and (max-width: 744px) {
   .viz-content {
-    margin-top: 14em;
+    margin-top: 17em;
   }
+  .bl-content p {
+  	font-size: 1.8em !important;
+  }
+
 }
 
 @media only screen and (max-width: 582px) {
   .viz-content {
-    margin-top: 16em;
+    margin-top: 19em;
   }
 }
 
 @media only screen and (max-width: 491px) {
   .viz-content {
-    margin-top: 20em;
+    margin-top: 23em;
   }
 }
 
 @media only screen and (max-width: 394px) {
   .viz-content {
-    margin-top: 22em;
+    margin-top: 22.6em;
   }
 }
 
@@ -558,8 +567,12 @@ div.bl-panel-items > div > div {
 	bottom: 30px;
 	padding: 0 20px;
 	overflow: hidden;
-	overflow-y: auto; 
+	overflow-y: auto;
 }
+
+
+
+
 
 /* Custom content */
 
