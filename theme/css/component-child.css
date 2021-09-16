@@ -60,7 +60,7 @@ span.bl-icon-back {
 a {
 	color: #161e5d; /*dark blue for link*/
 	text-decoration: none;
-	font-weight: 700;
+	/* font-weight: 700; */
 	/*letter-spacing: 2px;*/
 	padding: 0 5px;
 	/*text-transform: uppercase;
@@ -182,6 +182,11 @@ div#viz-page-header > p {
     margin-bottom: -1em;
 }
 
+.row-fluid.case-row {
+    margin-bottom: -1em;
+}
+
+
 @media only screen and (max-width: 1031px) {
   .viz-content {
     margin-top: 12.2em;
@@ -223,6 +228,8 @@ img.viz-thumbnail {
 .shadow-text {
 	text-shadow: 2px 2px 10px #161616;
 }
+
+
 
 p#dataviz-subhead {
 	line-height: 1.5em;
@@ -290,8 +297,44 @@ img.bee-png-2 {
 	position: absolute;
 	bottom: 2em;
 	right: 2em;
-	width: 40%;
+	width: 18%;
 }
+
+
+/*Case Studies*/
+
+
+
+div.case-header {
+	position: fixed;
+	top: 6px;
+	color: #000000;
+}
+
+.case-title {
+	color: #000000;
+}
+
+h3.case-page-title {
+	font-size: 2em !important;
+	color: #000000;
+
+}
+
+h4.case-subhead {
+	color: #000000;
+}
+
+p.case-text {
+	line-height: 26px;
+	color: #000000;
+
+}
+
+img.case-image {
+	margin-bottom: 2em;
+}
+
 
 /*Quick responsive work*/
 
@@ -703,8 +746,8 @@ div.bl-panel-items > div {
 div.bl-panel-items > div > div {
 	width: 100%;
 	opacity: 1;
-	bottom: 90px;
-	top: 90px;
+	bottom: 0px;
+	top: 110px;
 	pointer-events: auto;
 }
 
@@ -729,9 +772,11 @@ div.bl-panel-items {
 }
 
 div.bl-panel-items > div {
-	background: #16a085;
+	background-image: url(../images/honey_bkgd.png);
+	background-size: cover;
+	/*background: #16a085;*/
 	z-index: 0;
-	opacity: 0;
+	opacity: 0.5;
 	-webkit-transform: translateY(0);
 	-webkit-transition: -webkit-transform 0.5s ease-in-out, opacity 0s linear 0.5s;
 	-moz-transform: translateY(0);
