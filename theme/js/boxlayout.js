@@ -17,15 +17,19 @@ var Boxlayout = (function() {
 		// work items
 		$workItems = $( '.bl-work-items > li.item' ),
 		// work panels
-		$workPanelsContainer = $( '#bl-panel-work-items' ),
+		$workPanelsContainer = $( '#bl-panel-work-items,#bl-panel-case-items' ),
+		$vizPanelsContainer = $( '#bl-panel-work-items'),
 		$workPanels = $workPanelsContainer.children( 'div' ),
+		$vizPanels = $vizPanelsContainer.children( 'div' ),
 		totalWorkPanels = $workPanels.length,
+		totalVizPanels = $vizPanels.length,
 		// navigating the work panels
 		$nextWorkItem = $workPanelsContainer.find( 'nav > span.bl-next-work' ),
 		// if currently navigating the work items
 		isAnimating = false,
 		// close work panel trigger
 		$closeWorkItem = $workPanelsContainer.find( 'nav > div.bl-icon-close' ),
+		// $closeWorkItemCase = $workPanelsContainer.find( 'nav > div.bl-icon-close-case' ),
 		transEndEventNames = {
 			'WebkitTransition' : 'webkitTransitionEnd',
 			'MozTransition' : 'transitionend',
@@ -37,6 +41,11 @@ var Boxlayout = (function() {
 		transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
 		// support css transitions
 		supportTransitions = Modernizr.csstransitions;
+
+		console.log("work panels count " + totalWorkPanels);
+		console.log("viz panels count " + totalVizPanels);
+		console.log("close work item " + $closeWorkItem);
+
 
 	function init() {
 		initEvents();
@@ -128,11 +137,35 @@ var Boxlayout = (function() {
 			// scale up main section
 			$sectionWork.removeClass( 'bl-scale-down' );
 			$workPanelsContainer.removeClass( 'bl-panel-items-show' );
+			currentCasePanel = totalVizPanels + currentWorkPanel;
 			$workPanels.eq( currentWorkPanel ).removeClass( 'bl-show-work' );
+			$workPanels.eq( currentCasePanel ).removeClass( 'bl-show-work' );
 			
+			console.log("total viz panels " + totalVizPanels);
+			console.log("current work panel " + currentWorkPanel);
+			console.log("current case panel " + currentCasePanel);
+
 			return false;
 
+
 		} );
+
+		//Repeating work panel close button for case study items
+		// $closeWorkItemCase.on( 'click', function( event ) {
+
+		// 	// scale up main section
+		// 	$sectionWork.removeClass( 'bl-scale-down' );
+		// 	$workPanelsContainer.removeClass( 'bl-panel-items-show' );
+		// 	currentCasePanel = totalVizPanels + currentWorkPanel;
+		// 	$workPanels.eq( currentCasePanel ).removeClass( 'bl-show-work' );
+			
+		// 	console.log("total viz panels " + totalVizPanels);
+		// 	console.log("current work panel " + currentWorkPanel);
+		// 	console.log("current case panel " + currentCasePanel);
+
+		// 	return false;
+		// } );
+
 
 	}
 
