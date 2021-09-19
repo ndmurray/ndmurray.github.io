@@ -16,9 +16,12 @@ var Boxlayout = (function() {
 		$sectionWork = $( '.bl-work-section' ),
 		// work items
 		$workItems = $( '.bl-work-items > li.item' ),
+		$vizItems = $( '.bl-viz-items > li.item' ),
+		$caseItems = $( '.bl-case-items > li.item' ),
 		// work panels
 		$workPanelsContainer = $( '#bl-panel-work-items,#bl-panel-case-items' ),
 		$vizPanelsContainer = $( '#bl-panel-work-items'),
+		$casePanelsContainer = $( '#bl-panel-case-items'),
 		$workPanels = $workPanelsContainer.children( 'div' ),
 		$vizPanels = $vizPanelsContainer.children( 'div' ),
 		totalWorkPanels = $workPanels.length,
@@ -86,17 +89,36 @@ var Boxlayout = (function() {
 		} );
 
 		// clicking on a work item: the current section scales down and the respective work panel slides up
-		$workItems.on( 'click', function( event ) {
+		// NM separated into vizItems and case items for different behavior between the two sections
+		$vizItems.on( 'click', function( event ) {
 
 			// scale down main section
 			$sectionWork.addClass( 'bl-scale-down' );
 
 			// show panel for this work item
-			$workPanelsContainer.addClass( 'bl-panel-items-show' );
+			$vizPanelsContainer.addClass( 'bl-panel-items-show' );
 
-			var $panel = $workPanelsContainer.find("[data-panel='" + $( this ).data( 'panel' ) + "']");
+			var $panel = $vizPanelsContainer.find("[data-panel='" + $( this ).data( 'panel' ) + "']");
 			currentWorkPanel = $panel.index();
 			$panel.addClass( 'bl-show-work' );
+
+			return false;
+
+		} );
+
+		$caseItems.on( 'click', function( event ) {
+
+			// scale down main section
+			$sectionWork.addClass( 'bl-scale-down' );
+
+			// show panel for this work item
+			$casePanelsContainer.addClass( 'bl-panel-items-show' );
+
+			var $panel = $casePanelsContainer.find("[data-panel='" + $( this ).data( 'panel' ) + "']");
+			currentWorkPanel = $panel.index();
+			$panel.addClass( 'bl-show-work' );
+
+			$closeCaseItem.addClass('close-case');
 
 			return false;
 
@@ -140,6 +162,8 @@ var Boxlayout = (function() {
 			currentCasePanel = totalVizPanels + currentWorkPanel;
 			$workPanels.eq( currentWorkPanel ).removeClass( 'bl-show-work' );
 			$workPanels.eq( currentCasePanel ).removeClass( 'bl-show-work' );
+
+			$closeCaseItem.removeClass('close-case');
 			
 			console.log("total viz panels " + totalVizPanels);
 			console.log("current work panel " + currentWorkPanel);
