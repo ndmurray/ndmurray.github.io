@@ -339,6 +339,19 @@ img.case-image {
 	margin-bottom: 2em;
 }
 
+/*Close button color*/
+
+/*div#close-case:before {
+	color: black;
+}
+
+div#close-viz {
+	color: #f2ede3 !important;
+}
+*/
+
+
+
 
 /*Quick responsive work*/
 
@@ -602,6 +615,7 @@ section.bl-expand > .bl-box {
 .bl-icon-proj:before {
 	content: "\e005";
 }
+
 
 .bl-content, 
 div.bl-panel-items > div > div {
