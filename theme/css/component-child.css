@@ -203,9 +203,12 @@ div#viz-page-header > p {
 
 }
 
-@media only screen and (max-width: 582px) {
+@media only screen and (max-width: 619px) {
   .case-description-row {
     top: 200px;
+  }
+  div.bl-panel-items nav {
+  	left: 110%;
   }
 }
 
@@ -812,7 +815,7 @@ div.bl-panel-items nav {
 	position: absolute;
 	z-index: 9999;
 	width: 216px;
-	left: 90%;
+	left: 110%;
 	top: 0px;
 	margin-left: -108px;
 	opacity: 0;
@@ -838,7 +841,7 @@ div.bl-panel-items nav span.bl-next-work {
 
 div.bl-panel-items.bl-panel-items-show nav {
 	opacity: 1;
-	top: -96%;
+	top: -97%;
 }
 
 div.bl-panel-items > div.bl-show-work {
