@@ -203,16 +203,6 @@ div#viz-page-header > p {
 
 }
 
-@media only screen and (max-width: 619px) {
-  .case-description-row {
-    top: 200px;
-  }
-  div.bl-panel-items nav {
-  	left: 110%;
-  }
-}
-
-
 @media only screen and (max-width: 582px) {
   .viz-content {
     margin-top: 19em;
@@ -228,6 +218,12 @@ div#viz-page-header > p {
 @media only screen and (max-width: 394px) {
   .viz-content {
     margin-top: 22.6em;
+  }
+   .case-description-row {
+    top: 200px;
+  }
+  div.bl-panel-items nav {
+  	left: 110%;
   }
 }
 
