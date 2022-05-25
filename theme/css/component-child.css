@@ -78,6 +78,7 @@ a:hover, a:focus {
     display: inline-block;
     position: relative;
     padding-bottom: 0px;
+    font-weight: 600;
 }
 .sliding-u-l-r-l:before {
     content: '';
