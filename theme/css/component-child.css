@@ -337,12 +337,22 @@ h3.case-page-title {
 
 h4.case-subhead {
 	color: #000000;
+	margin-bottom: 1em;
 }
 
-p.case-text {
-	line-height: 26px;
+.case-text {
+	line-height: 28px;
 	color: #000000;
+}
 
+.case-list {
+	/* line-height: 28px; */
+	color: #000000;
+	font-size: 1.3em;
+}
+
+.case-list > li {
+	padding-bottom: 1em;
 }
 
 img.case-image {
