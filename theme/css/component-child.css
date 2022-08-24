@@ -184,7 +184,7 @@ div#viz-page-header > p {
 }
 
 .row-fluid.case-row {
-    margin-bottom: -1em;
+    margin-bottom: 1em;
 }
 
 
@@ -304,9 +304,9 @@ img.bee-png {
 }
 
 img.bee-png-2 {
-	position: absolute;
+	position: fixed;
 	bottom: 2em;
-	right: 2em;
+	right: 4em;
 	width: 18%;
 }
 
@@ -817,7 +817,7 @@ div.bl-panel-items nav {
 	width: 216px;
 	left: 110%;
 	top: 0px;
-	margin-left: -108px;
+	margin-left: -17%;
 	opacity: 0;
 	-webkit-transition: opacity 0.2s ease-in-out 0.5s;
 	-moz-transition: opacity 0.2s ease-in-out 0.5s;
