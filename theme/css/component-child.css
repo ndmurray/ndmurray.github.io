@@ -354,6 +354,7 @@ h4.case-subhead {
 
 .case-list > li {
 	padding-bottom: 1em;
+	line-height: 28px;
 }
 
 img.case-image {
@@ -828,7 +829,7 @@ div.bl-panel-items nav {
 	width: 216px;
 	left: 110%;
 	top: 0px;
-	margin-left: -17%;
+	margin-left: -20%;
 	opacity: 0;
 	-webkit-transition: opacity 0.2s ease-in-out 0.5s;
 	-moz-transition: opacity 0.2s ease-in-out 0.5s;
